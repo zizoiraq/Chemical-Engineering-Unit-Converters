@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Chemical Engineering Unit Converters</title>
+  <style>
+    :root{
+      --bg:#ffffff; --ink:#0f172a; --muted:#475569; --border:#e5e7eb;
+      --brand:#16a34a; --brand2:#15803d; --mono:ui-monospace,Consolas,Menlo,monospace;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--ink);
+         font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Arial,sans-serif;line-height:1.6}
+    header{padding:24px 16px 12px;border-bottom:1px solid var(--border);text-align:center}
+    header .u1{font-weight:900;font-size:32px}
+    header .u2, header .u3{font-size:18px}
+    header .des{font-weight:700;margin-top:6px}
+    header h1{margin:12px 0 0;font-size:26px}
+
+    .wrap{max-width:1100px;margin:0 auto;padding:18px 16px}
+    .card{background:#fff;border:1px solid var(--border);border-radius:18px;
+          box-shadow:0 8px 24px rgba(15,23,42,.06)}
+    .pad{padding:18px}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .row3{display:grid;grid-template-columns:2fr 1fr 1fr;gap:12px}
+
+    select,input{width:100%;padding:12px;border:1px solid var(--border);border-radius:12px;background:#fff;color:var(--ink)}
+    select:focus,input:focus{outline:none;border-color:#86efac;box-shadow:0 0 0 4px rgba(34,197,94,.15)}
+    button{background:var(--brand);color:#fff;border:none;border-radius:12px;padding:12px 16px;font-weight:700;cursor:pointer}
+    button:hover{background:var(--brand2)}
+    .out{font-family:var(--mono);background:#f1f5f9;border:1px dashed var(--border);border-radius:12px;padding:12px}
+    .steps{white-space:pre-wrap;font-family:var(--mono);background:#f8fafc;border:1px solid var(--border);border-radius:12px;padding:12px;margin-top:8px}
+    .note{color:var(--muted);font-size:14px}
+    .unitbox{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:8px}
+    .ibox{border:1px dashed var(--border);border-radius:12px;padding:10px;background:#f8fafc}
+    .ibox b{display:block;margin-bottom:4px}
+  </style>
+  <script defer>
+    // ===== Utilities =====
+    const fmt = n => Number.isFinite(n)
+      ? (Math.abs(n)>=1e6||Math.abs(n)<1e-4 ? n.toExponential(6) : n.toLocaleString(undefined,{maximumFractionDigits:9}))
+      : '...';
+    const has = (obj, k) => Object.prototype.hasOwnProperty.call(obj, k);
+
+    // ===== Unit metadata: "full name (symbol)" =====
+    const UNIT_META = {
+      // Temperature
+      C:{sym:'°C', name:'Celsius'}, K:{sym:'K', name:'Kelvin'},
+      F:{sym:'°F', name:'Fahrenheit'}, R:{sym:'°R', name:'Rankine'},
+
+      // Pressure + head
+      Pa:{sym:'Pa', name:'Pascal'}, kPa:{sym:'kPa', name:'kilopascal'},
+      bar:{sym:'bar', name:'bar'}, atm:{sym:'atm', name:'standard atmosphere'},
+      psi:{sym:'psi', name:'pound-force per square inch'}, torr:{sym:'torr', name:'torr (mmHg)'},
+      mH2O:{sym:'m', name:'meters of fluid (head)'}, ftH2O:{sym:'ft', name:'feet of fluid (head)'},
+
+      // Mass
+      kg:{sym:'kg', name:'kilogram'}, g:{sym:'g', name:'gram'},
+      lb:{sym:'lb', name:'pound'}, tonne:{sym:'t', name:'tonne'},
+
+      // Length/area/volume
+      m:{sym:'m', name:'meter'}, cm:{sym:'cm', name:'centimeter'}, mm:{sym:'mm', name:'millimeter'},
+      km:{sym:'km', name:'kilometer'}, in:{sym:'in', name:'inch'}, ft:{sym:'ft', name:'foot'},
+      m2:{sym:'m²', name:'square meter'}, cm2:{sym:'cm²', name:'square centimeter'},
+      ft2:{sym:'ft²', name:'square foot'}, in2:{sym:'in²', name:'square inch'},
+      m3:{sym:'m³', name:'cubic meter'}, L:{sym:'L', name:'liter'}, mL:{sym:'mL', name:'milliliter'},
+      ft3:{sym:'ft³', name:'cubic foot'}, bbl:{sym:'bbl', name:'barrel (oil)'},
+
+      // Energy/power
+      J:{sym:'J', name:'joule'}, kJ:{sym:'kJ', name:'kilojoule'}, MJ:{sym:'MJ', name:'megajoule'},
+      cal:{sym:'cal', name:'calorie (thermochemical)'}, kcal:{sym:'kcal', name:'kilocalorie'},
+      BTU:{sym:'BTU', name:'British thermal unit'},
+      W:{sym:'W', name:'watt'}, kW:{sym:'kW', name:'kilowatt'}, MW:{sym:'MW', name:'megawatt'},
+      'hp(US)':{sym:'hp', name:'horsepower (US)'},
+
+      // Density
+      kgm3:{sym:'kg/m³', name:'kilogram per cubic meter'},
+      gcm3:{sym:'g/cm³', name:'gram per cubic centimeter'},
+      lbft3:{sym:'lb/ft³', name:'pound per cubic foot'},
+
+      // Viscosity
+      Pa_s:{sym:'Pa·s', name:'pascal-second'}, mPa_s:{sym:'mPa·s (cP)', name:'milli-pascal-second (centipoise)'},
+      P:{sym:'P', name:'poise'}, lbft_s:{sym:'lb/ft·s', name:'pound per foot-second'},
+      m2_s:{sym:'m²/s', name:'square meter per second (kinematic)'}, cSt:{sym:'cSt', name:'centistokes'},
+      ft2_s:{sym:'ft²/s', name:'square foot per second (kinematic)'},
+
+      // Flows
+      m3s:{sym:'m³/s', name:'cubic meter per second'}, m3h:{sym:'m³/h', name:'cubic meter per hour'},
+      Ls:{sym:'L/s', name:'liter per second'}, Lmin:{sym:'L/min', name:'liter per minute'},
+      cfm:{sym:'ft³/min', name:'cubic foot per minute'}, bbld:{sym:'bbl/d', name:'barrels per day'},
+      kgs:{sym:'kg/s', name:'kilogram per second'}, kgh:{sym:'kg/h', name:'kilogram per hour'},
+      lbs:{sym:'lb/s', name:'pound per second'}, lbh:{sym:'lb/h', name:'pound per hour'},
+
+      // ppm <-> mg/L
+      ppm:{sym:'ppm', name:'parts per million'}, mgL:{sym:'mg/L', name:'milligram per liter'},
+
+      // API / SG
+      API:{sym:'°API', name:'API gravity'}, SG:{sym:'SG', name:'specific gravity (60°F)'},
+
+      // Heat transfer / thermals
+      Wm2K:{sym:'W/m²·K', name:'watt per square meter per kelvin'},
+      BTUhrft2F:{sym:'BTU/hr·ft²·°F', name:'BTU per hour per square foot per °F'},
+      JkgK:{sym:'J/kg·K', name:'joule per kilogram per kelvin'},
+      kJkgK:{sym:'kJ/kg·K', name:'kilojoule per kilogram per kelvin'},
+      BTUlbF:{sym:'BTU/lb·°F', name:'BTU per pound per °F'},
+      WmK:{sym:'W/m·K', name:'watt per meter per kelvin'},
+      BTUhrftF:{sym:'BTU/hr·ft·°F', name:'BTU per hour per foot per °F'},
+      Nm:{sym:'N/m', name:'newton per meter'}, dyncm:{sym:'dyn/cm', name:'dyne per centimeter'},
+      m2s:{sym:'m²/s', name:'square meter per second'}, cm2s:{sym:'cm²/s', name:'square centimeter per second'},
+      Wm2:{sym:'W/m²', name:'watt per square meter'},
+      BTUhrft2:{sym:'BTU/hr·ft²', name:'BTU per hour per square foot'},
+      s:{sym:'s', name:'second'}, min:{sym:'min', name:'minute'}, h:{sym:'h', name:'hour'}, day:{sym:'d', name:'day'},
+
+      // Molar mass & fraction
+      gmol:{sym:'g/mol', name:'gram per mole'}, kgkmol:{sym:'kg/kmol', name:'kilogram per kilomole'},
+      frac:{sym:'fraction', name:'fraction (1 = 100%)'}, pct:{sym:'%', name:'percent'}, ppb:{sym:'ppb', name:'parts per billion'},
+
+      // Specific energy (mass & molar)
+      Jkg:{sym:'J/kg', name:'joule per kilogram'}, kJkg:{sym:'kJ/kg', name:'kilojoule per kilogram'},
+      MJkg:{sym:'MJ/kg', name:'megajoule per kilogram'}, BTUlb:{sym:'BTU/lb', name:'BTU per pound'},
+      Jmol:{sym:'J/mol', name:'joule per mole'}, kJmol:{sym:'kJ/mol', name:'kilojoule per mole'},
+      MJkmol:{sym:'MJ/kmol', name:'megajoule per kilomole'}, BTUlbmol:{sym:'BTU/lbmol', name:'BTU per pound-mole'},
+
+      // Specific volume & velocity
+      m3kg:{sym:'m³/kg', name:'cubic meter per kilogram'}, Lkg:{sym:'L/kg', name:'liter per kilogram'},
+      ft3lb:{sym:'ft³/lb', name:'cubic foot per pound'},
+      ms:{sym:'m/s', name:'meter per second'}, fts:{sym:'ft/s', name:'foot per second'},
+      kmh:{sym:'km/h', name:'kilometer per hour'}, mph:{sym:'mph', name:'mile per hour'},
+
+      // Thermal resistance (R)
+      m2K_W:{sym:'m²·K/W', name:'square meter kelvin per watt'},
+      hrft2F_BTU:{sym:'hr·ft²·°F/BTU', name:'hour square foot degree F per BTU'},
+
+      // Gas constant R
+      JmolK:{sym:'J/mol·K', name:'joule per mole kelvin'},
+      LkPamolK:{sym:'L·kPa/mol·K', name:'liter kilopascal per mole kelvin'},
+      atmlmolK:{sym:'atm·L/mol·K', name:'atmosphere liter per mole kelvin'},
+      BTUlbmolR:{sym:'BTU/lbmol·R', name:'BTU per pound-mole per Rankine'},
+
+      // Mass-transfer coefficient
+      cms:{sym:'cm/s', name:'centimeter per second'},
+
+      // Gas actual/standard
+      m3s_a:{sym:'m³/s (actual)', name:'actual volumetric flow'},
+      m3h_a:{sym:'m³/h (actual)', name:'actual volumetric flow'},
+      cfm_a:{sym:'ft³/min (actual)', name:'actual volumetric flow'},
+      m3s_s:{sym:'m³/s (standard)', name:'standard volumetric flow (STP/NTP)'},
+      m3h_s:{sym:'m³/h (standard)', name:'standard volumetric flow (STP/NTP)'},
+      scfm_s:{sym:'scfm', name:'standard cubic feet per minute'}
+    };
+
+    // Labels: "full name (symbol)"
+    const label = u => {
+      const m = UNIT_META[u] || {sym:u, name:u};
+      return `${m.name} (${m.sym})`;
+    };
+    const titleOf = u => label(u);
+
+    // ===== Converters catalog =====
+    const CONVS = {
+      temperature:{ name:'Temperature (T)', symbol:'T', type:'temperature',
+        units:{ C:'Celsius (°C)', K:'Kelvin (K)', F:'Fahrenheit (°F)', R:'Rankine (°R)' } },
+
+      pressure:{ name:'Pressure (P)', symbol:'P', type:'linear',
+        units:{ Pa:'Pascal (Pa)', kPa:'kilopascal (kPa)', bar:'bar (bar)', atm:'standard atmosphere (atm)', psi:'pound-force per square inch (psi)', torr:'torr / mmHg (torr)' },
+        factors:{ Pa:1, kPa:1e3, bar:1e5, atm:101325, psi:6894.757293168, torr:133.322368 } },
+
+      p_head:{ name:'Pressure ↔ Head (needs ρ)', symbol:'ΔP↔H', type:'p_head',
+        units:{ Pa:'Pressure: Pascal (Pa)', kPa:'Pressure: kilopascal (kPa)', mH2O:'Head: meters of fluid (m)', ftH2O:'Head: feet of fluid (ft)' } },
+
+      mass:{ name:'Mass (m)', symbol:'m', type:'linear',
+        units:{ kg:'kilogram (kg)', g:'gram (g)', lb:'pound (lb)', tonne:'tonne (t)' },
+        factors:{ kg:1, g:1e-3, lb:0.45359237, tonne:1000 } },
+
+      length:{ name:'Length (L)', symbol:'L', type:'linear',
+        units:{ m:'meter (m)', cm:'centimeter (cm)', mm:'millimeter (mm)', km:'kilometer (km)', in:'inch (in)', ft:'foot (ft)' },
+        factors:{ m:1, cm:1e-2, mm:1e-3, km:1e3, in:0.0254, ft:0.3048 } },
+
+      area:{ name:'Area (A)', symbol:'A', type:'linear',
+        units:{ m2:'square meter (m²)', cm2:'square centimeter (cm²)', ft2:'square foot (ft²)', in2:'square inch (in²)' },
+        factors:{ m2:1, cm2:1e-4, ft2:0.09290304, in2:0.00064516 } },
+
+      volume:{ name:'Volume (V)', symbol:'V', type:'linear',
+        units:{ m3:'cubic meter (m³)', L:'liter (L)', mL:'milliliter (mL)', ft3:'cubic foot (ft³)', bbl:'barrel (bbl)' },
+        factors:{ m3:1, L:1e-3, mL:1e-6, ft3:0.028316846592, bbl:0.158987294928 } },
+
+      energy:{ name:'Energy (E)', symbol:'E', type:'linear',
+        units:{ J:'joule (J)', kJ:'kilojoule (kJ)', MJ:'megajoule (MJ)', cal:'calorie (cal)', kcal:'kilocalorie (kcal)', BTU:'British thermal unit (BTU)' },
+        factors:{ J:1, kJ:1e3, MJ:1e6, cal:4.184, kcal:4184, BTU:1055.056 } },
+
+      power:{ name:'Power (Ṗ)', symbol:'Ṗ', type:'linear',
+        units:{ W:'watt (W)', kW:'kilowatt (kW)', MW:'megawatt (MW)', 'hp(US)':'horsepower (US) (hp)' },
+        factors:{ W:1, kW:1e3, MW:1e6, 'hp(US)':745.699871582 } },
+
+      density:{ name:'Density (ρ)', symbol:'ρ', type:'linear',
+        units:{ kgm3:'kilogram per cubic meter (kg/m³)', gcm3:'gram per cubic centimeter (g/cm³)', lbft3:'pound per cubic foot (lb/ft³)' },
+        factors:{ kgm3:1, gcm3:1000, lbft3:16.01846337396 } },
+
+      mu:{ name:'Dynamic viscosity (μ)', symbol:'μ', type:'linear',
+        units:{ Pa_s:'pascal-second (Pa·s)', mPa_s:'milli-pascal-second (mPa·s, cP)', P:'poise (P)', lbft_s:'pound per foot-second (lb/ft·s)' },
+        factors:{ Pa_s:1, mPa_s:1e-3, P:0.1, lbft_s:1.48816394357 } },
+
+      mu_nu:{ name:'Viscosity μ ↔ ν (needs ρ)', symbol:'μ,ν', type:'mu_nu',
+        units:{ Pa_s:'μ: Pa·s', mPa_s:'μ: mPa·s (cP)', m2_s:'ν: m²/s', cSt:'ν: centiStokes (cSt)', ft2_s:'ν: square foot per second (ft²/s)' } },
+
+      q_vol:{ name:'Volumetric flowrate (Q)', symbol:'Q', type:'linear',
+        units:{ m3s:'cubic meter per second (m³/s)', m3h:'cubic meter per hour (m³/h)', Ls:'liter per second (L/s)', Lmin:'liter per minute (L/min)', cfm:'cubic foot per minute (ft³/min)', bbld:'barrels per day (bbl/d)' },
+        factors:{ m3s:1, m3h:1/3600, Ls:1/1000, Lmin:1/60000, cfm:0.028316846592/60, bbld:0.158987294928/86400 } },
+
+      q_mass:{ name:'Mass flowrate (ṁ)', symbol:'ṁ', type:'linear',
+        units:{ kgs:'kilogram per second (kg/s)', kgh:'kilogram per hour (kg/h)', lbs:'pound per second (lb/s)', lbh:'pound per hour (lb/h)' },
+        factors:{ kgs:1, kgh:1/3600, lbs:0.45359237, lbh:0.45359237/3600 } },
+
+      ppm_mgl:{ name:'ppm ↔ mg/L (needs ρ of solution)', symbol:'C', type:'ppm_mgl',
+        units:{ ppm:'parts per million (ppm)', mgL:'milligram per liter (mg/L)' } },
+
+      api_sg:{ name:'°API ↔ Specific Gravity (SG)', symbol:'API,SG', type:'api_sg',
+        units:{ API:'API gravity (°API)', SG:'specific gravity @60°F (SG)' } },
+
+      /* ===== Extras ===== */
+      Ucoef:{ name:'Heat transfer coefficient (U)', symbol:'U', type:'linear',
+        units:{ Wm2K:'watt per square meter per kelvin (W/m²·K)', BTUhrft2F:'BTU per hour per square foot per °F (BTU/hr·ft²·°F)' },
+        factors:{ Wm2K:1, BTUhrft2F:1/0.1761101838 } },
+
+      cp:{ name:'Specific heat capacity (cₚ)', symbol:'cₚ', type:'linear',
+        units:{ JkgK:'J/kg·K', kJkgK:'kJ/kg·K', BTUlbF:'BTU/lb·°F' },
+        factors:{ JkgK:1, kJkgK:1e3, BTUlbF:1/0.000238845897 } },
+
+      k:{ name:'Thermal conductivity (k)', symbol:'k', type:'linear',
+        units:{ WmK:'W/m·K', BTUhrftF:'BTU/hr·ft·°F' },
+        factors:{ WmK:1, BTUhrftF:1/0.577789318 } },
+
+      sigma:{ name:'Surface tension (σ)', symbol:'σ', type:'linear',
+        units:{ Nm:'N/m', dyncm:'dyn/cm' },
+        factors:{ Nm:1, dyncm:1/1000 } },
+
+      diffusivity:{ name:'Diffusivity (D)', symbol:'D', type:'linear',
+        units:{ m2s:'m²/s', cm2s:'cm²/s' },
+        factors:{ m2s:1, cm2s:1e-4 } },
+
+      qflux:{ name:'Heat flux (q″)', symbol:'q″', type:'linear',
+        units:{ Wm2:'W/m²', BTUhrft2:'BTU/hr·ft²' },
+        factors:{ Wm2:1, BTUhrft2:1/0.316998331 } },
+
+      time:{ name:'Time', symbol:'t', type:'linear',
+        units:{ s:'second (s)', min:'minute (min)', h:'hour (h)', day:'day (d)' },
+        factors:{ s:1, min:60, h:3600, day:86400 } },
+
+      M:{ name:'Molar mass (M)', symbol:'M', type:'linear',
+        units:{ gmol:'g/mol', kgkmol:'kg/kmol' },
+        factors:{ gmol:1, kgkmol:1 } },
+
+      fraction:{ name:'Concentration fraction ladder', symbol:'x', type:'linear',
+        units:{ frac:'fraction (1=100%)', pct:'percent (%)', ppm:'ppm', ppb:'ppb' },
+        factors:{ frac:1, pct:0.01, ppm:1e-6, ppb:1e-9 } },
+
+      e_mass:{ name:'Specific energy (per mass)', symbol:'e', type:'linear',
+        units:{ Jkg:'J/kg', kJkg:'kJ/kg', MJkg:'MJ/kg', BTUlb:'BTU/lb' },
+        factors:{ Jkg:1, kJkg:1e3, MJkg:1e6, BTUlb:1/0.000430210 } },
+
+      e_molar:{ name:'Molar energy (per amount)', symbol:'Ê', type:'linear',
+        units:{ Jmol:'J/mol', kJmol:'kJ/mol', MJkmol:'MJ/kmol', BTUlbmol:'BTU/lbmol' },
+        factors:{ Jmol:1, kJmol:1e3, MJkmol:1e6, BTUlbmol:1/0.430210 } },
+
+      v_spec:{ name:'Specific volume (v)', symbol:'v', type:'linear',
+        units:{ m3kg:'m³/kg', Lkg:'L/kg', ft3lb:'ft³/lb' },
+        factors:{ m3kg:1, Lkg:1e-3, ft3lb:0.028316846592/0.45359237 } },
+
+      velocity:{ name:'Velocity (u)', symbol:'u', type:'linear',
+        units:{ ms:'m/s', fts:'ft/s', kmh:'km/h', mph:'mph' },
+        factors:{ ms:1, fts:0.3048, kmh:1000/3600, mph:0.44704 } },
+
+      Rval:{ name:'Thermal resistance (R)', symbol:'R', type:'linear',
+        units:{ m2K_W:'m²·K/W', hrft2F_BTU:'hr·ft²·°F/BTU' },
+        factors:{ m2K_W:1, hrft2F_BTU:1/5.678263 } },
+
+      gas_R:{ name:'Gas constant (R)', symbol:'R', type:'linear',
+        units:{ JmolK:'J/mol·K', LkPamolK:'L·kPa/mol·K', atmlmolK:'atm·L/mol·K', BTUlbmolR:'BTU/lbmol·R' },
+        factors:{ JmolK:1, LkPamolK:1, atmlmolK:101.325, BTUlbmolR:1/0.238845897 } },
+
+      k_mass:{ name:'Mass-transfer coeff. (k)', symbol:'k_m', type:'linear',
+        units:{ ms:'m/s', cms:'cm/s', fts:'ft/s' },
+        factors:{ ms:1, cms:1e-2, fts:0.3048 } },
+
+      q_gas_std:{ name:'Gas flow: Actual ↔ Standard (needs T,P)', symbol:'Q_g', type:'q_gas_std',
+        units:{
+          m3s_a:'Actual: m³/s', m3h_a:'Actual: m³/h', cfm_a:'Actual: ft³/min',
+          m3s_s:'Standard: m³/s (NTP/STP)', m3h_s:'Standard: m³/h (NTP/STP)', scfm_s:'Standard: scfm'
+        },
+        factors:{ m3s_a:1, m3h_a:1/3600, cfm_a:0.028316846592/60,
+                  m3s_s:1, m3h_s:1/3600, scfm_s:0.028316846592/60 } }
+    };
+
+    // Examples (string under selectors). For linear types we auto-generate.
+    const EXAMPLE_HINT = {
+      temperature:'Example: 0 Celsius (°C) → 273.15 Kelvin (K)',
+      api_sg:'Example: SG = 0.85 → °API ≈ 141.5/0.85 - 131.5',
+      ppm_mgl:'Example: 10 parts per million (ppm) at ρ = 1.0 kg/L → 10 milligram per liter (mg/L)',
+      p_head:'Example: ρ = 1000 kg/m³, g = 9.80665: 100 kilopascal (kPa) → ~10.2 meters of fluid (m)'
+    };
+
+    // ========== Logic ==========
+    window.addEventListener('DOMContentLoaded', () => {
+      const convSel = document.getElementById('convSelect');
+      const fromSel = document.getElementById('from');
+      const toSel   = document.getElementById('to');
+      const extra   = document.getElementById('extra');
+      const outEl   = document.getElementById('out');
+      const stepsEl = document.getElementById('steps');
+      const infoFrom = document.getElementById('info-from');
+      const infoTo   = document.getElementById('info-to');
+      const exampleEl= document.getElementById('example');
+
+      // Fill conversion list
+      convSel.innerHTML = Object.entries(CONVS)
+        .map(([k,d]) => `<option value="${k}">${d.name}</option>`).join('');
+
+      function renderUnitOptions(def){
+        const entries = Object.keys(def.units);
+        fromSel.innerHTML = entries.map(u=>`<option value="${u}" title="${titleOf(u)}">${label(u)}</option>`).join('');
+        toSel.innerHTML   = entries.map(u=>`<option value="${u}" title="${titleOf(u)}">${label(u)}</option>`).join('');
+        if (entries.length>1) toSel.selectedIndex = 1;
+        updateUnitInfo();
+      }
+
+      function updateUnitInfo(){
+        const uf = fromSel.value, ut = toSel.value;
+        const mf = UNIT_META[uf] || {sym:uf, name:uf};
+        const mt = UNIT_META[ut] || {sym:ut, name:ut};
+        infoFrom.innerHTML = `<b>From unit</b><div>${mf.name} (${mf.sym})</div>`;
+        infoTo.innerHTML   = `<b>To unit</b><div>${mt.name} (${mt.sym})</div>`;
+      }
+
+      function showExample(key){
+        const def = CONVS[key];
+        if (EXAMPLE_HINT[key]) { exampleEl.textContent = EXAMPLE_HINT[key]; return; }
+        if (def.type==='linear'){
+          const keys = Object.keys(def.units);
+          if (keys.length>=2){
+            const a = keys[0], b = keys[1];
+            const k = def.factors[a] / def.factors[b];
+            const aN = `${UNIT_META[a]?.name || a} (${UNIT_META[a]?.sym || a})`;
+            const bN = `${UNIT_META[b]?.name || b} (${UNIT_META[b]?.sym || b})`;
+            exampleEl.textContent = `Example: 1 ${aN} → ${fmt(k)} ${bN}`;
+            return;
+          }
+        }
+        exampleEl.textContent = '';
+      }
+
+      function populateUnits(key){
+        const def = CONVS[key];
+        renderUnitOptions(def);
+        extra.innerHTML = ''; extra.style.display = 'none';
+        showExample(key);
+
+        if (def.type==='mu_nu'){
+          extra.style.display='grid';
+          extra.innerHTML = `
+            <div>
+              <label class="note">Density ρ (kg/m³) required when converting between μ and ν (μ ↔ ν)</label>
+              <input id="rho" type="number" placeholder="ρ (kg/m³)">
+            </div>`;
+        }
+        if (def.type==='ppm_mgl'){
+          extra.style.display='grid';
+          extra.innerHTML = `
+            <div>
+              <label class="note">Solution density ρ (kg/L). If unknown, water ≈ 1.0 kg/L</label>
+              <input id="rhoSol" type="number" placeholder="ρ (kg/L), default 1.0">
+            </div>`;
+        }
+        if (def.type==='p_head'){
+          extra.style.display='grid';
+          extra.innerHTML = `
+            <div>
+              <label class="note">Fluid density ρ (kg/m³), e.g., water ≈ 1000</label>
+              <input id="rhoPH" type="number" placeholder="ρ (kg/m³)">
+            </div>
+            <div>
+              <label class="note">Gravity g (m/s²), default 9.80665</label>
+              <input id="gPH" type="number" placeholder="9.80665">
+            </div>`;
+        }
+        if (def.type==='q_gas_std'){
+          extra.style.display='grid';
+          extra.innerHTML = `
+            <div>
+              <label class="note">Actual temperature T (K)</label>
+              <input id="T_act" type="number" placeholder="e.g. 298.15">
+            </div>
+            <div>
+              <label class="note">Actual pressure P (kPa)</label>
+              <input id="P_act" type="number" placeholder="e.g. 101.325">
+            </div>
+            <div>
+              <label class="note">Reference T₀ (K): 273.15 (STP) or 288.15 (NTP)</label>
+              <input id="T_ref" type="number" placeholder="273.15">
+            </div>
+            <div>
+              <label class="note">Reference P₀ (kPa), default 101.325</label>
+              <input id="P_ref" type="number" placeholder="101.325">
+            </div>`;
+        }
+        outEl.textContent = '...'; stepsEl.textContent = '';
+      }
+
+      // Initialize
+      convSel.value = 'length';
+      populateUnits('length');
+
+      // Events
+      convSel.addEventListener('change', ()=> populateUnits(convSel.value));
+      fromSel.addEventListener('change', ()=>{ updateUnitInfo(); showExample(convSel.value); });
+      toSel.addEventListener('change', updateUnitInfo);
+
+      // ===== Engines =====
+      const doLinear = (def, value, from, to) => {
+        if (from===to) { return {out:value, steps:'Step 1: Same unit selected.\nStep 2: No conversion needed.'}; }
+        const bf=def.factors[from], bt=def.factors[to];
+        const k = bf / bt;
+        const out = value * k;
+        const steps=[
+          `Step 1: Goal: convert ${fmt(value)} ${label(from)} to ${label(to)}.`,
+          `Step 2: Equivalence: 1 ${label(from)} = ${fmt(k)} ${label(to)}.`,
+          `Step 3: Multiply: ${fmt(value)} × ${fmt(k)} → ${fmt(out)} ${UNIT_META[to]?.sym || to}.`
+        ].join('\n');
+        return {out, steps};
+      };
+
+      const doTemperature = (value, from, to) => {
+        if (from===to) return {out:value, steps:'Step 1: Same unit selected.\nStep 2: No conversion needed.'};
+        let out, formula, explain;
+        if(from==='C'&&to==='K'){ formula='T_K = T_°C + 273.15'; out=value+273.15; explain=`${fmt(value)} + 273.15 → ${fmt(out)} K`; }
+        else if(from==='K'&&to==='C'){ formula='T_°C = T_K − 273.15'; out=value-273.15; explain=`${fmt(value)} − 273.15 → ${fmt(out)} °C`; }
+        else if(from==='C'&&to==='F'){ formula='T_°F = (T_°C × 9/5) + 32'; out=value*9/5+32; explain=`(${fmt(value)} × 9/5) + 32 → ${fmt(out)} °F`; }
+        else if(from==='F'&&to==='C'){ formula='T_°C = (T_°F − 32) × 5/9'; out=(value-32)*5/9; explain=`(${fmt(value)} − 32) × 5/9 → ${fmt(out)} °C`; }
+        else if(from==='K'&&to==='F'){ formula='T_°F = (T_K − 273.15) × 9/5 + 32'; out=(value-273.15)*9/5+32; explain=`(${fmt(value)} − 273.15) × 9/5 + 32 → ${fmt(out)} °F`; }
+        else if(from==='F'&&to==='K'){ formula='T_K = (T_°F − 32) × 5/9 + 273.15'; out=(value-32)*5/9+273.15; explain=`(${fmt(value)} − 32) × 5/9 + 273.15 → ${fmt(out)} K`; }
+        else if(from==='R'&&to==='K'){ formula='T_K = T_°R × 5/9'; out=value*5/9; explain=`${fmt(value)} × 5/9 → ${fmt(out)} K`; }
+        else if(from==='K'&&to==='R'){ formula='T_°R = T_K × 9/5'; out=value*9/5; explain=`${fmt(value)} × 9/5 → ${fmt(out)} °R`; }
+        else if(from==='F'&&to==='R'){ formula='T_°R = T_°F + 459.67'; out=value+459.67; explain=`${fmt(value)} + 459.67 → ${fmt(out)} °R`; }
+        else if(from==='R'&&to==='F'){ formula='T_°F = T_°R − 459.67'; out=value-459.67; explain=`${fmt(value)} − 459.67 → ${fmt(out)} °F`; }
+        else {
+          const toK = (x,u)=>({C:x+273.15,K:x,F:(x-32)*5/9+273.15,R:x*5/9})[u];
+          const fromK = (k,u)=>({C:k-273.15,K:k,F:(k-273.15)*9/5+32,R:k*9/5})[u];
+          const TK = toK(value,from); out = fromK(TK,to);
+          formula = 'Convert via Kelvin';
+          explain = `to K, then to target → ${fmt(out)} ${UNIT_META[to]?.sym || to}`;
+        }
+        const steps=[
+          `Step 1: Goal: convert ${fmt(value)} ${label(from)} to ${label(to)}.`,
+          `Step 2: Formula: ${formula}.`,
+          `Step 3: Substitute: ${explain}.`
+        ].join('\n');
+        return {out, steps};
+      };
+
+      const doMuNu = (value, from, to) => {
+        const muF={Pa_s:1,mPa_s:1e-3,P:0.1,lbft_s:1.48816394357};
+        const nuF={m2_s:1,cSt:1e-6,ft2_s:0.09290304};
+        const isMu=u=>has(muF,u), isNu=u=>has(nuF,u);
+        if (isMu(from)&&isMu(to)) return doLinear({name:'Dynamic viscosity (μ)',symbol:'μ',units:CONVS.mu.units,factors:muF}, value, from, to);
+        if (isNu(from)&&isNu(to)) return doLinear({name:'Kinematic viscosity (ν)',symbol:'ν',units:{m2_s:'m²/s',cSt:'cSt',ft2_s:'ft²/s'},factors:nuF}, value, from, to);
+        const rho = parseFloat((document.getElementById('rho')||{}).value);
+        if (!Number.isFinite(rho)||rho<=0)
+          return {out:NaN, steps:'Step 1: Enter density ρ (kg/m³).\nStep 2: Relations: ν = μ/ρ and μ = ρ×ν.'};
+        let out, steps;
+        if (isMu(from)&&isNu(to)){
+          const muSI=value*muF[from];
+          const nuSI=muSI/rho;
+          out=nuSI/nuF[to];
+          steps=[
+            `Step 1: To SI (μ): ${fmt(value)} × ${fmt(muF[from])} → ${fmt(muSI)} Pa·s.`,
+            `Step 2: ν = μ/ρ → ${fmt(muSI)} / ${fmt(rho)} → ${fmt(nuSI)} m²/s.`,
+            `Step 3: Unit change: ${fmt(nuSI)} ÷ ${fmt(nuF[to])} → ${fmt(out)} ${UNIT_META[to]?.sym || to}.`
+          ].join('\n');
+        } else {
+          const nuSI=value*nuF[from];
+          const muSI=nuSI*rho;
+          out=muSI/(muF[to]);
+          steps=[
+            `Step 1: To SI (ν): ${fmt(value)} × ${fmt(nuF[from])} → ${fmt(nuSI)} m²/s.`,
+            `Step 2: μ = ρ×ν → ${fmt(rho)} × ${fmt(nuSI)} → ${fmt(muSI)} Pa·s.`,
+            `Step 3: Unit change: ${fmt(muSI)} ÷ ${fmt(muF[to])} → ${fmt(out)} ${UNIT_META[to]?.sym || to}.`
+          ].join('\n');
+        }
+        return {out, steps};
+      };
+
+      const doPpmMgL = (value, from, to) => {
+        let rho = parseFloat((document.getElementById('rhoSol')||{}).value);
+        if (!Number.isFinite(rho)) rho = 1.0;
+        if (from==='ppm' && to==='mgL'){
+          const out=value*rho;
+          const steps=[
+            'Step 1: Relation: mg/L = ppm × ρ (kg/L).',
+            `Step 2: Substitute: ${fmt(value)} × ${fmt(rho)} → ${fmt(out)} mg/L.`
+          ].join('\n');
+          return {out, steps};
+        }
+        if (from==='mgL' && to==='ppm'){
+          const out=value/rho;
+          const steps=[
+            'Step 1: Relation: ppm = (mg/L) ÷ ρ (kg/L).',
+            `Step 2: Substitute: ${fmt(value)} ÷ ${fmt(rho)} → ${fmt(out)} ppm.`
+          ].join('\n');
+          return {out, steps};
+        }
+        return {out:value, steps:'Step 1: Same unit selected.\nStep 2: No conversion needed.'};
+      };
+
+      const doApiSg = (value, from, to) => {
+        if (from==='SG' && to==='API'){
+          const out=141.5/value - 131.5;
+          const steps=[
+            'Step 1: °API = 141.5/SG − 131.5.',
+            `Step 2: Substitute: 141.5/${fmt(value)} − 131.5 → ${fmt(out)} °API.`
+          ].join('\n');
+          return {out, steps};
+        }
+        if (from==='API' && to==='SG'){
+          const out=141.5/(value+131.5);
+          const steps=[
+            'Step 1: SG = 141.5/(°API + 131.5).',
+            `Step 2: Substitute: 141.5/(${fmt(value)} + 131.5) → ${fmt(out)}.`
+          ].join('\n');
+          return {out, steps};
+        }
+        return {out:value, steps:'Step 1: Same unit selected.\nStep 2: No conversion needed.'};
+      };
+
+      const doPHead = (value, from, to) => {
+        let rho = parseFloat((document.getElementById('rhoPH')||{}).value);
+        let g   = parseFloat((document.getElementById('gPH')||{}).value);
+        if (!Number.isFinite(rho) || rho<=0) {
+          return {out:NaN, steps:'Step 1: Enter fluid density ρ (kg/m³).\nStep 2: Use ΔP = ρ g H and H = ΔP/(ρ g).'};
+        }
+        if (!Number.isFinite(g) || g<=0) g = 9.80665;
+
+        const toPa = (x,u)=> u==='Pa'? x : u==='kPa'? x*1000 : u==='mH2O'? (rho*g*x) : (rho*g*(x*0.3048));
+
+        let outSI, steps = [];
+        if ((from==='Pa'||from==='kPa') && (to==='mH2O'||to==='ftH2O')) {
+          const Pa = toPa(value, from);
+          const Hm = Pa/(rho*g);
+          outSI = (to==='mH2O') ? Hm : Hm/0.3048;
+          steps = [
+            `Step 1: To Pa: ${fmt(value)} ${label(from)} → ${fmt(Pa)} Pa.`,
+            `Step 2: Head: H = ΔP/(ρ g) → ${fmt(Pa)}/(${fmt(rho)}×${fmt(g)}) → ${fmt(Hm)} m.`,
+            `Step 3: Unit change: ${to==='mH2O' ? 'meters already' : `${fmt(Hm)} ÷ 0.3048 → ${fmt(outSI)} ft`}.`
+          ];
+        } else if ((from==='mH2O'||from==='ftH2O') && (to==='Pa'||to==='kPa')) {
+          const Hm = (from==='mH2O') ? value : value*0.3048;
+          const Pa = rho*g*Hm;
+          outSI = (to==='Pa') ? Pa : Pa/1000;
+          steps = [
+            `Step 1: To meters: ${fmt(value)} ${label(from)} → ${fmt(Hm)} m.`,
+            `Step 2: ΔP = ρ g H → ${fmt(rho)}×${fmt(g)}×${fmt(Hm)} → ${fmt(Pa)} Pa.`,
+            `Step 3: Unit change: ${to==='Pa' ? 'Pa already' : `${fmt(Pa)} ÷ 1000 → ${fmt(outSI)} kPa`}.`
+          ];
+        } else {
+          return doLinear(CONVS.pressure, value, from, to);
+        }
+        return {out:outSI, steps:steps.join('\n')};
+      };
+
+      // Gas flow normalization: Qs = Qa * (P/P0) * (T0/T)
+      const doQGasStd = (def, value, from, to) => {
+        let T  = parseFloat((document.getElementById('T_act')||{}).value);
+        let P  = parseFloat((document.getElementById('P_act')||{}).value);
+        let T0 = parseFloat((document.getElementById('T_ref')||{}).value);
+        let P0 = parseFloat((document.getElementById('P_ref')||{}).value);
+        if (!Number.isFinite(T) || T<=0) T = 298.15;
+        if (!Number.isFinite(P) || P<=0) P = 101.325;
+        if (!Number.isFinite(T0)|| T0<=0) T0=273.15;
+        if (!Number.isFinite(P0)|| P0<=0) P0=101.325;
+
+        const f = def.factors;
+        const isStd = u => u.endsWith('_s');
+        const to_m3s = (x,u)=> x * f[u];
+
+        let Qa_m3s;
+        if (isStd(from)) {
+          const Qs = to_m3s(value, from);
+          Qa_m3s = Qs * (P0/P) * (T/T0);
+        } else {
+          Qa_m3s = to_m3s(value, from);
+        }
+
+        let out, steps=[];
+        if (isStd(to)) {
+          const Qs = Qa_m3s * (P/P0) * (T0/T);
+          out = Qs / f[to];
+          steps = [
+            `Step 1: To actual: ${fmt(value)} ${label(from)} → ${fmt(Qa_m3s)} m³/s (actual).`,
+            `Step 2: Standardize: Qs = Qa × (P/P0) × (T0/T).`,
+            `Step 3: Result: ${fmt(Qs)} m³/s (standard) → ${fmt(out)} ${label(to)}.`
+          ];
+        } else {
+          out = Qa_m3s / f[to];
+          steps = [
+            `Step 1: To actual: ${fmt(value)} ${label(from)} → ${fmt(Qa_m3s)} m³/s (actual).`,
+            `Step 2: Unit change → ${fmt(out)} ${label(to)}.`
+          ];
+        }
+        return {out, steps:steps.join('\n')};
+      };
+
+      // Button handler
+      document.getElementById('btn').addEventListener('click', () => {
+        const def   = CONVS[convSel.value];
+        const value = parseFloat(document.getElementById('val').value);
+        if (!Number.isFinite(value)){ outEl.textContent='Enter a numeric value'; stepsEl.textContent=''; return; }
+        const from = fromSel.value, to = toSel.value;
+        let res;
+        if (def.type==='linear')            res = doLinear(def, value, from, to);
+        else if (def.type==='temperature')  res = doTemperature(value, from, to);
+        else if (def.type==='mu_nu')        res = doMuNu(value, from, to);
+        else if (def.type==='ppm_mgl')      res = doPpmMgL(value, from, to);
+        else if (def.type==='api_sg')       res = doApiSg(value, from, to);
+        else if (def.type==='p_head')       res = doPHead(value, from, to);
+        else if (def.type==='q_gas_std')    res = doQGasStd(def, value, from, to);
+        else                                res = {out:value, steps:'Step 1: Not implemented'};
+        const fromLbl = label(from), toLbl = label(to);
+        outEl.textContent = `${fmt(value)} ${fromLbl} = ${fmt(res.out)} ${toLbl}`;
+        stepsEl.textContent = res.steps;
+      });
+    });
+  </script>
+</head>
+<body>
+  <header>
+    <div class="u1">Northern Technical University</div>
+    <div class="u2">Technical Engineering College - Mosul</div>
+    <div class="u3">Chemical and Petroleum Industries Technologies Engineering</div>
+    <div class="des">Designed by: Azam Isam </div>
+    <h1>Chemical Engineering Unit Converters</h1>
+  </header>
+
+  <main class="wrap">
+    <section class="card">
+      <div class="pad">
+        <p class="note">
+<strong style="font-size:14px;">Choose a conversion.</strong>
+        </p>
+
+        <div class="row" style="margin-top:10px">
+          <select id="convSelect" aria-label="Conversion type"></select>
+          <div></div>
+        </div>
+
+        <div class="row3" style="margin-top:10px">
+          <input id="val" type="number" placeholder="Enter value" />
+          <select id="from"></select>
+          <select id="to"></select>
+        </div>
+
+        <!-- Unit info + Example -->
+        <div class="unitbox">
+          <div id="info-from" class="ibox"><b>From unit</b><div>...</div></div>
+          <div id="info-to"   class="ibox"><b>To unit</b><div>...</div></div>
+        </div>
+        <p id="example" class="note" style="margin-top:6px"></p>
+
+        <div id="extra" class="row" style="display:none;margin-top:8px"></div>
+
+        <div class="row" style="margin-top:10px;align-items:center">
+          <button id="btn">Convert</button>
+          <span id="out" class="out">...</span>
+        </div>
+
+        <pre id="steps" class="steps"></pre>
+      </div>
+    </section>
+
+    <p class="note" style="margin-top:10px">
+      Chemical and Petroleum Industries Technologies Engineering
+    </p>
+  </main>
+</body>
+</html>
