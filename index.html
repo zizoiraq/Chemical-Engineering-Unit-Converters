@@ -401,7 +401,7 @@ function whyTrueBox(from, to, def){
   const base = Object.keys(def.factors).find(u => def.factors[u] === 1) || Object.keys(def.factors)[0];
   const notes = originNotesLatex([from,to,base]);
   const notesBlock = notes ? (`\\\\[6pt]\\small\\begin{aligned}${notes}\\end{aligned}`) : '';
-  return box('Why this is true (definitions)', `
+  return box('Derivation of the conversion fact', `
     \\begin{gathered}
     \\kw{1. Start from definitions}\\\\
     1\\,${texUnit(from)} = ${texNum(fFrom)}\\,${texUnit(base)}\\\\
@@ -902,4 +902,5 @@ function whyTrueBox(from, to, def){
   </main>
 </body>
 </html>
+
 
