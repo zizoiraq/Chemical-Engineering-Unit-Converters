@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -190,6 +190,58 @@
     };
     function typesetNow(){ if(window.MathJax?.typesetPromise){ Promise.resolve().then(()=>MathJax.typesetPromise()); } }
 
+    /* Notes for constants used in factors */
+    const ORIGIN_NOTES = {
+      kg:`\\text{SI base unit of mass (exact).}`,
+      g:`1\\,\\unit{g}=10^{-3}\\,\\unit{kg}\\;\\text{(exact).}`,
+      tonne:`1\\,\\unit{t}=1000\\,\\unit{kg}\\;\\text{(exact).}`,
+      m:`\\text{SI base unit of length (defined via }c\\text{ and }\\Delta\\nu_{Cs}\\text{).}`,
+      cm:`1\\,\\unit{cm}=10^{-2}\\,\\unit{m}\\;\\text{(exact).}`,
+      mm:`1\\,\\unit{mm}=10^{-3}\\,\\unit{m}\\;\\text{(exact).}`,
+      km:`1\\,\\unit{km}=10^{3}\\,\\unit{m}\\;\\text{(exact).}`,
+      L:`1\\,\\unit{L}=10^{-3}\\,\\unit{m^3}\\;\\text{(exact).}`,
+      mL:`1\\,\\unit{mL}=10^{-6}\\,\\unit{m^3}\\;\\text{(exact).}`,
+      s:`\\text{SI base unit of time (defined via }\\Delta\\nu_{Cs}\\text{).}`,
+      min:`1\\,\\unit{min}=60\\,\\unit{s}\\;\\text{(exact).}`,
+      h:`1\\,\\unit{h}=3600\\,\\unit{s}\\;\\text{(exact).}`,
+      day:`1\\,\\unit{d}=86400\\,\\unit{s}\\;\\text{(exact).}`,
+      Pa:`1\\,\\unit{Pa}=1\\,\\unit{N/m^2}=1\\,\\unit{kg\\,m^{-1}\\,s^{-2}}\\;\\text{(exact).}`,
+      bar:`1\\,\\unit{bar}=10^5\\,\\unit{Pa}\\;\\text{(conventional exact).}`,
+      atm:`1\\,\\unit{atm}=101{,}325\\,\\unit{Pa}\\;\\text{(conventional exact).}`,
+      torr:`1\\,\\unit{torr}=\\dfrac{1}{760}\\,\\unit{atm}=133.322368\\,\\unit{Pa}\\;\\text{(exact by def.).}`,
+      J:`1\\,\\unit{J}=1\\,\\unit{N\\,m}=1\\,\\unit{kg\\,m^2\\,s^{-2}}\\;\\text{(exact).}`,
+      W:`1\\,\\unit{W}=1\\,\\unit{J/s}\\;\\text{(exact).}`,
+      P:`1\\,\\unit{P}=0.1\\,\\unit{Pa\\,s}\\;\\text{(CGS to SI exact).}`,
+      dyncm:`1\\,\\unit{dyn/cm}=10^{-3}\\,\\unit{N/m}\\;\\text{(CGS to SI exact).}`,
+      in:`1\\,\\unit{in}=0.0254\\,\\unit{m}\\;\\text{(exact).}`,
+      ft:`1\\,\\unit{ft}=0.3048\\,\\unit{m}=12\\,\\unit{in}\\;\\text{(exact).}`,
+      lb:`1\\,\\unit{lb}=0.45359237\\,\\unit{kg}\\;\\text{(international avoirdupois, exact).}`,
+      short_ton:`1\\,\\text{short ton}=2000\\,\\unit{lb}\\;\\text{(exact).}`,
+      long_ton:`1\\,\\text{long ton}=2240\\,\\unit{lb}\\;\\text{(exact).}`,
+      ft3:`1\\,\\unit{ft^3}=(0.3048\\,\\unit{m})^3\\;\\text{(from exact ft).}`,
+      in2:`1\\,\\unit{in^2}=(0.0254\\,\\unit{m})^2\\;\\text{(from exact in).}`,
+      inH2O:`\\text{1 inH2O at }4^{\\circ}\\!C\\text{ is }249.082\\,\\unit{Pa}.`,
+      psf:`1\\,\\unit{psf}=\\dfrac{1\\,\\unit{lbf}}{1\\,\\unit{ft^2}},\\;1\\,\\unit{lbf}\\approx4.448221615\\,\\unit{N}.`,
+      psi:`1\\,\\unit{psi}\\Rightarrow 6894.757293168\\,\\unit{Pa}.`,
+      galUS:`1\\,\\unit{gal(US)}=231\\,\\unit{in^3}\\Rightarrow 0.003785411784\\,\\unit{m^3}.`,
+      galImp:`1\\,\\unit{gal(Imp)}=4.54609\\,\\unit{L}.`,
+      bbl:`1\\,\\unit{bbl}=42\\,\\unit{gal(US)}.`,
+      cal:`1\\,\\unit{cal}=4.184\\,\\unit{J}.`,
+      kcal:`1\\,\\unit{kcal}=4184\\,\\unit{J}.`,
+      BTU:`1\\,\\unit{BTU}=1055.056\\,\\unit{J}.`,
+      'hp(US)':`1\\,\\text{hp(US)}\\Rightarrow 745.699871582\\,\\unit{W}.`,
+      hp_metric:`1\\,\\text{metric hp}\\Rightarrow 735.49875\\,\\unit{W}.`,
+      lbft3:`1\\,\\unit{lb/ft^3}=\\dfrac{0.45359237\\,\\unit{kg}}{(0.3048\\,\\unit{m})^3}.`,
+      lbft_s:`1\\,\\unit{lb/(ft\\cdot s)}=1.48816394357\\,\\unit{Pa\\cdot s}.`
+    };
+
+    function originNotesLatex(units){
+      const lines = [];
+      units.forEach(u=>{ if(ORIGIN_NOTES[u]) lines.push(`\\quad\\bullet\\; ${ORIGIN_NOTES[u]}`); });
+      if(!lines.length) return '';
+      return lines.join('\\\\[2pt]');
+    }
+
     const CONVS = {
       temperature:{ name:'Temperature (T)', symbol:'T', type:'temperature',
         units:{ C:'Celsius (°C)', K:'Kelvin (K)', F:'Fahrenheit (°F)', R:'Rankine (°R)' } },
@@ -332,15 +384,39 @@
       J:'BTU', kJ:'BTU', MJ:'BTU', BTU:'kJ', W:'hp(US)', kW:'hp(US)', MW:'hp(US)', 'hp(US)':'kW', 'hp_metric':'kW'
     };
 
-    function box(title, latex){
-      return `
-        <div class="mathbox">
-          <div class="title">${title}</div>
-          <div class="tex-block">\\[
-            ${latex}
-          \\]</div>
-        </div>`;
-    }
+    function box(title, latex){ 
+  return `
+    <div class="mathbox">
+      <div class="title">${title}</div>
+      <div class="tex-block">\\[
+        ${latex}
+      \\]</div>
+    </div>`;
+}
+
+/* WHY THIS IS TRUE: one-step-per-line + explicit division equals conversion fact */
+function whyTrueBox(from, to, def){
+  const fFrom = def.factors[from], fTo = def.factors[to];
+  const k = fFrom / fTo; // identical to "Conversion fact"
+  const base = Object.keys(def.factors).find(u => def.factors[u] === 1) || Object.keys(def.factors)[0];
+  const notes = originNotesLatex([from,to,base]);
+  const notesBlock = notes ? (`\\\\[6pt]\\small\\begin{aligned}${notes}\\end{aligned}`) : '';
+  return box('Why this is true (definitions)', `
+    \\begin{gathered}
+    \\kw{1. Start from definitions}\\\\
+    1\\,${texUnit(from)} = ${texNum(fFrom)}\\,${texUnit(base)}\\\\
+    1\\,${texUnit(to)} = ${texNum(fTo)}\\,${texUnit(base)}\\\\[6pt]
+    \\kw{2. Form a ratio (cancel base unit)}\\\\
+    \\dfrac{1\\,${texUnit(from)}}{1\\,${texUnit(to)}} = \\dfrac{${texNum(fFrom)}}{${texNum(fTo)}}\\\\[6pt]
+    \\kw{3. Divide numerator by denominator}\\\\
+    \\dfrac{${texNum(fFrom)}}{${texNum(fTo)}} = ${texNum(k)}\\\\[6pt]
+    \\kw{4. Final conversion}\\\\
+    \\boxed{1\\,${texUnit(from)} = ${texNum(k)}\\,${texUnit(to)}}\\;\\text{(same as Conversion fact)}
+    \\end{gathered}
+    ${notesBlock}
+  `);
+}
+
 
     function linearStepsTex(value, from, to, def){
       if (from === to) {
@@ -349,22 +425,21 @@
       const k   = def.factors[from] / def.factors[to];
       const out = value * k;
       const goal   = box('Goal', `\\kw{Convert}\\; ${texNum(value)}\\,${texLabel(from)} \\to ${texLabel(to)}.`);
-const method = box(
-  'Method (factor–label)',
-  `\\kw{Multiply}\\;\\underline{\\text{by a ratio equal to }1}\\text{ with the }{\\color{red}{\\text{unwanted unit in the denominator}}}\\text{.}`
-);
-
-
-
+      const method = box(
+        'Method (factor–label)',
+        `\\kw{Multiply}\\;\\underline{\\text{by a ratio equal to }1}\\text{ with the }{\\color{red}{\\text{unwanted unit in the denominator}}}\\text{.}`
+      );
       const fact   = box('Conversion fact', `1\\,${texUnit(from)} = ${texNum(k)}\\,${texUnit(to)}.`);
+      const why    = whyTrueBox(from,to,def);
       const setup  = box('Set up', `\\dfrac{${texNum(k)}\\,${texUnit(to)}}{1\\,${texUnit(from)}}`);
       const apply  = box('Apply & cancel',
         `${texNum(value)}\\,\\cancel{${texUnit(from)}}\\times\\dfrac{${texNum(k)}\\,${texUnit(to)}}{1\\,\\cancel{${texUnit(from)}}}`);
       const calc   = box('Compute', `${texNum(value)}\\times${texNum(k)} = ${texNum(out)}`);
       const finalB = box('Final', `\\boxed{${texNum(out)}\\,${texUnit(to)}}`);
-      return { out, html: goal + method + fact + setup + apply + calc + finalB };
+      return { out, html: goal + method + fact + why + setup + apply + calc + finalB };
     }
 
+    /* Other special converters unchanged */
     function tempSteps(value, from, to){
       if (from===to) return {out:value, steps: box('No conversion required','\\kw{Same temperature scale.}')};
       let out;
@@ -389,8 +464,12 @@ const method = box(
         const b=box('Given', `${v}\\,${uFrom}`);
         const c=box('Use formula', cases[key].t);
         const d=box('Substitute', `${cases[key].s} = ${texNum(out)}`);
+        const origins = box('Why these numbers?', `
+          \\bullet\\; 273.15\\,\\text{K offset: }0\\,^{\\circ}\\!C\\equiv273.15\\,\\text{K (exact).}\\\\[2pt]
+          \\bullet\\; ^{\\circ}\\!F\\,\\leftrightarrow\\,^{\\circ}\\!C:\\;\\text{100 C degrees}=\\text{180 F degrees}\\Rightarrow\\tfrac{9}{5}\\;\\text{slope; }32\\,^{\\circ}\\!F=0\\,^{\\circ}\\!C\\;\\text{offset.}
+        `);
         const e=box('Final', `\\boxed{${texNum(out)}\\,${uTo}}`);
-        return { out, steps: a+b+c+d+e };
+        return { out, steps: a+b+c+d+origins+e };
       }
       const toK=(x,u)=>({C:x+273.15,K:x,F:(x-32)*5/9+273.15,R:x*5/9})[u];
       const fromK=(k,u)=>({C:k-273.15,K:k,F:(k-273.15)*9/5+32,R:k*9/5})[u];
@@ -411,6 +490,10 @@ const method = box(
       let out, html='';
       const A=box('Goal', `\\kw{Use }\\Delta P=\\rho g H\\;\\kw{ to convert between pressure and head.}`);
       const B=box('Assumptions', `\\rho=${texNum(rho)}\\,\\unit{kg/m^3},\\; g=${texNum(g)}\\,\\unit{m/s^2}.`);
+      const B2=box('Why constants?', `
+        \\bullet\\; g_0=9.80665\\,\\unit{m/s^2}\\\\[2pt]
+        \\bullet\\; 1\\,\\unit{ft}=0.3048\\,\\unit{m}
+      `);
 
       if(isFromPressure && !isToPressure){
         const dP = toPa(value, from);
@@ -419,7 +502,7 @@ const method = box(
         const C=box('Relation', `H=\\dfrac{\\Delta P}{\\rho g}`);
         const D=box('Substitute', `H=\\dfrac{${texNum(dP)}\\,\\unit{Pa}}{${texNum(rho)}\\,\\unit{kg/m^3}\\cdot ${texNum(g)}\\,\\unit{m/s^2}}`);
         const E=box('Result', `\\boxed{${texNum(out)}\\,${texUnit(to)}}`);
-        html=A+B+C+D+E;
+        html=A+B+B2+C+D+E;
       } else if(!isFromPressure && isToPressure){
         const Hm = toM(value, from);
         const dP = rho*g*Hm;
@@ -427,11 +510,11 @@ const method = box(
         const C=box('Relation', `\\Delta P=\\rho g H`);
         const D=box('Substitute', `\\Delta P=${texNum(rho)}\\,\\unit{kg/m^3}\\cdot ${texNum(g)}\\,\\unit{m/s^2}\\cdot ${texNum(Hm)}\\,\\unit{m}`);
         const E=box('Result', `\\boxed{${texNum(out)}\\,${texUnit(to)}}`);
-        html=A+B+C+D+E;
+        html=A+B+B2+C+D+E;
       } else {
         const fake = {factors: {Pa:1,kPa:1/1000,mH2O:1,ftH2O:1/0.3048}};
         const tmp = linearStepsTex(value, from, to, fake);
-        out = tmp.out; html=A+B+tmp.html;
+        out = tmp.out; html=A+B+B2+tmp.html;
       }
       return {out, steps: html};
     }
