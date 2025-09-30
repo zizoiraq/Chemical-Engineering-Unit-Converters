@@ -527,10 +527,11 @@
       const k   = def.factors[from] / def.factors[to];
       const out = value * k;
       const goal   = box('Goal', `\\kw{Convert}\\; ${texNum(value)}\\,${texLabel(from)} \\to ${texLabel(to)}.`);
-      const method = box(
-        'Method (factor–label)',
-        `\\kw{Multiply}\\;\\underline{\\text{by a ratio equal to }1}\\text{ with the }{\\color{red}{\\text{unwanted unit in the denominator}}}\\text{.}`
-      );
+const method = box(
+  'Method (factor–label)',
+  `\\kw{Multiply}\\;\\underline{\\text{by a conversion factor of }1}\\text{ that puts the }{\\color{red}{\\text{unwanted unit in the denominator}}}\\text{ so it cancels.}`
+);
+
       const fact   = box('Conversion fact', `1\\,${texUnit(from)} = ${texNum(k)}\\,${texUnit(to)}.`);
       const why    = whyTrueBox(from,to,def);
       const setup  = box('Set up', `\\dfrac{${texNum(k)}\\,${texUnit(to)}}{1\\,${texUnit(from)}}`);
@@ -1004,4 +1005,5 @@
   </main>
 </body>
 </html>
+
 
