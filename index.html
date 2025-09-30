@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>  
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -157,7 +157,7 @@
       Wm2:{sym:'W/m²', name:'watt per square meter'}, BTUhrft2:{sym:'BTU/hr·ft²', name:'BTU per hour per square foot'},
       s:{sym:'s', name:'second'}, min:{sym:'min', name:'minute'}, h:{sym:'h', name:'hour'}, day:{sym:'d', name:'day'},
       gmol:{sym:'g/mol', name:'gram per mole'}, kgkmol:{sym:'kg/kmol', name:'kilogram per kilomole'},
-      frac:{sym:'fraction', name:'fraction (1 = 100%)'}, pct:{sym:'%', name:'percent'}, ppb:{sym:'ppb', name:'parts per billion'},
+      frac:{sym:'fraction', name:'fraction (1 = 100%)'}, pct:{sym:'%', name:'percent'}, ppb:{sym:'parts per billion'},
       Jkg:{sym:'J/kg', name:'joule per kilogram'}, kJkg:{sym:'kJ/kg', name:'kilojoule per kilogram'},
       MJkg:{sym:'MJ/kg', name:'megajoule per kilogram'}, BTUlb:{sym:'BTU/lb', name:'BTU per pound'},
       Jmol:{sym:'J/mol', name:'joule per mole'}, kJmol:{sym:'kJ/mol', name:'kilojoule per mole'},
@@ -181,11 +181,11 @@
     };
 
     const symOf  = u => (UNIT_META[u]?.sym)||u;
-    const label  = u => `${UNIT_META[u]?.name||u} (${symOf(u)})`;
-    const texUnit  = u => `\\unit{${symOf(u).replace(/\\/g,'\\').replaceAll('·','\\cdot ').replaceAll(' ','\\,')}}`;
+    const label  = u => `${UNIT_META[u]?.name||u} (${UNIT_META[u]?.sym||u})`;
+    const texUnit  = u => `\\unit{${(UNIT_META[u]?.sym||u).replace(/\\/g,'\\').replaceAll('·','\\cdot ').replaceAll(' ','\\,')}}`;
     const texLabel = u => {
       const nm=(UNIT_META[u]?.name||u).replaceAll('\\','\\').replaceAll('%','\\%');
-      const sy=symOf(u).replace(/\\/g,'\\').replaceAll('·','\\cdot ');
+      const sy=(UNIT_META[u]?.sym||u).replace(/\\/g,'\\').replaceAll('·','\\cdot ');
       return `\\text{${nm}}\\,(\\unit{${sy}})`;
     };
     function typesetNow(){ if(window.MathJax?.typesetPromise){ Promise.resolve().then(()=>MathJax.typesetPromise()); } }
@@ -394,29 +394,131 @@
     </div>`;
 }
 
-/* WHY THIS IS TRUE: one-step-per-line + explicit division equals conversion fact */
-function whyTrueBox(from, to, def){
-  const fFrom = def.factors[from], fTo = def.factors[to];
-  const k = fFrom / fTo; // identical to "Conversion fact"
-  const base = Object.keys(def.factors).find(u => def.factors[u] === 1) || Object.keys(def.factors)[0];
-  const notes = originNotesLatex([from,to,base]);
-  const notesBlock = notes ? (`\\\\[6pt]\\small\\begin{aligned}${notes}\\end{aligned}`) : '';
-  return box('Derivation of the conversion fact', `
-    \\begin{gathered}
-    \\kw{1. Start from definitions}\\\\
-    1\\,${texUnit(from)} = ${texNum(fFrom)}\\,${texUnit(base)}\\\\
-    1\\,${texUnit(to)} = ${texNum(fTo)}\\,${texUnit(base)}\\\\[6pt]
-    \\kw{2. Form a ratio (cancel base unit)}\\\\
-    \\dfrac{1\\,${texUnit(from)}}{1\\,${texUnit(to)}} = \\dfrac{${texNum(fFrom)}}{${texNum(fTo)}}\\\\[6pt]
-    \\kw{3. Divide numerator by denominator}\\\\
-    \\dfrac{${texNum(fFrom)}}{${texNum(fTo)}} = ${texNum(k)}\\\\[6pt]
-    \\kw{4. Final conversion}\\\\
-    \\boxed{1\\,${texUnit(from)} = ${texNum(k)}\\,${texUnit(to)}}\\;\\text{(Conversion fact)}
-    \\end{gathered}
-    ${notesBlock}
-  `);
-}
+    /* ───────────── Added helpers for professor-style derivation ───────────── */
+    // Build reverse index of linear units to their group and factor
+    const UNIT_INDEX = (() => {
+      const idx = {};
+      for (const [groupKey, def] of Object.entries(CONVS)) {
+        if (def?.factors && def?.type === 'linear') {
+          for (const [u, f] of Object.entries(def.factors)) {
+            if (!idx[u]) idx[u] = { groupKey, factor: f };
+          }
+        }
+      }
+      return idx;
+    })();
 
+    // symbol → key map (from UNIT_META) with a few helpful aliases
+    const SYM_TO_KEY = (() => {
+      const m = {};
+      for (const [k,v] of Object.entries(UNIT_META)) m[v.sym] = k;
+      m['hr'] = 'h';
+      m['°F'] = 'F'; m['°C'] = 'C'; m['°R'] = 'R';
+      return m;
+    })();
+
+    function symToKeyLoose(sym){
+      const s = sym.replace(/\s+/g,' ').replace(/\u202F|\u2009/g,'').trim();
+      if (SYM_TO_KEY[s]) return SYM_TO_KEY[s];
+      const tryList = [s.replaceAll('·',' '), s.replaceAll(' ','')];
+      for (const t of tryList) if (SYM_TO_KEY[t]) return SYM_TO_KEY[t];
+      return null;
+    }
+    function parseFrac(sym){
+      const [numStr, denStr=''] = sym.split('/').map(s=>s.trim());
+      const num = numStr.split('·').map(t=>t.trim()).filter(Boolean);
+      const den = denStr.split('·').map(t=>t.trim()).filter(Boolean);
+      return { num, den };
+    }
+    const TEMP_DELTA_FACTOR = { K:1, C:1, F:5/9, R:5/9 }; // for ΔT scaling
+    function productFactor(unitKeysFrom, unitKeysTo){
+      if (unitKeysFrom.length !== unitKeysTo.length) return null;
+      let k = 1, lines = [];
+      for (let i=0;i<unitKeysFrom.length;i++){
+        const uf = unitKeysFrom[i], ut = unitKeysTo[i];
+        const If = UNIT_INDEX[uf], It = UNIT_INDEX[ut];
+        if (If && It && If.groupKey === It.groupKey){
+          const step = If.factor / It.factor;
+          k *= step; lines.push([uf,ut,step]);
+        } else if (TEMP_DELTA_FACTOR[uf]!=null && TEMP_DELTA_FACTOR[ut]!=null){
+          const step = TEMP_DELTA_FACTOR[uf] / TEMP_DELTA_FACTOR[ut];
+          k *= step; lines.push([uf,ut,step]);
+        } else { return null; }
+      }
+      return { k, lines };
+    }
+    /* ───────────── End helpers ───────────── */
+
+    /* WHY THIS IS TRUE — prefer professor-style numerator/denominator build; fallback to base-unit proof */
+    function whyTrueBox(from, to, def){
+      const symF = symOf(from), symT = symOf(to);
+
+      // Prefer professor-style only when both sides are fractional (contain '/')
+      if (symF.includes('/') && symT.includes('/')) {
+        const F = parseFrac(symF);
+        const T = parseFrac(symT);
+
+        const nFromKeys = F.num.map(symToKeyLoose);
+        const dFromKeys = F.den.map(symToKeyLoose);
+        const nToKeys   = T.num.map(symToKeyLoose);
+        const dToKeys   = T.den.map(symToKeyLoose);
+
+        if (nFromKeys.every(Boolean) && dFromKeys.every(Boolean) &&
+            nToKeys.every(Boolean)   && dToKeys.every(Boolean)) {
+
+          const num = productFactor(nFromKeys, nToKeys);
+          const den = productFactor(dFromKeys, dToKeys);
+
+          if (num && den) {
+            const a = num.k, b = den.k, k = a / b;
+
+            const numLines = num.lines
+              .map(([uf,ut,kk]) => `1\\,${texUnit(symOf(uf))} = ${texNum(kk)}\\,${texUnit(symOf(ut))}`)
+              .join('\\\\[2pt]');
+            const denLines = den.lines.length
+              ? den.lines.map(([uf,ut,kk]) => `1\\,${texUnit(symOf(uf))} = ${texNum(kk)}\\,${texUnit(symOf(ut))}`).join('\\\\[2pt]')
+              : '\\text{(none)}';
+
+            return box('Derivation of the conversion fact', `
+              \\begin{gathered}
+              \\kw{1. Convert the numerator(s)}\\\\
+              ${numLines}\\\\[6pt]
+              \\kw{2. Convert the denominator(s)}\\\\
+              ${denLines}\\\\[8pt]
+              \\kw{3. Combine numerator \\div denominator}\\\\
+              \\dfrac{1\\,${texUnit(symF)}}{\\;}=
+              \\dfrac{${texNum(a)}\\,${texUnit(T.num.join('\\cdot '))}}
+                    {${texNum(b)}\\,${texUnit(T.den.join('\\cdot ')||'1')}}=
+              ${texNum(k)}\\,${texUnit(symT)}\\\\[6pt]
+              \\kw{4. Final conversion}\\\\
+              \\boxed{1\\,${texUnit(symF)} = ${texNum(k)}\\,${texUnit(symT)}}\\;\\text{(Conversion fact)}
+              \\end{gathered}
+            `);
+          }
+        }
+      }
+
+      // Fallback: original base-unit ratio proof
+      const fFrom = def.factors[from], fTo = def.factors[to];
+      const k = fFrom / fTo;
+      const base = Object.keys(def.factors).find(u => def.factors[u] === 1) || Object.keys(def.factors)[0];
+      const notes = originNotesLatex([from,to,base]);
+      const notesBlock = notes ? (`\\\\[6pt]\\small\\begin{aligned}${notes}\\end{aligned}`) : '';
+      return box('Derivation of the conversion fact', `
+        \\begin{gathered}
+        \\kw{1. Start from definitions}\\\\
+        1\\,${texUnit(from)} = ${texNum(fFrom)}\\,${texUnit(base)}\\\\
+        1\\,${texUnit(to)} = ${texNum(fTo)}\\,${texUnit(base)}\\\\[6pt]
+        \\kw{2. Form a ratio (cancel base unit)}\\\\
+        \\dfrac{1\\,${texUnit(from)}}{1\\,${texUnit(to)}} = \\dfrac{${texNum(fFrom)}}{${texNum(fTo)}}\\\\[6pt]
+        \\kw{3. Divide numerator by denominator}\\\\
+        \\dfrac{${texNum(fFrom)}}{${texNum(fTo)}} = ${texNum(k)}\\\\[6pt]
+        \\kw{4. Final conversion}\\\\
+        \\boxed{1\\,${texUnit(from)} = ${texNum(k)}\\,${texUnit(to)}}\\;\\text{(Conversion fact)}
+        \\end{gathered}
+        ${notesBlock}
+      `);
+    }
 
     function linearStepsTex(value, from, to, def){
       if (from === to) {
@@ -902,5 +1004,3 @@ function whyTrueBox(from, to, def){
   </main>
 </body>
 </html>
-
-
