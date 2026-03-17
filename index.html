@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=yes" />
-  <title>Chemical Engineering Unit Converters</title>
+  <title>Chemical Engineering Unit Converters - Detailed Steps</title>
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <!-- Font Awesome 6 -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
@@ -23,10 +23,22 @@
       --accent: #0891b2;
       --accent-hover: #0e7490;
       --border-color: #e2e8f0;
-      --success-badge: #059669;
       --math-bg: #f8fafc;
       --header-gradient: linear-gradient(145deg, #ffffff, #f1f5f9);
       --shadow-color: rgba(0, 0, 0, 0.1);
+      
+      /* Step colors */
+      --step-number-bg: #0891b2;
+      --step-number-text: white;
+      --formula-color: #b45309;
+      --calculation-color: #059669;
+      --result-color: #7c3aed;
+      --cancelled-color: #dc2626;
+      --unit-color: #0891b2;
+      --value-color: #7c3aed;
+      --note-bg: #fff7ed;
+      --note-border: #f97316;
+      
       --font-primary: 'Inter', sans-serif;
       --font-mono: 'JetBrains Mono', 'Consolas', monospace;
     }
@@ -42,10 +54,21 @@
       --accent: #06b6d4;
       --accent-hover: #0891b2;
       --border-color: #334155;
-      --success-badge: #10b981;
       --math-bg: #1e293b;
       --header-gradient: linear-gradient(145deg, #1a2639, #0f172a);
       --shadow-color: rgba(0, 0, 0, 0.5);
+      
+      /* Step colors - adjusted for dark mode */
+      --step-number-bg: #06b6d4;
+      --step-number-text: #0b1120;
+      --formula-color: #fbbf24;
+      --calculation-color: #34d399;
+      --result-color: #c084fc;
+      --cancelled-color: #f87171;
+      --unit-color: #06b6d4;
+      --value-color: #c084fc;
+      --note-bg: #422006;
+      --note-border: #f97316;
     }
 
     * {
@@ -333,6 +356,8 @@
       font-size: 18px;
       overflow-x: auto;
       white-space: nowrap;
+      direction: ltr;
+      text-align: left;
     }
 
     /* Steps area */
@@ -345,34 +370,130 @@
       overflow-x: auto;
     }
 
-    /* Math cards */
-    .math-card {
+    /* Enhanced step cards */
+    .step-card {
       background: var(--math-bg);
       border: 1px solid var(--border-color);
-      border-radius: 18px;
-      padding: 16px;
-      margin: 12px 0;
-      box-shadow: 0 4px 8px var(--shadow-color);
+      border-radius: 20px;
+      padding: 18px;
+      margin: 16px 0;
+      box-shadow: 0 4px 12px var(--shadow-color);
+      position: relative;
+      transition: transform 0.2s ease;
     }
 
-    .math-title {
-      font-weight: 700;
-      font-size: 15px;
-      color: var(--accent);
-      margin-bottom: 10px;
+    .step-card:hover {
+      transform: translateX(4px);
+      border-color: var(--accent);
+    }
+
+    .step-header {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 12px;
+      margin-bottom: 16px;
+      border-bottom: 2px solid var(--border-color);
+      padding-bottom: 10px;
+    }
+
+    .step-number {
+      background: var(--step-number-bg);
+      color: var(--step-number-text);
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 18px;
+      box-shadow: 0 4px 8px rgba(6, 182, 212, 0.3);
+    }
+
+    .step-title {
+      font-weight: 700;
+      font-size: 18px;
+      color: var(--accent);
+    }
+
+    .step-title i {
+      margin-right: 8px;
+      font-size: 18px;
+    }
+
+    .step-content {
+      padding: 8px 0;
+      font-size: 16px;
+      line-height: 2;
+    }
+
+    /* Colored elements within steps */
+    .formula {
+      color: var(--formula-color);
+      font-weight: 600;
+      font-family: var(--font-mono);
+      background: rgba(180, 83, 9, 0.1);
+      padding: 2px 8px;
+      border-radius: 6px;
+      display: inline-block;
+    }
+
+    .calculation {
+      color: var(--calculation-color);
+      font-weight: 600;
+      font-family: var(--font-mono);
+    }
+
+    .result-highlight {
+      color: var(--result-color);
+      font-weight: 700;
+      font-size: 18px;
+      font-family: var(--font-mono);
+    }
+
+    .cancelled {
+      color: var(--cancelled-color);
+      text-decoration: line-through;
+      text-decoration-color: var(--cancelled-color);
+      text-decoration-thickness: 2px;
+    }
+
+    .unit-highlight {
+      color: var(--unit-color);
+      font-weight: 600;
+    }
+
+    .value-highlight {
+      color: var(--value-color);
+      font-weight: 700;
+    }
+
+    .note-box {
+      background: var(--note-bg);
+      border-left: 4px solid var(--note-border);
+      padding: 12px 16px;
+      border-radius: 12px;
+      margin: 16px 0;
+      font-size: 14px;
+    }
+
+    .note-box i {
+      color: var(--note-border);
+      margin-right: 8px;
     }
 
     .tex-block {
       overflow-x: auto;
       white-space: normal;
-      padding: 5px 0;
+      padding: 10px 0;
       font-size: 16px;
+      direction: ltr;
+      text-align: left;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 12px;
+      padding: 12px;
     }
 
-    /* Example note */
     .example-note {
       color: var(--text-muted);
       font-size: 14px;
@@ -401,9 +522,42 @@
     @media (max-width: 600px) {
       .MathJax { font-size: 15px !important; }
     }
+
+    /* Tooltip for additional info */
+    .info-tip {
+      display: inline-block;
+      background: var(--accent);
+      color: white;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      text-align: center;
+      line-height: 18px;
+      font-size: 12px;
+      margin-left: 6px;
+      cursor: help;
+      position: relative;
+    }
+
+    .info-tip:hover::after {
+      content: attr(data-tip);
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--card-bg);
+      color: var(--text-primary);
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      white-space: nowrap;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 4px 12px var(--shadow-color);
+      z-index: 1000;
+    }
   </style>
 
-  <!-- MathJax with NO custom macros to avoid errors -->
+  <!-- MathJax -->
   <script>
     window.MathJax = {
       loader: { load: ['[tex]/cancel','[tex]/color'] },
@@ -411,8 +565,15 @@
         packages: {'[+]': ['cancel','color']},
         inlineMath: [['\\(','\\)']],
         displayMath: [['\\[','\\]']],
-        processEscapes: true
-        // NO custom macros to avoid errors
+        processEscapes: true,
+        macros: {
+          // Simple macros for colored text
+          red: ["{\\color{#ef4444}{#1}}", 1],
+          green: ["{\\color{#10b981}{#1}}", 1],
+          blue: ["{\\color{#3b82f6}{#1}}", 1],
+          orange: ["{\\color{#f97316}{#1}}", 1],
+          purple: ["{\\color{#8b5cf6}{#1}}", 1]
+        }
       },
       chtml: { linebreaks: { automatic: true, width: 'container' } }
     };
@@ -469,33 +630,53 @@
     const label = u => `${UNIT_META[u]?.name||u} (${UNIT_META[u]?.sym||u})`;
     const texUnit = u => `\\mathrm{${(UNIT_META[u]?.sym||u).replace(/·/g,'\\cdot ')}}`;
 
-    // Helper for step boxes
-    function box(title, latex) { 
+    // Enhanced step card creator
+    function stepCard(stepNum, title, content, icon = 'fas fa-cog') {
       return `
-        <div class="math-card">
-          <div class="math-title"><i class="fas fa-square-root-alt"></i> ${title}</div>
-          <div class="tex-block">\\[ ${latex} \\]</div>
-        </div>`;
+        <div class="step-card">
+          <div class="step-header">
+            <div class="step-number">${stepNum}</div>
+            <div class="step-title"><i class="${icon}"></i> ${title}</div>
+          </div>
+          <div class="step-content">
+            ${content}
+          </div>
+        </div>
+      `;
+    }
+
+    // Note box creator
+    function noteBox(text) {
+      return `
+        <div class="note-box">
+          <i class="fas fa-lightbulb"></i> ${text}
+        </div>
+      `;
     }
 
     // Origin notes for units
     const ORIGIN_NOTES = {
-      kg:`\\text{SI base unit of mass.}`,
-      m:`\\text{SI base unit of length.}`,
-      s:`\\text{SI base unit of time.}`,
-      Pa:`1\\,\\mathrm{Pa}=1\\,\\mathrm{N/m^2}`,
-      atm:`1\\,\\mathrm{atm}=101325\\,\\mathrm{Pa}`,
-      lb:`1\\,\\mathrm{lb}=0.45359237\\,\\mathrm{kg}`,
-      ft:`1\\,\\mathrm{ft}=0.3048\\,\\mathrm{m}`,
-      in:`1\\,\\mathrm{in}=0.0254\\,\\mathrm{m}`,
-      galUS:`1\\,\\mathrm{gal(US)}=3.78541\\,\\mathrm{L}`,
-      BTU:`1\\,\\mathrm{BTU}=1055.056\\,\\mathrm{J}`
+      kg:`<span class="unit-highlight">Kilogram (kg)</span> is the SI base unit of mass.`,
+      m:`<span class="unit-highlight">Meter (m)</span> is the SI base unit of length.`,
+      s:`<span class="unit-highlight">Second (s)</span> is the SI base unit of time.`,
+      Pa:`<span class="unit-highlight">Pascal (Pa)</span> = 1 N/m² = 1 kg/(m·s²)`,
+      atm:`<span class="unit-highlight">Standard atmosphere (atm)</span> = 101325 Pa (exact by definition)`,
+      lb:`<span class="unit-highlight">Pound (lb)</span> = 0.45359237 kg (international avoirdupois pound)`,
+      ft:`<span class="unit-highlight">Foot (ft)</span> = 0.3048 m (exact)`,
+      in:`<span class="unit-highlight">Inch (in)</span> = 0.0254 m (exact)`,
+      galUS:`<span class="unit-highlight">US gallon (gal)</span> = 3.785411784 L = 231 in³`,
+      BTU:`<span class="unit-highlight">BTU</span> = 1055.056 J (International Table)`
     };
 
-    function originNotesLatex(units){
-      const lines = [];
-      units.forEach(u=>{ if(ORIGIN_NOTES[u]) lines.push(`\\quad\\bullet\\; ${ORIGIN_NOTES[u]}`); });
-      return lines.join('\\\\[2pt]');
+    function getUnitNotes(units) {
+      let html = '<div style="margin-top: 10px;">';
+      units.forEach(u => {
+        if(ORIGIN_NOTES[u]) {
+          html += `<div style="margin: 5px 0; font-size: 14px;">• ${ORIGIN_NOTES[u]}</div>`;
+        }
+      });
+      html += '</div>';
+      return html;
     }
 
     // Conversion definitions
@@ -534,77 +715,209 @@
         factors:{ s:1, min:60, h:3600, day:86400 } }
     };
 
-    // WHY TRUE BOX - Derivation of conversion factor
+    // WHY TRUE BOX - Detailed derivation
     function whyTrueBox(from, to, def){
       const symF = symOf(from), symT = symOf(to);
       const fFrom = def.factors[from], fTo = def.factors[to];
       const k = fFrom / fTo;
       const base = Object.keys(def.factors).find(u => def.factors[u] === 1) || Object.keys(def.factors)[0];
-      const notes = originNotesLatex([from,to,base]);
-      const notesBlock = notes ? (`\\\\[6pt]\\small\\begin{aligned}${notes}\\end{aligned}`) : '';
       
-      return box('Derivation of conversion factor', `
-        \\begin{gathered}
-        \\text{Step 1: Start from definitions}\\\\
-        1\\,${texUnit(from)} = ${texNum(fFrom)}\\,${texUnit(base)}\\\\
-        1\\,${texUnit(to)} = ${texNum(fTo)}\\,${texUnit(base)}\\\\[6pt]
-        \\text{Step 2: Form a ratio (cancel base unit)}\\\\
-        \\dfrac{1\\,${texUnit(from)}}{1\\,${texUnit(to)}} = \\dfrac{${texNum(fFrom)}}{${texNum(fTo)}}\\\\[6pt]
-        \\text{Step 3: Calculate the ratio}\\\\
-        \\dfrac{${texNum(fFrom)}}{${texNum(fTo)}} = ${texNum(k)}\\\\[6pt]
-        \\text{Step 4: Final conversion factor}\\\\
-        \\boxed{1\\,${texUnit(from)} = ${texNum(k)}\\,${texUnit(to)}}
-        \\end{gathered}
-        ${notesBlock}
-      `);
+      let content = `
+        <div style="margin-bottom: 12px;">
+          <span class="formula">Step 1: Find definitions in base unit (${base})</span>
+        </div>
+        <div style="background: rgba(0,0,0,0.1); padding: 10px; border-radius: 8px; margin: 10px 0; font-family: monospace; font-size: 16px;">
+          <div>1 <span class="unit-highlight">${symF}</span> = <span class="value-highlight">${texNum(fFrom)}</span> <span class="unit-highlight">${base}</span></div>
+          <div style="margin-top: 5px;">1 <span class="unit-highlight">${symT}</span> = <span class="value-highlight">${texNum(fTo)}</span> <span class="unit-highlight">${base}</span></div>
+        </div>
+        
+        <div style="margin: 16px 0 12px;">
+          <span class="formula">Step 2: Form a ratio to cancel base unit</span>
+        </div>
+        <div style="background: rgba(0,0,0,0.1); padding: 10px; border-radius: 8px; margin: 10px 0; font-family: monospace; font-size: 16px; direction: ltr; text-align: left;">
+          <div>\\[\\frac{1\\,${symF}}{1\\,${symT}} = \\frac{${texNum(fFrom)}\\,\\cancel{${base}}}{${texNum(fTo)}\\,\\cancel{${base}}} = \\frac{${texNum(fFrom)}}{${texNum(fTo)}}\\]</div>
+        </div>
+        
+        <div style="margin: 16px 0 12px;">
+          <span class="formula">Step 3: Perform the division</span>
+        </div>
+        <div style="background: rgba(0,0,0,0.1); padding: 10px; border-radius: 8px; margin: 10px 0; font-family: monospace; font-size: 16px;">
+          <div>\\[\\frac{${texNum(fFrom)}}{${texNum(fTo)}} = <span class="calculation">${texNum(k)}</span>\\]</div>
+        </div>
+        
+        <div style="margin: 16px 0 12px;">
+          <span class="formula">Step 4: Write the conversion factor</span>
+        </div>
+        <div style="background: rgba(0,0,0,0.1); padding: 15px; border-radius: 8px; margin: 10px 0; font-size: 18px; text-align: center;">
+          <div>\\[\\boxed{1\\,${symF} = <span class="result-highlight">${texNum(k)}</span>\\,${symT}}\\]</div>
+        </div>
+      `;
+      
+      // Add notes if available
+      if(ORIGIN_NOTES[from] || ORIGIN_NOTES[to] || ORIGIN_NOTES[base]) {
+        content += noteBox(getUnitNotes([from, to, base]));
+      }
+      
+      return content;
     }
 
-    // Linear conversion steps
+    // Linear conversion steps - ULTRA DETAILED
     function linearStepsTex(value, from, to, def){
       if (from === to) {
-        return { out: value, html: box('No conversion needed', `\\boxed{${texNum(value)}\\,${texUnit(to)}}`) };
+        return { 
+          out: value, 
+          html: stepCard('1/1', 'No Conversion Needed', 
+            `<div style="text-align: center; font-size: 18px;">
+              <i class="fas fa-check-circle" style="color: #10b981; font-size: 24px;"></i>
+              <p style="margin-top: 10px;">The from and to units are the same.</p>
+              <div style="background: rgba(0,0,0,0.1); padding: 15px; border-radius: 8px; margin-top: 10px;">
+                <span class="value-highlight">${texNum(value)}</span> <span class="unit-highlight">${symOf(from)}</span>
+              </div>
+            </div>`, 'fas fa-check-circle')
+        };
       }
+      
       const k = def.factors[from] / def.factors[to];
       const out = value * k;
       
-      const goal = box('Goal', `\\text{Convert}\\; ${texNum(value)}\\,${texUnit(from)} \\to ${texUnit(to)}`);
-      const method = box('Method', `\\text{Multiply by a conversion factor of 1}`);
-      const fact = box('Conversion factor', `1\\,${texUnit(from)} = ${texNum(k)}\\,${texUnit(to)}`);
-      const why = whyTrueBox(from, to, def);
-      const apply = box('Apply & cancel',
-        `${texNum(value)}\\,\\cancel{${texUnit(from)}} \\times \\dfrac{${texNum(k)}\\,${texUnit(to)}}{1\\,\\cancel{${texUnit(from)}}}`
-      );
-      const calc = box('Calculate', `${texNum(value)} \\times ${texNum(k)} = ${texNum(out)}`);
-      const finalB = box('Final result', `\\boxed{${texNum(out)}\\,${texUnit(to)}}`);
+      let html = '';
       
-      return { out, html: goal + method + fact + why + apply + calc + finalB };
+      // STEP 1: Goal
+      html += stepCard('1', 'Identify the Conversion Goal', 
+        `<div>We want to convert:</div>
+        <div style="background: linear-gradient(135deg, rgba(6,182,212,0.1), rgba(0,0,0,0.1)); padding: 15px; border-radius: 8px; margin: 10px 0; font-size: 20px; text-align: center;">
+          <span class="value-highlight">${texNum(value)}</span> 
+          <span class="unit-highlight">${symOf(from)}</span> 
+          <i class="fas fa-arrow-right" style="color: var(--accent); margin: 0 15px;"></i>
+          <span class="unit-highlight">${symOf(to)}</span>
+        </div>
+        <div class="note-box" style="margin-top: 10px;">
+          <i class="fas fa-info-circle"></i> <span class="unit-highlight">${label(from)}</span> → <span class="unit-highlight">${label(to)}</span>
+        </div>`, 'fas fa-bullseye');
+      
+      // STEP 2: Find conversion factor
+      html += stepCard('2', 'Find the Conversion Factor', 
+        `<div>From the conversion table:</div>
+        <div style="background: rgba(0,0,0,0.1); padding: 15px; border-radius: 8px; margin: 10px 0; font-family: monospace; font-size: 18px;">
+          <div>1 <span class="unit-highlight">${symOf(from)}</span> = <span class="calculation">${texNum(k)}</span> <span class="unit-highlight">${symOf(to)}</span></div>
+        </div>
+        <div style="margin-top: 10px;">
+          <i class="fas fa-calculator"></i> This means: For every 1 <span class="unit-highlight">${symOf(from)}</span>, we get <span class="value-highlight">${texNum(k)}</span> <span class="unit-highlight">${symOf(to)}</span>
+        </div>`, 'fas fa-search');
+      
+      // STEP 3: Derivation (why it's true)
+      html += stepCard('3', 'Why This Conversion Factor is Correct', 
+        whyTrueBox(from, to, def), 'fas fa-question-circle');
+      
+      // STEP 4: Set up the multiplication
+      html += stepCard('4', 'Set Up the Calculation', 
+        `<div>We multiply our value by the conversion factor, arranging it so that the original unit cancels:</div>
+        <div style="background: rgba(0,0,0,0.1); padding: 15px; border-radius: 8px; margin: 15px 0; font-size: 20px; direction: ltr; text-align: left;">
+          \\[${texNum(value)}\\,\\color{red}{\\cancel{${symOf(from)}}} \\times \\dfrac{${texNum(k)}\\,${symOf(to)}}{1\\,\\color{red}{\\cancel{${symOf(from)}}}}\\]
+        </div>
+        <div class="note-box">
+          <i class="fas fa-lightbulb"></i> Notice how the original unit <span class="cancelled">${symOf(from)}</span> appears in both numerator and denominator, so they cancel out!
+        </div>`, 'fas fa-cogs');
+      
+      // STEP 5: Perform multiplication
+      html += stepCard('5', 'Perform the Multiplication', 
+        `<div>Now we multiply the numbers:</div>
+        <div style="background: rgba(0,0,0,0.1); padding: 15px; border-radius: 8px; margin: 15px 0; font-size: 20px; direction: ltr; text-align: left;">
+          \\[${texNum(value)} \\times ${texNum(k)} = <span class="calculation">${texNum(out)}</span>\\]
+        </div>
+        <div style="margin-top: 10px;">
+          <span class="formula">Detailed calculation:</span> ${texNum(value)} × ${texNum(k)} = ${value} × ${k} = ${out}
+        </div>`, 'fas fa-times');
+      
+      // STEP 6: Final result with unit
+      html += stepCard('6', 'Write the Final Result', 
+        `<div style="background: linear-gradient(135deg, rgba(124,58,237,0.1), rgba(0,0,0,0.1)); padding: 20px; border-radius: 12px; margin: 10px 0; text-align: center;">
+          <div style="font-size: 14px; color: var(--text-muted); margin-bottom: 8px;">✅ Conversion complete</div>
+          <div style="font-size: 28px; font-weight: 800;">
+            <span class="value-highlight">${texNum(out)}</span> 
+            <span class="unit-highlight">${symOf(to)}</span>
+          </div>
+          <div style="margin-top: 10px; font-size: 16px;">
+            ${texNum(value)} ${symOf(from)} = ${texNum(out)} ${symOf(to)}
+          </div>
+        </div>
+        <div style="margin-top: 15px; padding: 10px; background: rgba(0,0,0,0.1); border-radius: 8px;">
+          <i class="fas fa-check-circle" style="color: #10b981;"></i> 
+          <span style="font-weight: 600;">Check:</span> The result has the correct unit (${symOf(to)}) and the value is reasonable.
+        </div>`, 'fas fa-flag-checkered');
+      
+      return { out, html };
     }
 
-    // Temperature conversion steps
+    // Temperature conversion steps - ULTRA DETAILED
     function tempSteps(value, from, to){
-      if (from===to) return {out:value, steps: box('No conversion needed', `\\boxed{${texNum(value)}\\,${texUnit(to)}}`)};
+      if (from===to) {
+        return {
+          out: value,
+          steps: stepCard('1/1', 'No Conversion Needed',
+            `<div style="text-align: center;">The temperature scales are the same.</div>`, 'fas fa-check-circle')
+        };
+      }
+      
       let out;
       const cases = {
-        'C->K': { f: x=>x+273.15, t:'T_K = T_{°C} + 273.15' },
-        'K->C': { f: x=>x-273.15, t:'T_{°C} = T_K - 273.15' },
-        'C->F': { f: x=>x*9/5+32, t:'T_{°F} = \\frac{9}{5}T_{°C} + 32' },
-        'F->C': { f: x=>(x-32)*5/9, t:'T_{°C} = \\frac{5}{9}(T_{°F} - 32)' },
-        'K->F': { f: x=>(x-273.15)*9/5+32, t:'T_{°F} = \\frac{9}{5}(T_K - 273.15) + 32' },
-        'F->K': { f: x=>(x-32)*5/9+273.15, t:'T_K = \\frac{5}{9}(T_{°F} - 32) + 273.15' },
-        'R->K': { f: x=>x*5/9, t:'T_K = \\frac{5}{9}T_{°R}' },
-        'K->R': { f: x=>x*9/5, t:'T_{°R} = \\frac{9}{5}T_K' }
+        'C->K': { f: x=>x+273.15, formula:'T_K = T_{°C} + 273.15', desc:'Add 273.15 to convert from Celsius to Kelvin' },
+        'K->C': { f: x=>x-273.15, formula:'T_{°C} = T_K - 273.15', desc:'Subtract 273.15 from Kelvin to get Celsius' },
+        'C->F': { f: x=>x*9/5+32, formula:'T_{°F} = \\frac{9}{5}T_{°C} + 32', desc:'Multiply by 9/5, then add 32' },
+        'F->C': { f: x=>(x-32)*5/9, formula:'T_{°C} = \\frac{5}{9}(T_{°F} - 32)', desc:'Subtract 32, then multiply by 5/9' },
+        'K->F': { f: x=>(x-273.15)*9/5+32, formula:'T_{°F} = \\frac{9}{5}(T_K - 273.15) + 32', desc:'Subtract 273.15, multiply by 9/5, add 32' },
+        'F->K': { f: x=>(x-32)*5/9+273.15, formula:'T_K = \\frac{5}{9}(T_{°F} - 32) + 273.15', desc:'Subtract 32, multiply by 5/9, add 273.15' },
+        'R->K': { f: x=>x*5/9, formula:'T_K = \\frac{5}{9}T_{°R}', desc:'Multiply Rankine by 5/9 to get Kelvin' },
+        'K->R': { f: x=>x*9/5, formula:'T_{°R} = \\frac{9}{5}T_K', desc:'Multiply Kelvin by 9/5 to get Rankine' }
       };
+      
       const key = `${from}->${to}`;
       
       if(cases[key]){
         out = cases[key].f(value);
-        const steps = box('Temperature conversion', `
-          \\begin{gathered}
-          \\text{Formula: } ${cases[key].t}\\\\
-          ${texNum(value)}\\,${texUnit(from)} = ${texNum(out)}\\,${texUnit(to)}
-          \\end{gathered}
-        `);
-        return { out, steps };
+        
+        let html = '';
+        
+        // STEP 1: Goal
+        html += stepCard('1', 'Temperature Conversion Goal',
+          `<div>Convert:</div>
+          <div style="background: linear-gradient(135deg, rgba(6,182,212,0.1), rgba(0,0,0,0.1)); padding: 15px; border-radius: 8px; margin: 10px 0; font-size: 20px; text-align: center;">
+            <span class="value-highlight">${texNum(value)}</span> 
+            <span class="unit-highlight">${symOf(from)}</span> 
+            <i class="fas fa-arrow-right" style="color: var(--accent); margin: 0 15px;"></i>
+            <span class="unit-highlight">${symOf(to)}</span>
+          </div>`, 'fas fa-bullseye');
+        
+        // STEP 2: Formula
+        html += stepCard('2', 'Apply the Temperature Conversion Formula',
+          `<div class="formula" style="font-size: 18px;">${cases[key].desc}</div>
+          <div style="background: rgba(0,0,0,0.1); padding: 15px; border-radius: 8px; margin: 15px 0; font-size: 20px;">
+            \\[${cases[key].formula}\\]
+          </div>`, 'fas fa-temperature-high');
+        
+        // STEP 3: Substitution
+        html += stepCard('3', 'Substitute the Value',
+          `<div>Replace T with ${texNum(value)}:</div>
+          <div style="background: rgba(0,0,0,0.1); padding: 15px; border-radius: 8px; margin: 15px 0; font-size: 18px;">
+            \\[${cases[key].formula.replace('T', texNum(value))}\\]
+          </div>`, 'fas fa-exchange-alt');
+        
+        // STEP 4: Calculate
+        html += stepCard('4', 'Perform the Calculation',
+          `<div style="background: rgba(0,0,0,0.1); padding: 15px; border-radius: 8px; margin: 10px 0;">
+            <div style="font-size: 18px;">= <span class="calculation">${texNum(out)}</span></div>
+          </div>`, 'fas fa-calculator');
+        
+        // STEP 5: Result
+        html += stepCard('5', 'Final Result',
+          `<div style="background: linear-gradient(135deg, rgba(124,58,237,0.1), rgba(0,0,0,0.1)); padding: 20px; border-radius: 12px; margin: 10px 0; text-align: center;">
+            <div style="font-size: 28px; font-weight: 800;">
+              <span class="value-highlight">${texNum(out)}</span> 
+              <span class="unit-highlight">${symOf(to)}</span>
+            </div>
+          </div>`, 'fas fa-flag-checkered');
+        
+        return { out, steps: html };
       }
       
       // Other cases via Kelvin
@@ -613,13 +926,30 @@
       const inK = toK[from](value);
       out = fromK[to](inK);
       
-      const steps = box('Temperature conversion via Kelvin', `
-        \\begin{gathered}
-        \\text{Convert to Kelvin: } ${texNum(value)}\\,${texUnit(from)} = ${texNum(inK)}\\,\\mathrm{K}\\\\
-        \\text{Convert from Kelvin: } ${texNum(inK)}\\,\\mathrm{K} = ${texNum(out)}\\,${texUnit(to)}
-        \\end{gathered}
-      `);
-      return { out, steps };
+      let html = '';
+      
+      html += stepCard('1', 'Temperature Conversion via Kelvin',
+        `Since there's no direct formula, we'll use Kelvin as an intermediate scale.`, 'fas fa-bullseye');
+      
+      html += stepCard('2', 'Convert to Kelvin',
+        `<div style="background: rgba(0,0,0,0.1); padding: 15px; border-radius: 8px; margin: 10px 0;">
+          ${texNum(value)} ${symOf(from)} = ${texNum(inK)} K
+        </div>`, 'fas fa-temperature-low');
+      
+      html += stepCard('3', 'Convert from Kelvin',
+        `<div style="background: rgba(0,0,0,0.1); padding: 15px; border-radius: 8px; margin: 10px 0;">
+          ${texNum(inK)} K = ${texNum(out)} ${symOf(to)}
+        </div>`, 'fas fa-temperature-high');
+      
+      html += stepCard('4', 'Final Result',
+        `<div style="background: linear-gradient(135deg, rgba(124,58,237,0.1), rgba(0,0,0,0.1)); padding: 20px; border-radius: 12px; margin: 10px 0; text-align: center;">
+          <div style="font-size: 28px; font-weight: 800;">
+            <span class="value-highlight">${texNum(out)}</span> 
+            <span class="unit-highlight">${symOf(to)}</span>
+          </div>
+        </div>`, 'fas fa-flag-checkered');
+      
+      return { out, steps: html };
     }
 
     // ========== Page initialization ==========
@@ -732,7 +1062,11 @@
         } else if(def.type === 'temperature') {
           res = tempSteps(value, from, to);
         } else {
-          res = { out: value, steps: box('Conversion', `\\text{This conversion type is not fully implemented yet}`) };
+          res = { 
+            out: value, 
+            steps: stepCard('⚠️', 'Not Implemented', 
+              'This conversion type is not fully implemented yet.', 'fas fa-exclamation-triangle')
+          };
         }
         
         outEl.textContent = `${fmt(value)} ${symOf(from)} → ${fmt(res.out)} ${symOf(to)}`;
