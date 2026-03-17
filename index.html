@@ -1,638 +1,1008 @@
-أهلاً بك، تم تعديل الموقع بالكامل ليعرض جميع العناصر باللغة الإنجليزية. قمت بإعادة تفعيل وعرض جميع خطوات الحل التفصيلية بصيغة LaTeX لكل نوع من أنواع التحويلات. الموقع الآن يظهر بشكل ممتاز على جميع الأجهزة مع الحفاظ على هوية الجامعة والمصمم.
-```html
-<!DOCTYPE html>
+<!DOCTYPE html>  
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes" />
-  <title>Chemical Engineering Unit Converters · full steps + categories</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Chemical Engineering Unit Converters </title>
   <style>
-    /* clean, responsive, english-first design – colors improved */
     :root{
-      --bg:#f4f9ff; --card:#ffffff; --ink:#0c2b3e; --muted:#1d5370;
-      --border:#c2d6ec; --brand:#0f6e4a; --brand2:#0a5236;
-      --accent:#1f6da9; --accent2:#1b8c5e; --warn:#c96f0d;
+      --bg:#f8fafc; --card:#ffffff; --ink:#0f172a; --muted:#475569; --border:#e5e7eb;
+      --brand:#16a34a; --brand2:#15803d;
+      --accent:#2563eb;   /* units color */
+      --accent2:#059669;  /* keyword color */
+      --warn:#b45309;
       --mono:ui-monospace,Consolas,Menlo,monospace;
-      --radius:28px;
     }
-    *{box-sizing:border-box; margin:0; padding:0;}
+    *{box-sizing:border-box}
     body{
-      background: linear-gradient(145deg, #e7f0fa 0%, #ffffff 100%);
-      color: var(--ink);
-      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-      line-height: 1.5;
-      padding: 12px 8px;
-      min-height: 100vh;
+      margin:0;
+      background:linear-gradient(180deg,#f8fafc,#f1f5f9 60%,#eef2f7);
+      color:var(--ink);
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Arial,sans-serif;
+      line-height:1.6
     }
-    .wrap{max-width: 1150px; margin: 0 auto; width:100%;}
-
-    /* header exactly as original with english text */
     header{
-      background: rgba(255,255,255,0.85);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(255,255,255,0.7);
-      border-radius: 48px;
-      padding: 24px 22px;
-      margin-bottom: 22px;
-      box-shadow: 0 15px 30px -15px rgba(0,60,30,0.25);
+      padding:28px 16px 18px;
+      text-align:center;
+      border-bottom:1px solid var(--border);
+      background:
+        radial-gradient(1200px 400px at 50% -50%, rgba(34,197,94,.08), transparent 60%),
+        radial-gradient(1200px 400px at 50% -80%, rgba(37,99,235,.08), transparent 60%);
     }
-    .uni-badge{
-      display: flex; flex-wrap: wrap; gap: 8px 24px;
-      color: #0f5e45; font-weight: 600; font-size: 1rem;
-      border-bottom: 2px solid var(--brand); padding-bottom: 12px; margin-bottom: 12px;
-    }
-    h1{
-      font-size: clamp(1.8rem, 6vw, 2.4rem);
-      font-weight: 800;
-      background: linear-gradient(130deg, #0f5a3a, #1b4f7a);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin: 8px 0 0;
-    }
-    .des{
-      color: #176b47;
-      font-weight: 600;
-      margin-top: 6px;
-      font-size: 1.1rem;
-    }
+    header .u1{font-weight:900;font-size:32px;letter-spacing:.3px}
+    header .u2, header .u3{font-size:18px;color:var(--muted)}
+    header .des{font-weight:700;margin-top:8px;color:#0b7a38}
+    header h1{margin:14px 0 0;font-size:26px;letter-spacing:.2px}
 
+    .wrap{max-width:1100px;margin:0 auto;padding:18px 16px}
     .card{
-      background: var(--card);
-      border: 1px solid rgba(255,255,255,0.6);
-      border-radius: var(--radius);
-      box-shadow: 0 20px 35px -20px rgba(0,50,30,0.2);
-      padding: 24px 22px;
-      width:100%;
-      margin-bottom: 18px;
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:20px;
+      box-shadow:0 10px 24px rgba(15,23,42,.06), 0 1px 0 rgba(255,255,255,.6) inset;
     }
+    .pad{padding:20px}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .row3{display:grid;grid-template-columns:2fr 1fr 1fr;gap:12px}
 
-    /* grids fully responsive */
-    .grid-2, .grid-3, .grid-4{
-      display: grid;
-      gap: 16px;
-      margin-bottom: 18px;
+    label{font-weight:600}
+    select,input{
+      width:100%;padding:12px;border:1px solid var(--border);border-radius:12px;background:#fff;color:#0f172a;
+      transition:border-color .15s, box-shadow .15s
     }
-    .grid-2{ grid-template-columns: repeat(2,1fr); }
-    .grid-3{ grid-template-columns: 2fr 1fr 1fr; }
-    .grid-4{ grid-template-columns: repeat(4,1fr); }
+    select:focus,input:focus{outline:none;border-color:#93c5fd;box-shadow:0 0 0 4px rgba(59,130,246,.15)}
+    button{
+      background:linear-gradient(180deg,var(--brand),var(--brand2));
+      color:#fff;border:none;border-radius:14px;padding:12px 18px;font-weight:800;cursor:pointer;
+      letter-spacing:.2px;box-shadow:0 6px 16px rgba(22,163,74,.25);transition:transform .06s ease
+    }
+    button:hover{transform:translateY(-1px)}
+    .out{font-family:var(--mono);background:#f1f5f9;border:1px dashed var(--border);border-radius:12px;padding:12px}
+    .steps{white-space:normal;background:#f8fafc;border:1px solid var(--border);border-radius:14px;padding:12px;margin-top:10px}
+    .note{color:var(--muted);font-size:14px}
 
-    label{
-      font-weight: 600; font-size: 0.8rem; text-transform: uppercase;
-      letter-spacing: 0.3px; color: #1a5b45; display: block; margin-bottom: 5px;
-    }
-    select, input{
-      width: 100%; padding: 14px 16px;
-      border: 1.5px solid var(--border); border-radius: 32px;
-      background: white; font-size: 0.95rem;
-      transition: 0.15s;
-      -webkit-appearance: none; appearance: none;
-    }
-    select:focus, input:focus{ border-color: var(--accent2); box-shadow: 0 0 0 4px rgba(27,140,94,0.15); outline: none; }
+    .unitbox{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:8px}
+    .ibox{border:1px dashed var(--border);border-radius:12px;padding:10px;background:#ffffff}
+    .ibox b{display:block;margin-bottom:4px}
 
-    button, .swap-btn{
-      background: linear-gradient(145deg, var(--brand), var(--brand2));
-      border: none; color: white; font-weight: 700; padding: 14px 20px;
-      border-radius: 60px; cursor: pointer; font-size: 1.1rem;
-      box-shadow: 0 10px 18px -8px #0f6e4a80;
-      transition: all 0.1s;
-      display: inline-flex; align-items: center; justify-content: center; gap: 6px;
-      width:100%;
-    }
-    button:hover, .swap-btn:hover{ transform: translateY(-2px); filter: brightness(1.05); }
-    .swap-btn{ background: #2c6075; box-shadow: none; }
-
-    .unitbox{
-      display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
-      margin: 18px 0;
-    }
-    .ibox{
-      background: #e9f3fe; border-radius: 30px; padding: 16px 20px;
-      border: 1px solid #bad0ea;
-      word-break: break-word;
-    }
-    .ibox b{ font-size: 0.9rem; color: var(--accent); margin-bottom: 6px; display: block; }
-    .out{
-      background: #e6f2fc; border-radius: 60px; padding: 18px 24px;
-      font-family: var(--mono); font-size: 1.2rem; border: 2px dashed #9bbfdf;
-      min-height: 80px; word-break: break-word;
-      width:100%;
-    }
-    .steps{
-      background: #f2f9ff; border-radius: 38px; padding: 24px; margin-top: 26px;
-      border: 1px solid #b8d1e7; overflow-x: auto;
-      width:100%;
-    }
     .mathbox{
-      background: white; border-radius: 28px; padding: 18px 20px; margin: 16px 0;
-      border: 1px solid #cbdeef; box-shadow: 0 3px 12px #0000000c;
-      overflow-x: auto;
+      background:#ffffff;border:1px solid var(--border);
+      border-radius:12px;padding:10px 12px;margin:10px 0;max-width:100%;
+      box-shadow:0 1px 0 rgba(0,0,0,.02)
     }
     .mathbox .title{
-      font-weight: 800; font-size: 1rem; color: #143e55; margin-bottom: 12px;
-      border-bottom: 2px dotted var(--accent2); padding-bottom: 6px;
+      font-weight:800;font-size:13px;color:#0f172a;margin-bottom:6px;
+      letter-spacing:.3px;text-transform:uppercase
     }
+    .mathbox .title::before{content:"→ "; color:var(--accent2)}
+    .tex-block{white-space:normal;overflow:visible;max-width:100%}
+
     .badge{
-      background: #f4e2c3; color: #7a5100; padding: 4px 12px; border-radius: 60px;
-      font-size: 0.8rem; font-weight: 700; margin-left: 8px;
-      white-space: nowrap;
-    }
-    .note{
-      background: #e5f1f7; padding: 8px 16px; border-radius: 50px;
-      font-size: 0.9rem; color: #135d7a;
+      display:inline-block;padding:2px 8px;border-radius:999px;font-size:12px;font-weight:700;
+      background:rgba(180,83,9,.1);color:var(--warn);border:1px solid rgba(180,83,9,.25)
     }
 
-    /* mobile perfect */
-    @media (max-width: 700px){
-      .grid-2, .grid-3, .grid-4{ grid-template-columns: 1fr; }
-      .card{ padding: 18px 14px; }
-      .unitbox{ grid-template-columns: 1fr; }
-      header{ padding: 18px; }
-      .uni-badge{ flex-direction: column; gap: 5px; }
-      button{ padding: 16px; }
+    @media (max-width: 900px){ .MathJax, .mjx-chtml { font-size:95% !important } }
+    @media (max-width: 600px){
+      .MathJax, .mjx-chtml { font-size:90% !important }
+      .row{grid-template-columns:1fr}
+      .row3{grid-template-columns:1fr}
     }
-    @media (max-width: 380px){
-      .out{ font-size: 1rem; }
-    }
-
-    /* MathJax */
-    .tex-block{ overflow-x: auto; white-space: normal; }
-    mjx-container{ white-space: normal !important; }
   </style>
-  <!-- MathJax full packages -->
+
+  <!-- MathJax: cancel + color (rgb) + macros -->
   <script>
     window.MathJax = {
-      loader: { load: ['[tex]/cancel','[tex]/color','[tex]/ams'] },
-      tex: { packages: {'[+]': ['cancel','color','ams']}, inlineMath: [['\\(','\\)']],
+      loader: { load: ['[tex]/cancel','[tex]/color'] },
+      tex: {
+        packages: {'[+]': ['cancel','color']},
+        inlineMath: [['\\(','\\)']],
+        displayMath: [['\\[','\\]']],
+        processEscapes: true,
         macros: {
-          unit: ["{\\color[rgb]{0.2,0.45,0.75}{\\mathrm{#1}}}",1],
-          kw:   ["{\\color[rgb]{0.0,0.5,0.25}{\\text{#1}}}",1]
-        } },
-      chtml: { linebreaks: { automatic: true, width: 'container' } }
+          unit: ["{\\color[rgb]{0.149,0.388,0.922}{\\mathrm{#1}}}", 1],
+          kw:   ["{\\color[rgb]{0.023,0.588,0.412}{\\text{#1}}}", 1]
+        }
+      },
+      chtml: { linebreaks: { automatic: true, width: 'container' } },
+      svg:   { linebreaks: { automatic: true, width: 'container' } }
     };
   </script>
   <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
-</head>
-<body>
-<div class="wrap">
-  <!-- original header: university, college, designer unchanged -->
-  <header>
-    <div class="uni-badge">
-      <span>⚗️ Northern Technical University</span>
-      <span>🧪 Technical Engineering College - Mosul</span>
-      <span>🛢️ Chemical and Petroleum Industries Technologies Engineering</span>
-    </div>
-    <h1>Chemical Engineering Unit Converters</h1>
-    <div class="des">Designed by: Azam Isam</div>
-    <div style="margin-top: 10px; display: flex; flex-wrap: wrap; gap: 6px 14px;">
-      <span class="badge">3 decimal places</span>
-      <span class="badge">organized by categories</span>
-      <span class="badge">full LaTeX steps</span>
-    </div>
-  </header>
 
-  <main class="card">
-    <!-- main category selector -->
-    <div style="margin-bottom: 22px;">
-      <label>📂 Main category</label>
-      <select id="categoryMain" style="background:#ffffff;"></select>
-    </div>
-
-    <!-- converter & system row -->
-    <div class="grid-2">
-      <div>
-        <label>🔧 Converter</label>
-        <select id="convSelect" style="background:#ffffff;"></select>
-      </div>
-      <div style="display: flex; gap: 10px; align-items: center;">
-        <div style="flex:1">
-          <label>🌍 System</label>
-          <select id="sys">
-            <option value="auto">Auto / Mixed</option>
-            <option value="SI">SI (metric)</option>
-            <option value="US">US (FPS)</option>
-            <option value="UK">Imperial (UK)</option>
-          </select>
-        </div>
-        <div style="display: flex; align-items: center; gap: 4px; margin-top: 18px;">
-          <input id="dual" type="checkbox" style="width:22px; height:22px;"> 
-          <span style="font-size:0.85rem;">dual</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- value, from, to with swap -->
-    <div class="grid-3">
-      <div>
-        <label>🔢 Value</label>
-        <input id="val" type="number" step="any" value="1.0" style="font-size:1.2rem;" />
-      </div>
-      <div>
-        <label>⬅️ From</label>
-        <select id="from"></select>
-      </div>
-      <div style="display: flex; gap: 6px;">
-        <div style="flex:1">
-          <label>➡️ To</label>
-          <select id="to"></select>
-        </div>
-        <button class="swap-btn" id="swapBtn" style="width:60px; padding:12px 0;" title="swap units">⇄</button>
-      </div>
-    </div>
-
-    <!-- unit info boxes & example hint -->
-    <div class="unitbox">
-      <div id="info-from" class="ibox"><b>From unit</b><div style="font-size:1.2rem;">...</div></div>
-      <div id="info-to"   class="ibox"><b>To unit</b><div style="font-size:1.2rem;">...</div></div>
-    </div>
-    <div id="example" class="note" style="margin-bottom: 20px;">💡 example will appear here</div>
-
-    <!-- extra inputs for special converters -->
-    <div id="extra" class="grid-4" style="display: none; background:#ecf4fc; border-radius: 40px; padding: 20px; margin-bottom: 20px;"></div>
-
-    <!-- convert button and result -->
-    <div style="display: flex; gap: 16px; flex-wrap: wrap; align-items: center;">
-      <button id="btn" style="flex:1; padding:18px 10px;">🔄 Convert</button>
-      <span id="out" class="out" style="flex:2;">0.000</span>
-    </div>
-
-    <!-- FULL SOLUTION STEPS (LaTeX) – now guaranteed to appear -->
-    <div id="steps" class="steps">
-      <span style="opacity:0.6;">Full step‑by‑step derivation will be shown here with LaTeX formatting ...</span>
-    </div>
-  </main>
-  <p style="text-align:center; margin-top:16px; color:#376b87; font-size:0.9rem;">Chemical and Petroleum Industries Technologies Engineering · 3 decimals · all steps visible</p>
-</div>
-
-<script>
-  (function(){
-    // ----- 3 decimal formatting -----
-    const fmt = (n) => {
-      if(!Number.isFinite(n)) return '...';
-      return (Math.round(n * 1000) / 1000).toFixed(3);
-    };
-    const texNum = (n) => {
-      if(!Number.isFinite(n)) return '...';
-      return (Math.round(n * 1000) / 1000).toString();
-    };
+  <script defer>
+    const fmt = n => Number.isFinite(n)
+      ? (Math.abs(n)>=1e6||Math.abs(n)<1e-4 ? n.toExponential(6)
+         : n.toLocaleString(undefined,{maximumFractionDigits:9}))
+      : '...';
+    const texNum = n => Number.isFinite(n)
+      ? (Math.abs(n)>=1e6||Math.abs(n)<1e-4 ? n.toExponential(6) : n.toString())
+      : '...';
     const gDEFAULT = 9.80665;
 
-    // unit metadata
     const UNIT_META = {
-      C:{sym:'°C',name:'Celsius'}, K:{sym:'K',name:'Kelvin'}, F:{sym:'°F',name:'Fahrenheit'}, R:{sym:'°R',name:'Rankine'},
-      Pa:{sym:'Pa',name:'Pascal'}, kPa:{sym:'kPa',name:'kilopascal'}, bar:{sym:'bar',name:'bar'}, atm:{sym:'atm',name:'standard atmosphere'},
-      psi:{sym:'psi',name:'pound-force per square inch'}, torr:{sym:'torr',name:'torr (mmHg)'},
-      mH2O:{sym:'m',name:'meters of fluid (head)'}, ftH2O:{sym:'ft',name:'feet of fluid (head)'},
-      psf:{sym:'psf',name:'pound-force per square foot'}, inH2O:{sym:'inH2O',name:'inch of water (4°C)'},
-      kg:{sym:'kg',name:'kilogram'}, g:{sym:'g',name:'gram'}, lb:{sym:'lb',name:'pound'}, tonne:{sym:'t',name:'tonne'},
-      short_ton:{sym:'ton (US)',name:'short ton (US,2000 lb)'}, long_ton:{sym:'ton (UK)',name:'long ton (2240 lb)'},
-      m:{sym:'m',name:'meter'}, cm:{sym:'cm',name:'centimeter'}, mm:{sym:'mm',name:'millimeter'}, km:{sym:'km',name:'kilometer'},
-      in:{sym:'in',name:'inch'}, ft:{sym:'ft',name:'foot'},
-      m2:{sym:'m²',name:'square meter'}, cm2:{sym:'cm²',name:'square centimeter'}, ft2:{sym:'ft²',name:'square foot'}, in2:{sym:'in²',name:'square inch'},
-      m3:{sym:'m³',name:'cubic meter'}, L:{sym:'L',name:'liter'}, mL:{sym:'mL',name:'milliliter'}, ft3:{sym:'ft³',name:'cubic foot'},
-      bbl:{sym:'bbl',name:'barrel (oil)'}, galUS:{sym:'gal (US)',name:'US gallon'}, galImp:{sym:'gal (Imp)',name:'Imperial gallon (UK)'},
-      J:{sym:'J',name:'joule'}, kJ:{sym:'kJ',name:'kilojoule'}, MJ:{sym:'MJ',name:'megajoule'}, cal:{sym:'cal',name:'calorie (thermochemical)'},
-      kcal:{sym:'kcal',name:'kilocalorie'}, BTU:{sym:'BTU',name:'British thermal unit'},
-      W:{sym:'W',name:'watt'}, kW:{sym:'kW',name:'kilowatt'}, MW:{sym:'MW',name:'megawatt'}, 'hp(US)':{sym:'hp',name:'horsepower (US)'},
-      hp_metric:{sym:'hp(m)',name:'horsepower (metric)'},
-      kgm3:{sym:'kg/m³',name:'kilogram per cubic meter'}, gcm3:{sym:'g/cm³',name:'gram per cubic centimeter'}, lbft3:{sym:'lb/ft³',name:'pound per cubic foot'},
-      Pa_s:{sym:'Pa·s',name:'pascal-second'}, mPa_s:{sym:'mPa·s (cP)',name:'milli-pascal-second'}, P:{sym:'P',name:'poise'},
-      lbft_s:{sym:'lb/ft·s',name:'pound per foot-second'},
-      m2_s:{sym:'m²/s',name:'square meter per second'}, cSt:{sym:'cSt',name:'centistokes'}, ft2_s:{sym:'ft²/s',name:'square foot per second'}, cm2_s:{sym:'cm²/s',name:'square cm per second'},
-      m3s:{sym:'m³/s',name:'cubic meter per second'}, m3h:{sym:'m³/h',name:'cubic meter per hour'}, Ls:{sym:'L/s',name:'liter per second'},
-      Lmin:{sym:'L/min',name:'liter per minute'}, cfm:{sym:'ft³/min',name:'cubic foot per minute'}, bbld:{sym:'bbl/d',name:'barrels per day'},
-      gpm:{sym:'gpm',name:'gallons per minute (US)'}, igpm:{sym:'igpm',name:'Imperial gallons per minute'},
-      kgs:{sym:'kg/s',name:'kilogram per second'}, kgh:{sym:'kg/h',name:'kilogram per hour'},
-      lbs:{sym:'lb/s',name:'pound per second'}, lbh:{sym:'lb/h',name:'pound per hour'},
-      ppm:{sym:'ppm',name:'parts per million'}, mgL:{sym:'mg/L',name:'milligram per liter'},
-      API:{sym:'°API',name:'API gravity'}, SG:{sym:'SG',name:'specific gravity (60°F)'},
-      Wm2K:{sym:'W/m²·K',name:'watt per square meter per kelvin'}, BTUhrft2F:{sym:'BTU/hr·ft²·°F',name:'BTU per hour per square foot per °F'},
-      JmolK:{sym:'J/mol·K',name:'joule per mole per kelvin'}, kJkgK:{sym:'kJ/kg·K',name:'kilojoule per kilogram per kelvin'},
-      BTUlbF:{sym:'BTU/lb·°F',name:'BTU per pound per °F'},
-      WmK:{sym:'W/m·K',name:'watt per meter per kelvin'}, BTUhrftF:{sym:'BTU/hr·ft·°F',name:'BTU per hour per foot per °F'},
-      Nm:{sym:'N/m',name:'newton per meter'}, dyncm:{sym:'dyn/cm',name:'dyne per centimeter'},
-      Wm2:{sym:'W/m²',name:'watt per square meter'}, BTUhrft2:{sym:'BTU/hr·ft²',name:'BTU per hour per square foot'},
-      s:{sym:'s',name:'second'}, min:{sym:'min',name:'minute'}, h:{sym:'h',name:'hour'}, day:{sym:'d',name:'day'},
-      gmol:{sym:'g/mol',name:'gram per mole'}, kgkmol:{sym:'kg/kmol',name:'kilogram per kilomole'},
-      frac:{sym:'fraction',name:'fraction (1 = 100%)'}, pct:{sym:'%',name:'percent'}, ppb:{sym:'ppb',name:'parts per billion'},
-      Jkg:{sym:'J/kg',name:'joule per kilogram'}, kJkg:{sym:'kJ/kg',name:'kilojoule per kilogram'}, MJkg:{sym:'MJ/kg',name:'megajoule per kilogram'},
-      BTUlb:{sym:'BTU/lb',name:'BTU per pound'},
-      Jmol:{sym:'J/mol',name:'joule per mole'}, kJmol:{sym:'kJ/mol',name:'kilojoule per mole'}, MJkmol:{sym:'MJ/kmol',name:'megajoule per kilomole'},
-      BTUlbmol:{sym:'BTU/lbmol',name:'BTU per pound-mole'},
-      m3kg:{sym:'m³/kg',name:'cubic meter per kilogram'}, Lkg:{sym:'L/kg',name:'liter per kilogram'}, ft3lb:{sym:'ft³/lb',name:'cubic foot per pound'},
-      ms:{sym:'m/s',name:'meter per second'}, fts:{sym:'ft/s',name:'foot per second'}, kmh:{sym:'km/h',name:'kilometer per hour'}, mph:{sym:'mph',name:'mile per hour'},
-      m2K_W:{sym:'m²·K/W',name:'square meter kelvin per watt'}, hrft2F_BTU:{sym:'hr·ft²·°F/BTU',name:'hour square foot degree F per BTU'},
-      LkPamolK:{sym:'L·kPa/mol·K',name:'liter kilopascal per mole kelvin'}, atmlmolK:{sym:'atm·L/mol·K',name:'atmosphere liter per mole kelvin'},
-      BTUlbmolR:{sym:'BTU/lbmol·R',name:'BTU per pound-mole per Rankine'},
-      cms:{sym:'cm/s',name:'centimeter per second'},
-      m3s_a:{sym:'m³/s (actual)',name:'actual volumetric flow'}, m3h_a:{sym:'m³/h (actual)',name:'actual volumetric flow'},
-      cfm_a:{sym:'ft³/min (actual)',name:'actual volumetric flow'},
-      m3s_s:{sym:'m³/s (standard)',name:'standard volumetric flow (STP/NTP)'}, m3h_s:{sym:'m³/h (standard)',name:'standard volumetric flow (STP/NTP)'},
-      scfm_s:{sym:'scfm',name:'standard cubic feet per minute'}
-    };
-    const symOf = u => UNIT_META[u]?.sym || u;
-    const label = u => `${UNIT_META[u]?.name || u} (${UNIT_META[u]?.sym || u})`;
-    const texUnit = u => `\\unit{${(UNIT_META[u]?.sym||u).replace(/·/g,'\\cdot ')}}`;
-
-    // Categories
-    const CATEGORIES = {
-      'fundamentals': { name:'📏 Fundamentals (length, mass, time, area, volume)', children:['length','mass','time','area','volume'] },
-      'fluids': { name:'💧 Fluids (pressure, viscosity, flow)', children:['pressure','mu','mu_nu','q_vol','q_mass','k_mass','p_head'] },
-      'heat': { name:'🔥 Heat & energy', children:['temperature','energy','power','cp','k','Ucoef','qflux'] },
-      'massvol': { name:'⚖️ Mass/volume (density, sp. volume, M)', children:['density','v_spec','M'] },
-      'concentration': { name:'🧪 Concentration (ppm, API, fraction)', children:['ppm_mgl','api_sg','fraction'] },
-      'transport': { name:'📤 Transport (diffusivity, tension, velocity, R)', children:['diffusivity','sigma','velocity','Rval'] },
-      'gas': { name:'⛽ Ideal gas (R, std/actual flow)', children:['gas_R','q_gas_std'] }
+      C:{sym:'°C', name:'Celsius'}, K:{sym:'K', name:'Kelvin'}, F:{sym:'°F', name:'Fahrenheit'}, R:{sym:'°R', name:'Rankine'},
+      Pa:{sym:'Pa', name:'Pascal'}, kPa:{sym:'kPa', name:'kilopascal'}, bar:{sym:'bar', name:'bar'}, atm:{sym:'atm', name:'standard atmosphere'},
+      psi:{sym:'psi', name:'pound-force per square inch'}, torr:{sym:'torr', name:'torr (mmHg)'},
+      mH2O:{sym:'m', name:'meters of fluid (head)'}, ftH2O:{sym:'ft', name:'feet of fluid (head)'},
+      psf:{sym:'psf', name:'pound-force per square foot'}, inH2O:{sym:'inH2O', name:'inch of water (4°C)'},
+      kg:{sym:'kg', name:'kilogram'}, g:{sym:'g', name:'gram'}, lb:{sym:'lb', name:'pound'}, tonne:{sym:'t', name:'tonne'},
+      short_ton:{sym:'ton (US)', name:'short ton (US, 2000 lb)'}, long_ton:{sym:'ton (UK)', name:'long ton (Imperial, 2240 lb)'},
+      m:{sym:'m', name:'meter'}, cm:{sym:'cm', name:'centimeter'}, mm:{sym:'mm', name:'millimeter'}, km:{sym:'km', name:'kilometer'},
+      in:{sym:'in', name:'inch'}, ft:{sym:'ft', name:'foot'},
+      m2:{sym:'m²', name:'square meter'}, cm2:{sym:'cm²', name:'square centimeter'}, ft2:{sym:'ft²', name:'square foot'}, in2:{sym:'in²', name:'square inch'},
+      m3:{sym:'m³', name:'cubic meter'}, L:{sym:'L', name:'liter'}, mL:{sym:'mL', name:'milliliter'}, ft3:{sym:'ft³', name:'cubic foot'},
+      bbl:{sym:'bbl', name:'barrel (oil)'}, galUS:{sym:'gal (US)', name:'US gallon'}, galImp:{sym:'gal (Imp)', name:'Imperial gallon (UK)'},
+      J:{sym:'J', name:'joule'}, kJ:{sym:'kJ', name:'kilojoule'}, MJ:{sym:'MJ', name:'megajoule'}, cal:{sym:'cal', name:'calorie (thermochemical)'},
+      kcal:{sym:'kcal', name:'kilocalorie'}, BTU:{sym:'BTU', name:'British thermal unit'},
+      W:{sym:'W', name:'watt'}, kW:{sym:'kW', name:'kilowatt'}, MW:{sym:'MW', name:'megawatt'}, 'hp(US)':{sym:'hp', name:'horsepower (US)'},
+      hp_metric:{sym:'hp(m)', name:'horsepower (metric)'},
+      kgm3:{sym:'kg/m³', name:'kilogram per cubic meter'}, gcm3:{sym:'g/cm³', name:'gram per cubic centimeter'}, lbft3:{sym:'lb/ft³', name:'pound per cubic foot'},
+      Pa_s:{sym:'Pa·s', name:'pascal-second'}, mPa_s:{sym:'mPa·s (cP)', name:'milli-pascal-second (centipoise)'}, P:{sym:'P', name:'poise'},
+      lbft_s:{sym:'lb/ft·s', name:'pound per foot-second'},
+      m2_s:{sym:'m²/s', name:'square meter per second'}, cSt:{sym:'cSt', name:'centistokes'}, ft2_s:{sym:'ft²/s', name:'square foot per second'},
+      cm2_s:{sym:'cm²/s', name:'square centimeter per second'},
+      m3s:{sym:'m³/s', name:'cubic meter per second'}, m3h:{sym:'m³/h', name:'cubic meter per hour'}, Ls:{sym:'L/s', name:'liter per second'},
+      Lmin:{sym:'L/min', name:'liter per minute'}, cfm:{sym:'ft³/min', name:'cubic foot per minute'}, bbld:{sym:'bbl/d', name:'barrels per day'},
+      gpm:{sym:'gpm', name:'gallons per minute (US)'}, igpm:{sym:'igpm', name:'Imperial gallons per minute'},
+      kgs:{sym:'kg/s', name:'kilogram per second'}, kgh:{sym:'kg/h', name:'kilogram per hour'},
+      lbs:{sym:'lb/s', name:'pound per second'}, lbh:{sym:'lb/h', name:'pound per hour'},
+      ppm:{sym:'ppm', name:'parts per million'}, mgL:{sym:'mg/L', name:'milligram per liter'},
+      API:{sym:'°API', name:'API gravity'}, SG:{sym:'SG', name:'specific gravity (60°F)'},
+      Wm2K:{sym:'W/m²·K', name:'watt per square meter per kelvin'}, BTUhrft2F:{sym:'BTU/hr·ft²·°F', name:'BTU per hour per square foot per °F'},
+      JmolK:{sym:'J/mol·K', name:'joule per mole per kelvin'}, kJkgK:{sym:'kJ/kg·K', name:'kilojoule per kilogram per kelvin'},
+      BTUlbF:{sym:'BTU/lb·°F', name:'BTU per pound per °F'},
+      WmK:{sym:'W/m·K', name:'watt per meter per kelvin'}, BTUhrftF:{sym:'BTU/hr·ft·°F', name:'BTU per hour per foot per °F'},
+      Nm:{sym:'N/m', name:'newton per meter'}, dyncm:{sym:'dyn/cm', name:'dyne per centimeter'},
+      Wm2:{sym:'W/m²', name:'watt per square meter'}, BTUhrft2:{sym:'BTU/hr·ft²', name:'BTU per hour per square foot'},
+      s:{sym:'s', name:'second'}, min:{sym:'min', name:'minute'}, h:{sym:'h', name:'hour'}, day:{sym:'d', name:'day'},
+      gmol:{sym:'g/mol', name:'gram per mole'}, kgkmol:{sym:'kg/kmol', name:'kilogram per kilomole'},
+      frac:{sym:'fraction', name:'fraction (1 = 100%)'}, pct:{sym:'%', name:'percent'}, ppb:{sym:'parts per billion'},
+      Jkg:{sym:'J/kg', name:'joule per kilogram'}, kJkg:{sym:'kJ/kg', name:'kilojoule per kilogram'},
+      MJkg:{sym:'MJ/kg', name:'megajoule per kilogram'}, BTUlb:{sym:'BTU/lb', name:'BTU per pound'},
+      Jmol:{sym:'J/mol', name:'joule per mole'}, kJmol:{sym:'kJ/mol', name:'kilojoule per mole'},
+      MJkmol:{sym:'MJ/kmol', name:'megajoule per kilomole'}, BTUlbmol:{sym:'BTU/lbmol', name:'BTU per pound-mole'},
+      m3kg:{sym:'m³/kg', name:'cubic meter per kilogram'}, Lkg:{sym:'L/kg', name:'liter per kilogram'},
+      ft3lb:{sym:'ft³/lb', name:'cubic foot per pound'},
+      ms:{sym:'m/s', name:'meter per second'}, fts:{sym:'ft/s', name:'foot per second'},
+      kmh:{sym:'km/h', name:'kilometer per hour'}, mph:{sym:'mph', name:'mile per hour'},
+      m2K_W:{sym:'m²·K/W', name:'square meter kelvin per watt'},
+      hrft2F_BTU:{sym:'hr·ft²·°F/BTU', name:'hour square foot degree F per BTU'},
+      LkPamolK:{sym:'L·kPa/mol·K', name:'liter kilopascal per mole kelvin'},
+      atmlmolK:{sym:'atm·L/mol·K', name:'atmosphere liter per mole kelvin'},
+      BTUlbmolR:{sym:'BTU/lbmol·R', name:'BTU per pound-mole per Rankine'},
+      cms:{sym:'cm/s', name:'centimeter per second'},
+      m3s_a:{sym:'m³/s (actual)', name:'actual volumetric flow'},
+      m3h_a:{sym:'m³/h (actual)', name:'actual volumetric flow'},
+      cfm_a:{sym:'ft³/min (actual)', name:'actual volumetric flow'},
+      m3s_s:{sym:'m³/s (standard)', name:'standard volumetric flow (STP/NTP)'},
+      m3h_s:{sym:'m³/h (standard)', name:'standard volumetric flow (STP/NTP)'},
+      scfm_s:{sym:'scfm', name:'standard cubic feet per minute'}
     };
 
-    // All converters with factors
+    const symOf  = u => (UNIT_META[u]?.sym)||u;
+    const label  = u => `${UNIT_META[u]?.name||u} (${UNIT_META[u]?.sym||u})`;
+    const texUnit  = u => `\\unit{${(UNIT_META[u]?.sym||u).replace(/\\/g,'\\').replaceAll('·','\\cdot ').replaceAll(' ','\\,')}}`;
+    const texLabel = u => {
+      const nm=(UNIT_META[u]?.name||u).replaceAll('\\','\\').replaceAll('%','\\%');
+      const sy=(UNIT_META[u]?.sym||u).replace(/\\/g,'\\').replaceAll('·','\\cdot ');
+      return `\\text{${nm}}\\,(\\unit{${sy}})`;
+    };
+    function typesetNow(){ if(window.MathJax?.typesetPromise){ Promise.resolve().then(()=>MathJax.typesetPromise()); } }
+
+    /* Notes for constants used in factors */
+    const ORIGIN_NOTES = {
+      kg:`\\text{SI base unit of mass (exact).}`,
+      g:`1\\,\\unit{g}=10^{-3}\\,\\unit{kg}\\;\\text{(exact).}`,
+      tonne:`1\\,\\unit{t}=1000\\,\\unit{kg}\\;\\text{(exact).}`,
+      m:`\\text{SI base unit of length (defined via }c\\text{ and }\\Delta\\nu_{Cs}\\text{).}`,
+      cm:`1\\,\\unit{cm}=10^{-2}\\,\\unit{m}\\;\\text{(exact).}`,
+      mm:`1\\,\\unit{mm}=10^{-3}\\,\\unit{m}\\;\\text{(exact).}`,
+      km:`1\\,\\unit{km}=10^{3}\\,\\unit{m}\\;\\text{(exact).}`,
+      L:`1\\,\\unit{L}=10^{-3}\\,\\unit{m^3}\\;\\text{(exact).}`,
+      mL:`1\\,\\unit{mL}=10^{-6}\\,\\unit{m^3}\\;\\text{(exact).}`,
+      s:`\\text{SI base unit of time (defined via }\\Delta\\nu_{Cs}\\text{).}`,
+      min:`1\\,\\unit{min}=60\\,\\unit{s}\\;\\text{(exact).}`,
+      h:`1\\,\\unit{h}=3600\\,\\unit{s}\\;\\text{(exact).}`,
+      day:`1\\,\\unit{d}=86400\\,\\unit{s}\\;\\text{(exact).}`,
+      Pa:`1\\,\\unit{Pa}=1\\,\\unit{N/m^2}=1\\,\\unit{kg\\,m^{-1}\\,s^{-2}}\\;\\text{(exact).}`,
+      bar:`1\\,\\unit{bar}=10^5\\,\\unit{Pa}\\;\\text{(conventional exact).}`,
+      atm:`1\\,\\unit{atm}=101{,}325\\,\\unit{Pa}\\;\\text{(conventional exact).}`,
+      torr:`1\\,\\unit{torr}=\\dfrac{1}{760}\\,\\unit{atm}=133.322368\\,\\unit{Pa}\\;\\text{(exact by def.).}`,
+      J:`1\\,\\unit{J}=1\\,\\unit{N\\,m}=1\\,\\unit{kg\\,m^2\\,s^{-2}}\\;\\text{(exact).}`,
+      W:`1\\,\\unit{W}=1\\,\\unit{J/s}\\;\\text{(exact).}`,
+      P:`1\\,\\unit{P}=0.1\\,\\unit{Pa\\,s}\\;\\text{(CGS to SI exact).}`,
+      dyncm:`1\\,\\unit{dyn/cm}=10^{-3}\\,\\unit{N/m}\\;\\text{(CGS to SI exact).}`,
+      in:`1\\,\\unit{in}=0.0254\\,\\unit{m}\\;\\text{(exact).}`,
+      ft:`1\\,\\unit{ft}=0.3048\\,\\unit{m}=12\\,\\unit{in}\\;\\text{(exact).}`,
+      lb:`1\\,\\unit{lb}=0.45359237\\,\\unit{kg}\\;\\text{(international avoirdupois, exact).}`,
+      short_ton:`1\\,\\text{short ton}=2000\\,\\unit{lb}\\;\\text{(exact).}`,
+      long_ton:`1\\,\\text{long ton}=2240\\,\\unit{lb}\\;\\text{(exact).}`,
+      ft3:`1\\,\\unit{ft^3}=(0.3048\\,\\unit{m})^3\\;\\text{(from exact ft).}`,
+      in2:`1\\,\\unit{in^2}=(0.0254\\,\\unit{m})^2\\;\\text{(from exact in).}`,
+      inH2O:`\\text{1 inH2O at }4^{\\circ}\\!C\\text{ is }249.082\\,\\unit{Pa}.`,
+      psf:`1\\,\\unit{psf}=\\dfrac{1\\,\\unit{lbf}}{1\\,\\unit{ft^2}},\\;1\\,\\unit{lbf}\\approx4.448221615\\,\\unit{N}.`,
+      psi:`1\\,\\unit{psi}\\Rightarrow 6894.757293168\\,\\unit{Pa}.`,
+      galUS:`1\\,\\unit{gal(US)}=231\\,\\unit{in^3}\\Rightarrow 0.003785411784\\,\\unit{m^3}.`,
+      galImp:`1\\,\\unit{gal(Imp)}=4.54609\\,\\unit{L}.`,
+      bbl:`1\\,\\unit{bbl}=42\\,\\unit{gal(US)}.`,
+      cal:`1\\,\\unit{cal}=4.184\\,\\unit{J}.`,
+      kcal:`1\\,\\unit{kcal}=4184\\,\\unit{J}.`,
+      BTU:`1\\,\\unit{BTU}=1055.056\\,\\unit{J}.`,
+      'hp(US)':`1\\,\\text{hp(US)}\\Rightarrow 745.699871582\\,\\unit{W}.`,
+      hp_metric:`1\\,\\text{metric hp}\\Rightarrow 735.49875\\,\\unit{W}.`,
+      lbft3:`1\\,\\unit{lb/ft^3}=\\dfrac{0.45359237\\,\\unit{kg}}{(0.3048\\,\\unit{m})^3}.`,
+      lbft_s:`1\\,\\unit{lb/(ft\\cdot s)}=1.48816394357\\,\\unit{Pa\\cdot s}.`
+    };
+
+    function originNotesLatex(units){
+      const lines = [];
+      units.forEach(u=>{ if(ORIGIN_NOTES[u]) lines.push(`\\quad\\bullet\\; ${ORIGIN_NOTES[u]}`); });
+      if(!lines.length) return '';
+      return lines.join('\\\\[2pt]');
+    }
+
     const CONVS = {
-      temperature:{ name:'Temperature', type:'temperature', units:{ C:'°C', K:'K', F:'°F', R:'°R' } },
-      pressure:{ name:'Pressure', type:'linear', units:{ Pa:'Pa', kPa:'kPa', bar:'bar', atm:'atm', psi:'psi', torr:'torr', psf:'psf', inH2O:'inH2O' },
+      temperature:{ name:'Temperature (T)', symbol:'T', type:'temperature',
+        units:{ C:'Celsius (°C)', K:'Kelvin (K)', F:'Fahrenheit (°F)', R:'Rankine (°R)' } },
+
+      pressure:{ name:'Pressure (P)', symbol:'P', type:'linear',
+        units:{ Pa:'Pascal (Pa)', kPa:'kilopascal (kPa)', bar:'bar (bar)', atm:'standard atmosphere (atm)',
+          psi:'pound-force per square inch (psi)', torr:'torr / mmHg (torr)', psf:'pound-force per square foot (psf)', inH2O:'inch of water (inH2O, 4°C)' },
         factors:{ Pa:1, kPa:1e3, bar:1e5, atm:101325, psi:6894.757293168, torr:133.322368, psf:47.880258, inH2O:249.082 } },
-      p_head:{ name:'Pressure ↔ Head', type:'p_head', units:{ Pa:'Pa (pressure)', kPa:'kPa (pressure)', mH2O:'m (head)', ftH2O:'ft (head)' } },
-      mass:{ name:'Mass', type:'linear', units:{ kg:'kg', g:'g', lb:'lb', tonne:'tonne', short_ton:'short ton', long_ton:'long ton' },
+
+      p_head:{ name:'Pressure ↔ Head (needs ρ)', symbol:'ΔP↔H', type:'p_head',
+        units:{ Pa:'Pressure: Pascal (Pa)', kPa:'Pressure: kilopascal (kPa)', mH2O:'Head: meters of fluid (m)', ftH2O:'Head: feet of fluid (ft)' } },
+
+      mass:{ name:'Mass (m)', symbol:'m', type:'linear',
+        units:{ kg:'kilogram (kg)', g:'gram (g)', lb:'pound (lb)', tonne:'tonne (t)', short_ton:'short ton (US)', long_ton:'long ton (UK)' },
         factors:{ kg:1, g:1e-3, lb:0.45359237, tonne:1000, short_ton:907.18474, long_ton:1016.0469088 } },
-      length:{ name:'Length', type:'linear', units:{ m:'m', cm:'cm', mm:'mm', km:'km', in:'in', ft:'ft' },
+
+      length:{ name:'Length (L)', symbol:'L', type:'linear',
+        units:{ m:'meter (m)', cm:'centimeter (cm)', mm:'millimeter (mm)', km:'kilometer (km)', in:'inch (in)', ft:'foot (ft)' },
         factors:{ m:1, cm:1e-2, mm:1e-3, km:1e3, in:0.0254, ft:0.3048 } },
-      area:{ name:'Area', type:'linear', units:{ m2:'m²', cm2:'cm²', ft2:'ft²', in2:'in²' },
+
+      area:{ name:'Area (A)', symbol:'A', type:'linear',
+        units:{ m2:'square meter (m²)', cm2:'square centimeter (cm²)', ft2:'square foot (ft²)', in2:'square inch (in²)' },
         factors:{ m2:1, cm2:1e-4, ft2:0.09290304, in2:0.00064516 } },
-      volume:{ name:'Volume', type:'linear', units:{ m3:'m³', L:'L', mL:'mL', ft3:'ft³', bbl:'bbl', galUS:'gal (US)', galImp:'gal (Imp)' },
+
+      volume:{ name:'Volume (V)', symbol:'V', type:'linear',
+        units:{ m3:'cubic meter (m³)', L:'liter (L)', mL:'milliliter (mL)', ft3:'cubic foot (ft³)', bbl:'barrel (bbl)',
+        galUS:'US gallon (gal)', galImp:'Imperial gallon (gal)' },
         factors:{ m3:1, L:1e-3, mL:1e-6, ft3:0.028316846592, bbl:0.158987294928, galUS:0.003785411784, galImp:0.00454609 } },
-      energy:{ name:'Energy', type:'linear', units:{ J:'J', kJ:'kJ', MJ:'MJ', cal:'cal', kcal:'kcal', BTU:'BTU' },
+
+      energy:{ name:'Energy (E)', symbol:'E', type:'linear',
+        units:{ J:'joule (J)', kJ:'kilojoule (kJ)', MJ:'megajoule (MJ)', cal:'calorie (cal)', kcal:'kilocalorie (kcal)', BTU:'British thermal unit (BTU)' },
         factors:{ J:1, kJ:1e3, MJ:1e6, cal:4.184, kcal:4184, BTU:1055.056 } },
-      power:{ name:'Power', type:'linear', units:{ W:'W', kW:'kW', MW:'MW', 'hp(US)':'hp(US)', 'hp_metric':'hp(m)' },
+
+      power:{ name:'Power (Ṗ)', symbol:'Ṗ', type:'linear',
+        units:{ W:'watt (W)', kW:'kilowatt (kW)', MW:'megawatt (MW)', 'hp(US)':'horsepower (US) (hp)', 'hp_metric':'horsepower (metric) (hp)' },
         factors:{ W:1, kW:1e3, MW:1e6, 'hp(US)':745.699871582, 'hp_metric':735.49875 } },
-      density:{ name:'Density', type:'linear', units:{ kgm3:'kg/m³', gcm3:'g/cm³', lbft3:'lb/ft³' },
+
+      density:{ name:'Density (ρ)', symbol:'ρ', type:'linear',
+        units:{ kgm3:'kilogram per cubic meter (kg/m³)', gcm3:'gram per cubic centimeter (g/cm³)', lbft3:'pound per cubic foot (lb/ft³)' },
         factors:{ kgm3:1, gcm3:1000, lbft3:16.01846337396 } },
-      mu:{ name:'Dynamic viscosity', type:'linear', units:{ Pa_s:'Pa·s', mPa_s:'mPa·s', P:'P', lbft_s:'lb/ft·s' },
+
+      mu:{ name:'Dynamic viscosity (μ)', symbol:'μ', type:'linear',
+        units:{ Pa_s:'pascal-second (Pa·s)', mPa_s:'milli-pascal-second (mPa·s, cP)', P:'poise (P)', lbft_s:'pound per foot-second (lb/ft·s)' },
         factors:{ Pa_s:1, mPa_s:1e-3, P:0.1, lbft_s:1.48816394357 } },
-      mu_nu:{ name:'μ ↔ ν', type:'mu_nu', units:{ Pa_s:'μ Pa·s', mPa_s:'μ mPa·s', m2_s:'ν m²/s', cSt:'ν cSt', ft2_s:'ν ft²/s' } },
-      q_vol:{ name:'Vol. flowrate', type:'linear', units:{ m3s:'m³/s', m3h:'m³/h', Ls:'L/s', Lmin:'L/min', cfm:'ft³/min', bbld:'bbl/d', gpm:'gpm', igpm:'igpm' },
+
+      mu_nu:{ name:'Viscosity μ ↔ ν (needs ρ)', symbol:'μ,ν', type:'mu_nu',
+        units:{ Pa_s:'μ: Pa·s', mPa_s:'μ: mPa·s (cP)', m2_s:'ν: m²/s', cSt:'ν: centistokes (cSt)', ft2_s:'ν: ft²/s' } },
+
+      q_vol:{ name:'Volumetric flowrate (Q)', symbol:'Q', type:'linear',
+        units:{ m3s:'m³/s', m3h:'m³/h', Ls:'L/s', Lmin:'L/min', cfm:'ft³/min', bbld:'bbl/d', gpm:'gpm', igpm:'igpm' },
         factors:{ m3s:1, m3h:1/3600, Ls:1/1000, Lmin:1/60000, cfm:0.028316846592/60, bbld:0.158987294928/86400, gpm:0.003785411784/60, igpm:0.00454609/60 } },
-      q_mass:{ name:'Mass flowrate', type:'linear', units:{ kgs:'kg/s', kgh:'kg/h', lbs:'lb/s', lbh:'lb/h' },
+
+      q_mass:{ name:'Mass flowrate (ṁ)', symbol:'ṁ', type:'linear',
+        units:{ kgs:'kg/s', kgh:'kg/h', lbs:'lb/s', lbh:'lb/h' },
         factors:{ kgs:1, kgh:1/3600, lbs:0.45359237, lbh:0.45359237/3600 } },
-      ppm_mgl:{ name:'ppm ↔ mg/L', type:'ppm_mgl', units:{ ppm:'ppm', mgL:'mg/L' } },
-      api_sg:{ name:'API ↔ SG', type:'api_sg', units:{ API:'°API', SG:'SG' } },
-      Ucoef:{ name:'Heat transfer coeff', type:'linear', units:{ Wm2K:'W/m²·K', BTUhrft2F:'BTU/hr·ft²·°F' },
+
+      ppm_mgl:{ name:'ppm ↔ mg/L (needs ρ of solution)', symbol:'C', type:'ppm_mgl',
+        units:{ ppm:'ppm', mgL:'mg/L' } },
+
+      api_sg:{ name:'°API ↔ Specific Gravity (SG)', symbol:'API,SG', type:'api_sg',
+        units:{ API:'°API', SG:'SG' } },
+
+      Ucoef:{ name:'Heat transfer coefficient (U)', symbol:'U', type:'linear',
+        units:{ Wm2K:'W/m²·K', BTUhrft2F:'BTU/hr·ft²·°F' },
         factors:{ Wm2K:1, BTUhrft2F:1/0.1761101838 } },
-      cp:{ name:'Specific heat', type:'linear', units:{ JkgK:'J/kg·K', kJkgK:'kJ/kg·K', BTUlbF:'BTU/lb·°F' },
+
+      cp:{ name:'Specific heat capacity (cₚ)', symbol:'cₚ', type:'linear',
+        units:{ JkgK:'J/kg·K', kJkgK:'kJ/kg·K', BTUlbF:'BTU/lb·°F' },
         factors:{ JkgK:1, kJkgK:1e3, BTUlbF:1/0.000238845897 } },
-      k:{ name:'Thermal cond.', type:'linear', units:{ WmK:'W/m·K', BTUhrftF:'BTU/hr·ft·°F' },
+
+      k:{ name:'Thermal conductivity (k)', symbol:'k', type:'linear',
+        units:{ WmK:'W/m·K', BTUhrftF:'BTU/hr·ft·°F' },
         factors:{ WmK:1, BTUhrftF:1/0.577789318 } },
-      sigma:{ name:'Surface tension', type:'linear', units:{ Nm:'N/m', dyncm:'dyn/cm' },
+
+      sigma:{ name:'Surface tension (σ)', symbol:'σ', type:'linear',
+        units:{ Nm:'N/m', dyncm:'dyn/cm' },
         factors:{ Nm:1, dyncm:1/1000 } },
-      diffusivity:{ name:'Diffusivity', type:'linear', units:{ m2_s:'m²/s', cm2_s:'cm²/s' },
+
+      diffusivity:{ name:'Diffusivity (D)', symbol:'D', type:'linear',
+        units:{ m2_s:'m²/s', cm2_s:'cm²/s' },
         factors:{ m2_s:1, cm2_s:1e-4 } },
-      qflux:{ name:'Heat flux', type:'linear', units:{ Wm2:'W/m²', BTUhrft2:'BTU/hr·ft²' },
+
+      qflux:{ name:'Heat flux (q″)', symbol:'q″', type:'linear',
+        units:{ Wm2:'W/m²', BTUhrft2:'BTU/hr·ft²' },
         factors:{ Wm2:1, BTUhrft2:1/0.316998331 } },
-      time:{ name:'Time', type:'linear', units:{ s:'s', min:'min', h:'h', day:'d' },
+
+      time:{ name:'Time', symbol:'t', type:'linear',
+        units:{ s:'s', min:'min', h:'h', day:'d' },
         factors:{ s:1, min:60, h:3600, day:86400 } },
-      M:{ name:'Molar mass', type:'linear', units:{ gmol:'g/mol', kgkmol:'kg/kmol' }, factors:{ gmol:1, kgkmol:1 } },
-      fraction:{ name:'Fraction', type:'linear', units:{ frac:'fraction', pct:'%', ppm:'ppm', ppb:'ppb' }, factors:{ frac:1, pct:0.01, ppm:1e-6, ppb:1e-9 } },
-      e_mass:{ name:'Specific energy (mass)', type:'linear', units:{ Jkg:'J/kg', kJkg:'kJ/kg', MJkg:'MJ/kg', BTUlb:'BTU/lb' },
+
+      M:{ name:'Molar mass (M)', symbol:'M', type:'linear',
+        units:{ gmol:'g/mol', kgkmol:'kg/kmol' },
+        factors:{ gmol:1, kgkmol:1 } },
+
+      fraction:{ name:'Concentration fraction ladder', symbol:'x', type:'linear',
+        units:{ frac:'fraction', pct:'%', ppm:'ppm', ppb:'ppb' },
+        factors:{ frac:1, pct:0.01, ppm:1e-6, ppb:1e-9 } },
+
+      e_mass:{ name:'Specific energy (per mass)', symbol:'e', type:'linear',
+        units:{ Jkg:'J/kg', kJkg:'kJ/kg', MJkg:'MJ/kg', BTUlb:'BTU/lb' },
         factors:{ Jkg:1, kJkg:1e3, MJkg:1e6, BTUlb:1/0.000430210 } },
-      e_molar:{ name:'Molar energy', type:'linear', units:{ Jmol:'J/mol', kJmol:'kJ/mol', MJkmol:'MJ/kmol', BTUlbmol:'BTU/lbmol' },
+
+      e_molar:{ name:'Molar energy (per amount)', symbol:'Ê', type:'linear',
+        units:{ Jmol:'J/mol', kJmol:'kJ/mol', MJkmol:'MJ/kmol', BTUlbmol:'BTU/lbmol' },
         factors:{ Jmol:1, kJmol:1e3, MJkmol:1e6, BTUlbmol:1/0.430210 } },
-      v_spec:{ name:'Specific volume', type:'linear', units:{ m3kg:'m³/kg', Lkg:'L/kg', ft3lb:'ft³/lb' },
+
+      v_spec:{ name:'Specific volume (v)', symbol:'v', type:'linear',
+        units:{ m3kg:'m³/kg', Lkg:'L/kg', ft3lb:'ft³/lb' },
         factors:{ m3kg:1, Lkg:1e-3, ft3lb:0.028316846592/0.45359237 } },
-      velocity:{ name:'Velocity', type:'linear', units:{ ms:'m/s', fts:'ft/s', kmh:'km/h', mph:'mph' },
+
+      velocity:{ name:'Velocity (u)', symbol:'u', type:'linear',
+        units:{ ms:'m/s', fts:'ft/s', kmh:'km/h', mph:'mph' },
         factors:{ ms:1, fts:0.3048, kmh:1000/3600, mph:0.44704 } },
-      Rval:{ name:'Thermal resistance', type:'linear', units:{ m2K_W:'m²·K/W', hrft2F_BTU:'hr·ft²·°F/BTU' },
+
+      Rval:{ name:'Thermal resistance (R)', symbol:'R', type:'linear',
+        units:{ m2K_W:'m²·K/W', hrft2F_BTU:'hr·ft²·°F/BTU' },
         factors:{ m2K_W:1, hrft2F_BTU:1/5.678263 } },
-      gas_R:{ name:'Gas constant R', type:'linear', units:{ JmolK:'J/mol·K', LkPamolK:'L·kPa/mol·K', atmlmolK:'atm·L/mol·K', BTUlbmolR:'BTU/lbmol·R' },
+
+      gas_R:{ name:'Gas constant (R)', symbol:'R', type:'linear',
+        units:{ JmolK:'J/mol·K', LkPamolK:'L·kPa/mol·K', atmlmolK:'atm·L/mol·K', BTUlbmolR:'BTU/lbmol·R' },
         factors:{ JmolK:1, LkPamolK:1, atmlmolK:101.325, BTUlbmolR:1055.056/453.59237 } },
-      k_mass:{ name:'Mass transfer coeff', type:'linear', units:{ ms:'m/s', cms:'cm/s', fts:'ft/s' },
+
+      k_mass:{ name:'Mass-transfer coeff. (k_m)', symbol:'k_m', type:'linear',
+        units:{ ms:'m/s', cms:'cm/s', fts:'ft/s' },
         factors:{ ms:1, cms:1e-2, fts:0.3048 } },
-      q_gas_std:{ name:'Gas flow (act/std)', type:'q_gas_std', units:{ m3s_a:'m³/s act', m3h_a:'m³/h act', cfm_a:'ft³/min act', m3s_s:'m³/s std', m3h_s:'m³/h std', scfm_s:'scfm' },
+
+      q_gas_std:{ name:'Gas flow: Actual ↔ Standard (needs T,P)', symbol:'Q_g', type:'q_gas_std',
+        units:{ m3s_a:'Actual: m³/s', m3h_a:'Actual: m³/h', cfm_a:'Actual: ft³/min',
+          m3s_s:'Standard: m³/s (NTP/STP)', m3h_s:'Standard: m³/h (NTP/STP)', scfm_s:'Standard: scfm' },
         factors:{ m3s_a:1, m3h_a:1/3600, cfm_a:0.028316846592/60, m3s_s:1, m3h_s:1/3600, scfm_s:0.028316846592/60 } }
     };
 
-    const COUNTERPART = { kPa:'psi', psi:'kPa', m:'ft', ft:'m', kg:'lb', lb:'kg', L:'galUS', galUS:'L', J:'BTU', BTU:'J', W:'hp(US)', 'hp(US)':'kW' };
-
-    // ------- full step boxes (LaTeX) -------
-    function box(title, latex){ return `<div class="mathbox"><div class="title">${title}</div><div class="tex-block">\\[${latex}\\]</div></div>`; }
-
-    const ORIGIN_NOTES = {
-      kg:'1\\,\\unit{kg} \\text{ (SI base unit)}',
-      lb:'1\\,\\unit{lb}=0.45359237\\,\\unit{kg}',
-      ft:'1\\,\\unit{ft}=0.3048\\,\\unit{m}',
-      in:'1\\,\\unit{in}=0.0254\\,\\unit{m}',
-      Pa:'1\\,\\unit{Pa}=1\\,\\unit{N/m^2}',
-      atm:'1\\,\\unit{atm}=101325\\,\\unit{Pa}',
-      BTU:'1\\,\\unit{BTU}=1055.056\\,\\unit{J}'
+    const COUNTERPART = {
+      C:'F', F:'C', K:'R', R:'K',
+      m3:'ft3', L:'galUS', mL:'galUS', ft3:'m3', bbl:'m3', galUS:'L', galImp:'L',
+      m3h:'gpm', m3s:'gpm', Lmin:'gpm', Ls:'gpm', cfm:'m3h', bbld:'m3h', gpm:'m3h', igpm:'m3h',
+      kPa:'psi', Pa:'psi', bar:'psi', atm:'psi', psi:'kPa', torr:'kPa', psf:'kPa', inH2O:'kPa',
+      kg:'lb', g:'lb', lb:'kg', tonne:'short_ton', short_ton:'tonne', long_ton:'tonne',
+      m:'ft', cm:'in', mm:'in', in:'cm', ft:'m', m2:'ft2', ft2:'m2',
+      J:'BTU', kJ:'BTU', MJ:'BTU', BTU:'kJ', W:'hp(US)', kW:'hp(US)', MW:'hp(US)', 'hp(US)':'kW', 'hp_metric':'kW'
     };
-    function originNotesLatex(units){ let lines=[]; units.forEach(u=>{ if(ORIGIN_NOTES[u]) lines.push(`\\bullet\\;${ORIGIN_NOTES[u]}`); }); return lines.join('\\\\'); }
 
-    function whyTrueBox(from,to,def){
-      if(def.type!=='linear' || !def.factors) return box('','\\text{}');
-      let fFrom=def.factors[from], fTo=def.factors[to];
-      let k = fFrom/fTo;
-      let base = Object.keys(def.factors).find(u=>def.factors[u]===1)||Object.keys(def.factors)[0];
-      let notes = originNotesLatex([from,to,base]);
-      return box('Why this number? (reference)',`
-        \\begin{aligned}
-        1\\,${texUnit(from)} &= ${texNum(fFrom)}\\,${texUnit(base)}\\\\
-        1\\,${texUnit(to)}   &= ${texNum(fTo)}\\,${texUnit(base)}\\\\
-        \\frac{1\\,${texUnit(from)}}{1\\,${texUnit(to)}} &= \\frac{${texNum(fFrom)}}{${texNum(fTo)}} = ${texNum(k)}
-        \\end{aligned}
-        ${notes? '\\\\small '+notes:''}
+    function box(title, latex){ 
+  return `
+    <div class="mathbox">
+      <div class="title">${title}</div>
+      <div class="tex-block">\\[
+        ${latex}
+      \\]</div>
+    </div>`;
+}
+
+    /* ───────────── Added helpers for professor-style derivation ───────────── */
+    // Build reverse index of linear units to their group and factor
+    const UNIT_INDEX = (() => {
+      const idx = {};
+      for (const [groupKey, def] of Object.entries(CONVS)) {
+        if (def?.factors && def?.type === 'linear') {
+          for (const [u, f] of Object.entries(def.factors)) {
+            if (!idx[u]) idx[u] = { groupKey, factor: f };
+          }
+        }
+      }
+      return idx;
+    })();
+
+    // symbol → key map (from UNIT_META) with a few helpful aliases
+    const SYM_TO_KEY = (() => {
+      const m = {};
+      for (const [k,v] of Object.entries(UNIT_META)) m[v.sym] = k;
+      m['hr'] = 'h';
+      m['°F'] = 'F'; m['°C'] = 'C'; m['°R'] = 'R';
+      return m;
+    })();
+
+    function symToKeyLoose(sym){
+      const s = sym.replace(/\s+/g,' ').replace(/\u202F|\u2009/g,'').trim();
+      if (SYM_TO_KEY[s]) return SYM_TO_KEY[s];
+      const tryList = [s.replaceAll('·',' '), s.replaceAll(' ','')];
+      for (const t of tryList) if (SYM_TO_KEY[t]) return SYM_TO_KEY[t];
+      return null;
+    }
+    function parseFrac(sym){
+      const [numStr, denStr=''] = sym.split('/').map(s=>s.trim());
+      const num = numStr.split('·').map(t=>t.trim()).filter(Boolean);
+      const den = denStr.split('·').map(t=>t.trim()).filter(Boolean);
+      return { num, den };
+    }
+    const TEMP_DELTA_FACTOR = { K:1, C:1, F:5/9, R:5/9 }; // for ΔT scaling
+    function productFactor(unitKeysFrom, unitKeysTo){
+      if (unitKeysFrom.length !== unitKeysTo.length) return null;
+      let k = 1, lines = [];
+      for (let i=0;i<unitKeysFrom.length;i++){
+        const uf = unitKeysFrom[i], ut = unitKeysTo[i];
+        const If = UNIT_INDEX[uf], It = UNIT_INDEX[ut];
+        if (If && It && If.groupKey === It.groupKey){
+          const step = If.factor / It.factor;
+          k *= step; lines.push([uf,ut,step]);
+        } else if (TEMP_DELTA_FACTOR[uf]!=null && TEMP_DELTA_FACTOR[ut]!=null){
+          const step = TEMP_DELTA_FACTOR[uf] / TEMP_DELTA_FACTOR[ut];
+          k *= step; lines.push([uf,ut,step]);
+        } else { return null; }
+      }
+      return { k, lines };
+    }
+    /* ───────────── End helpers ───────────── */
+
+    /* WHY THIS IS TRUE — prefer professor-style numerator/denominator build; fallback to base-unit proof */
+    function whyTrueBox(from, to, def){
+      const symF = symOf(from), symT = symOf(to);
+
+      // Prefer professor-style only when both sides are fractional (contain '/')
+      if (symF.includes('/') && symT.includes('/')) {
+        const F = parseFrac(symF);
+        const T = parseFrac(symT);
+
+        const nFromKeys = F.num.map(symToKeyLoose);
+        const dFromKeys = F.den.map(symToKeyLoose);
+        const nToKeys   = T.num.map(symToKeyLoose);
+        const dToKeys   = T.den.map(symToKeyLoose);
+
+        if (nFromKeys.every(Boolean) && dFromKeys.every(Boolean) &&
+            nToKeys.every(Boolean)   && dToKeys.every(Boolean)) {
+
+          const num = productFactor(nFromKeys, nToKeys);
+          const den = productFactor(dFromKeys, dToKeys);
+
+          if (num && den) {
+            const a = num.k, b = den.k, k = a / b;
+
+            const numLines = num.lines
+              .map(([uf,ut,kk]) => `1\\,${texUnit(symOf(uf))} = ${texNum(kk)}\\,${texUnit(symOf(ut))}`)
+              .join('\\\\[2pt]');
+            const denLines = den.lines.length
+              ? den.lines.map(([uf,ut,kk]) => `1\\,${texUnit(symOf(uf))} = ${texNum(kk)}\\,${texUnit(symOf(ut))}`).join('\\\\[2pt]')
+              : '\\text{(none)}';
+
+            return box('Derivation of the conversion fact', `
+              \\begin{gathered}
+              \\kw{1. Convert the numerator(s)}\\\\
+              ${numLines}\\\\[6pt]
+              \\kw{2. Convert the denominator(s)}\\\\
+              ${denLines}\\\\[8pt]
+              \\kw{3. Divide the numerator by the denominator}\\\\
+              \\dfrac{1\\,${texUnit(symF)}}{\\;}=
+              \\dfrac{${texNum(a)}\\,${texUnit(T.num.join('\\cdot '))}}
+                    {${texNum(b)}\\,${texUnit(T.den.join('\\cdot ')||'1')}}=
+              ${texNum(k)}\\,${texUnit(symT)}\\\\[6pt]
+              \\kw{4. Final conversion}\\\\
+              \\boxed{1\\,${texUnit(symF)} = ${texNum(k)}\\,${texUnit(symT)}}\\;\\text{(Conversion fact)}
+              \\end{gathered}
+            `);
+          }
+        }
+      }
+
+      // Fallback: original base-unit ratio proof
+      const fFrom = def.factors[from], fTo = def.factors[to];
+      const k = fFrom / fTo;
+      const base = Object.keys(def.factors).find(u => def.factors[u] === 1) || Object.keys(def.factors)[0];
+      const notes = originNotesLatex([from,to,base]);
+      const notesBlock = notes ? (`\\\\[6pt]\\small\\begin{aligned}${notes}\\end{aligned}`) : '';
+      return box('Derivation of the conversion fact', `
+        \\begin{gathered}
+        \\kw{1. Start from definitions}\\\\
+        1\\,${texUnit(from)} = ${texNum(fFrom)}\\,${texUnit(base)}\\\\
+        1\\,${texUnit(to)} = ${texNum(fTo)}\\,${texUnit(base)}\\\\[6pt]
+        \\kw{2. Form a ratio (cancel base unit)}\\\\
+        \\dfrac{1\\,${texUnit(from)}}{1\\,${texUnit(to)}} = \\dfrac{${texNum(fFrom)}}{${texNum(fTo)}}\\\\[6pt]
+        \\kw{3. Divide numerator by denominator}\\\\
+        \\dfrac{${texNum(fFrom)}}{${texNum(fTo)}} = ${texNum(k)}\\\\[6pt]
+        \\kw{4. Final conversion}\\\\
+        \\boxed{1\\,${texUnit(from)} = ${texNum(k)}\\,${texUnit(to)}}\\;\\text{(Conversion fact)}
+        \\end{gathered}
+        ${notesBlock}
       `);
     }
 
     function linearStepsTex(value, from, to, def){
-      if(from===to) return { out:value, html:box('Same unit','\\text{No conversion needed.}') };
-      let k = def.factors[from] / def.factors[to];
-      let out = value * k;
-      let html = box('Conversion setup',`
-        ${texNum(value)}\\,${texUnit(from)} \\times
-        \\frac{${texNum(k)}\\,${texUnit(to)}}{1\\,${texUnit(from)}}
-        = ${texNum(out)}\\,${texUnit(to)}
-      `) + whyTrueBox(from,to,def);
-      return { out, html };
+      if (from === to) {
+        return { out: value, html: box('No conversion required', `\\kw{Same unit: }\\boxed{${texNum(value)}\\,${texUnit(to)}}`) };
+      }
+      const k   = def.factors[from] / def.factors[to];
+      const out = value * k;
+      const goal   = box('Goal', `\\kw{Convert}\\; ${texNum(value)}\\,${texLabel(from)} \\to ${texLabel(to)}.`);
+const method = box(
+  'Method (factor–label)',
+  `\\kw{Multiply}\\;\\underline{\\text{by a conversion factor of }1}\\text{ that puts the }{\\color{red}{\\text{unwanted unit in the denominator}}}\\text{ so it cancels.}`
+);
+
+      const fact   = box('Conversion fact', `1\\,${texUnit(from)} = ${texNum(k)}\\,${texUnit(to)}.`);
+      const why    = whyTrueBox(from,to,def);
+      const setup  = box('Set up', `\\dfrac{${texNum(k)}\\,${texUnit(to)}}{1\\,${texUnit(from)}}`);
+      const apply  = box('Apply & cancel',
+        `${texNum(value)}\\,\\cancel{${texUnit(from)}}\\times\\dfrac{${texNum(k)}\\,${texUnit(to)}}{1\\,\\cancel{${texUnit(from)}}}`);
+      const calc   = box('Compute', `${texNum(value)}\\times${texNum(k)} = ${texNum(out)}`);
+      const finalB = box('Final', `\\boxed{${texNum(out)}\\,${texUnit(to)}}`);
+      return { out, html: goal + method + fact + why + setup + apply + calc + finalB };
     }
 
+    /* Other special converters unchanged */
     function tempSteps(value, from, to){
-      if(from===to) return {out:value, steps:box('','\\text{Same scale}')};
-      const toK={C:x=>x+273.15, K:x=>x, F:x=>(x-32)*5/9+273.15, R:x=>x*5/9};
-      const fromK={C:k=>k-273.15, K:k=>k, F:k=>(k-273.15)*9/5+32, R:k=>k*9/5};
-      let K = toK[from](value);
-      let out = fromK[to](K);
-      let html = box('Temperature conversion (affine)',`
-        T_\\text{K} = ${texNum(K)}\\\\
-        \\Rightarrow ${texNum(out)}\\,${texUnit(to)}
-      `) + box('Note','\\text{Formulas: } T_C = T_K-273.15,\\ T_F = 1.8 T_C+32,\\ T_R = T_F+459.67');
-      return {out, steps:html};
+      if (from===to) return {out:value, steps: box('No conversion required','\\kw{Same temperature scale.}')};
+      let out;
+      const v=texNum(value), uFrom=texUnit(from), uTo=texUnit(to);
+      const note='\\textbf{Important: }\\text{Temperature scales are affine; use the formula, not unit cancellation.}';
+      const cases={
+        'C->K':{ f:x=>x+273.15, t:`T_K=T_{^\\circ C}+273.15`, s:`${v}+273.15` },
+        'K->C':{ f:x=>x-273.15, t:`T_{^\\circ C}=T_K-273.15`, s:`${v}-273.15` },
+        'C->F':{ f:x=>x*9/5+32, t:`T_{^\\circ F}=\\dfrac{9}{5}T_{^\\circ C}+32`, s:`\\dfrac{9}{5}\\,${v}+32` },
+        'F->C':{ f:x=>(x-32)*5/9, t:`T_{^\\circ C}=\\dfrac{5}{9}(T_{^\\circ F}-32)`, s:`\\dfrac{5}{9}(${v}-32)` },
+        'K->F':{ f:x=>(x-273.15)*9/5+32, t:`T_{^\\circ F}=\\dfrac{9}{5}(T_K-273.15)+32`, s:`\\dfrac{9}{5}(${v}-273.15)+32` },
+        'F->K':{ f:x=>(x-32)*5/9+273.15, t:`T_K=\\dfrac{5}{9}(T_{^\\circ F}-32)+273.15`, s:`\\dfrac{5}{9}(${v}-32)+273.15` },
+        'R->K':{ f:x=>x*5/9, t:`T_K=\\dfrac{5}{9}T_{^\\circ R}`, s:`\\dfrac{5}{9}\\,${v}` },
+        'K->R':{ f:x=>x*9/5, t:`T_{^\\circ R}=\\dfrac{9}{5}T_K`, s:`\\dfrac{9}{5}\\,${v}` },
+        'F->R':{ f:x=>x+459.67, t:`T_{^\\circ R}=T_{^\\circ F}+459.67`, s:`${v}+459.67` },
+        'R->F':{ f:x=>x-459.67, t:`T_{^\\circ F}=T_{^\\circ R}-459.67`, s:`${v}-459.67` },
+      };
+      const key=`${from}->${to}`;
+      if(cases[key]){
+        out=cases[key].f(value);
+        const a=box('Temperature conversion (affine)', note);
+        const b=box('Given', `${v}\\,${uFrom}`);
+        const c=box('Use formula', cases[key].t);
+        const d=box('Substitute', `${cases[key].s} = ${texNum(out)}`);
+        const origins = box('Why these numbers?', `
+          \\bullet\\; 273.15\\,\\text{K offset: }0\\,^{\\circ}\\!C\\equiv273.15\\,\\text{K (exact).}\\\\[2pt]
+          \\bullet\\; ^{\\circ}\\!F\\,\\leftrightarrow\\,^{\\circ}\\!C:\\;\\text{100 C degrees}=\\text{180 F degrees}\\Rightarrow\\tfrac{9}{5}\\;\\text{slope; }32\\,^{\\circ}\\!F=0\\,^{\\circ}\\!C\\;\\text{offset.}
+        `);
+        const e=box('Final', `\\boxed{${texNum(out)}\\,${uTo}}`);
+        return { out, steps: a+b+c+d+origins+e };
+      }
+      const toK=(x,u)=>({C:x+273.15,K:x,F:(x-32)*5/9+273.15,R:x*5/9})[u];
+      const fromK=(k,u)=>({C:k-273.15,K:k,F:(k-273.15)*9/5+32,R:k*9/5})[u];
+      const TK=toK(value,from); out=fromK(TK,to);
+      const a=box('Via Kelvin', note);
+      const b=box('To Kelvin', `T_K=${texNum(TK)}\\,\\unit{K}`);
+      const c=box('Then to target', `${texNum(out)}\\,${uTo}`);
+      const d=box('Final', `\\boxed{${texNum(out)}\\,${uTo}}`);
+      return { out, steps: a+b+c+d };
     }
 
     function pHeadSteps(value, from, to, rho, g){
-      const m_per_ft=0.3048;
-      const toPa = (v,u)=> u==='Pa'?v: u==='kPa'?v*1000: v;
-      const toM = (v,u)=> u==='mH2O'?v: u==='ftH2O'?v*m_per_ft: v;
+      const m_per_ft = 0.3048;
+      const toPa = (v,u)=> u==='Pa' ? v : (u==='kPa' ? v*1000 : v);
+      const toM  = (v,u)=> u==='mH2O' ? v : (u==='ftH2O' ? v*m_per_ft : v);
+      const isFromPressure = (from==='Pa'||from==='kPa');
+      const isToPressure   = (to==='Pa'||to==='kPa');
       let out, html='';
-      if((from==='Pa'||from==='kPa') && (to==='mH2O'||to==='ftH2O')){
-        let dP=toPa(value,from); let Hm = dP/(rho*g); out = to==='mH2O'? Hm: Hm/m_per_ft;
-        html=box('Pressure to head',`H = \\frac{\\Delta P}{\\rho g} = \\frac{${texNum(dP)}}{${texNum(rho)}\\cdot${texNum(g)}} = ${texNum(Hm)}\\,\\unit{m}`) + box('Final',`${texNum(out)}\\,${texUnit(to)}`);
-      } else if((from==='mH2O'||from==='ftH2O') && (to==='Pa'||to==='kPa')){
-        let Hm=toM(value,from); let dP = rho*g*Hm; out = to==='Pa'? dP: dP/1000;
-        html=box('Head to pressure',`\\Delta P = \\rho g H = ${texNum(rho)}\\cdot${texNum(g)}\\cdot${texNum(Hm)} = ${texNum(dP)}\\,\\unit{Pa}`)+box('Final',`${texNum(out)}\\,${texUnit(to)}`);
-      } else { out=value; html=''; }
-      return {out, steps:html};
+      const A=box('Goal', `\\kw{Use }\\Delta P=\\rho g H\\;\\kw{ to convert between pressure and head.}`);
+      const B=box('Assumptions', `\\rho=${texNum(rho)}\\,\\unit{kg/m^3},\\; g=${texNum(g)}\\,\\unit{m/s^2}.`);
+      const B2=box('Why constants?', `
+        \\bullet\\; g_0=9.80665\\,\\unit{m/s^2}\\\\[2pt]
+        \\bullet\\; 1\\,\\unit{ft}=0.3048\\,\\unit{m}
+      `);
+
+      if(isFromPressure && !isToPressure){
+        const dP = toPa(value, from);
+        const Hm = dP/(rho*g);
+        out = to==='mH2O' ? Hm : Hm/m_per_ft;
+        const C=box('Relation', `H=\\dfrac{\\Delta P}{\\rho g}`);
+        const D=box('Substitute', `H=\\dfrac{${texNum(dP)}\\,\\unit{Pa}}{${texNum(rho)}\\,\\unit{kg/m^3}\\cdot ${texNum(g)}\\,\\unit{m/s^2}}`);
+        const E=box('Result', `\\boxed{${texNum(out)}\\,${texUnit(to)}}`);
+        html=A+B+B2+C+D+E;
+      } else if(!isFromPressure && isToPressure){
+        const Hm = toM(value, from);
+        const dP = rho*g*Hm;
+        out = (to==='Pa') ? dP : dP/1000;
+        const C=box('Relation', `\\Delta P=\\rho g H`);
+        const D=box('Substitute', `\\Delta P=${texNum(rho)}\\,\\unit{kg/m^3}\\cdot ${texNum(g)}\\,\\unit{m/s^2}\\cdot ${texNum(Hm)}\\,\\unit{m}`);
+        const E=box('Result', `\\boxed{${texNum(out)}\\,${texUnit(to)}}`);
+        html=A+B+B2+C+D+E;
+      } else {
+        const fake = {factors: {Pa:1,kPa:1/1000,mH2O:1,ftH2O:1/0.3048}};
+        const tmp = linearStepsTex(value, from, to, fake);
+        out = tmp.out; html=A+B+B2+tmp.html;
+      }
+      return {out, steps: html};
     }
 
     function muNuSteps(value, from, to, rho){
-      const muF={Pa_s:1, mPa_s:1e-3, P:0.1, lbft_s:1.48816394357};
-      const nuF={m2_s:1, cSt:1e-6, ft2_s:0.09290304};
+      const muF = { Pa_s:1, mPa_s:1e-3, P:0.1, lbft_s:1.48816394357 };
+      const nuF = { m2_s:1, cSt:1e-6, ft2_s:0.09290304 };
+      const isMuFrom = from in muF, isMuTo = to in muF;
+      const isNuFrom = from in nuF, isNuTo = to in nuF;
+
       let out, html='';
-      if(from in muF && to in nuF){ let mu = value*muF[from]; let nu = mu/rho; out = nu/nuF[to]; html=box('μ to ν',`\\nu = \\mu/\\rho = ${texNum(mu)}/${texNum(rho)} = ${texNum(nu)}\\,\\unit{m^2/s}`); }
-      else if(from in nuF && to in muF){ let nu = value*nuF[from]; let mu = nu*rho; out = mu/muF[to]; html=box('ν to μ',`\\mu = \\nu\\rho = ${texNum(nu)}\\cdot${texNum(rho)} = ${texNum(mu)}\\,\\unit{Pa·s}`); }
-      else out=value;
-      return {out, steps:html};
+      const A=box('Goal', `\\kw{Relate }\\mu\\;\\kw{ and }\\nu: \\;\\nu=\\mu/\\rho.`);
+      const B=box('Assumption', `\\rho=${texNum(rho)}\\,\\unit{kg/m^3}.`);
+
+      if(isMuFrom && isNuTo){
+        const mu_Pas = value * muF[from];
+        const nu_m2s = mu_Pas / rho;
+        out = nu_m2s / nuF[to];
+        const C=box('Formula', `\\nu=\\dfrac{\\mu}{\\rho}`);
+        const D=box('Substitute', `\\nu=\\dfrac{${texNum(mu_Pas)}\\,\\unit{Pa\\cdot s}}{${texNum(rho)}\\,\\unit{kg/m^3}}`);
+        const E=box('Result', `\\boxed{${texNum(out)}\\,${texUnit(to)}}`);
+        html=A+B+C+D+E;
+      } else if(isNuFrom && isMuTo){
+        const nu_m2s = value * nuF[from];
+        const mu_Pas = nu_m2s * rho;
+        out = mu_Pas / muF[to];
+        const C=box('Formula', `\\mu=\\rho\\,\\nu`);
+        const D=box('Substitute', `\\mu=${texNum(rho)}\\,\\unit{kg/m^3}\\cdot ${texNum(nu_m2s)}\\,\\unit{m^2/s}`);
+        const E=box('Result', `\\boxed{${texNum(out)}\\,${texUnit(to)}}`);
+        html=A+B+C+D+E;
+      } else {
+        const fake = {factors: isMuFrom ? muF : nuF};
+        const tmp = linearStepsTex(value, from, to, fake);
+        out = tmp.out; html=A+B+tmp.html;
+      }
+      return {out, steps: html};
     }
 
     function ppmMgLSteps(value, from, to, rhoSol){
       let out, html='';
-      if(from==='ppm' && to==='mgL'){ out = value * rhoSol; html=box('ppm → mg/L',`\\text{mg/L} = \\text{ppm} \\times \\rho = ${texNum(value)} \\times ${texNum(rhoSol)} = ${texNum(out)}`); }
-      else if(from==='mgL' && to==='ppm'){ out = value / rhoSol; html=box('mg/L → ppm',`\\text{ppm} = \\text{mg/L} / \\rho = ${texNum(value)} / ${texNum(rhoSol)} = ${texNum(out)}`); }
-      else out=value;
-      return {out, steps:html};
+      const A=box('Goal', `\\kw{For dilute solutions: }\\;\\unit{mg/L}\\approx\\unit{ppm}\\times\\rho_{sol}\\;(\\unit{kg/L}).`);
+      const B=box('Assumption', `\\rho_{sol}=${texNum(rhoSol)}\\,\\unit{kg/L}.`);
+
+      if(from==='ppm' && to==='mgL'){
+        out = value * rhoSol;
+        const C=box('Relation', `\\unit{mg/L}=\\unit{ppm}\\times\\rho_{sol}`);
+        const D=box('Substitute', `${texNum(value)}\\times${texNum(rhoSol)}=${texNum(out)}`);
+        const E=box('Result', `\\boxed{${texNum(out)}\\,\\unit{mg/L}}`);
+        html=A+B+C+D+E;
+      } else if(from==='mgL' && to==='ppm'){
+        out = value / rhoSol;
+        const C=box('Relation', `\\unit{ppm}=\\dfrac{\\unit{mg/L}}{\\rho_{sol}}`);
+        const D=box('Substitute', `\\dfrac{${texNum(value)}}{${texNum(rhoSol)}}=${texNum(out)}`);
+        const E=box('Result', `\\boxed{${texNum(out)}\\,\\unit{ppm}}`);
+        html=A+B+C+D+E;
+      } else {
+        out = value; html=A+B+box('No conversion required', `\\boxed{${texNum(value)}}`);
+      }
+      return {out, steps: html};
     }
 
     function apiSgSteps(value, from, to){
       let out, html='';
-      if(from==='SG' && to==='API'){ out = 141.5/value - 131.5; html=box('SG → °API',`^\\circ API = \\frac{141.5}{SG} - 131.5 = ${texNum(out)}`); }
-      else if(from==='API' && to==='SG'){ out = 141.5/(value+131.5); html=box('°API → SG',`SG = \\frac{141.5}{^\\circ API + 131.5} = ${texNum(out)}`); }
-      else out=value;
-      return {out, steps:html};
+      const A=box('Definition', `^{\\circ}\\!API=\\dfrac{141.5}{SG}-131.5\\quad (60^{\\circ}\\!F)`);
+      if(from==='SG' && to==='API'){
+        out = 141.5/value - 131.5;
+        const B=box('Substitute', `\\dfrac{141.5}{${texNum(value)}}-131.5=${texNum(out)}`);
+        const C=box('Result', `\\boxed{${texNum(out)}\\,^{\\circ}\\!API}`);
+        html=A+B+C;
+      } else if(from==='API' && to==='SG'){
+        out = 141.5/(value+131.5);
+        const B=box('Invert', `SG=\\dfrac{141.5}{^{\\circ}\\!API+131.5}`);
+        const C=box('Substitute', `\\dfrac{141.5}{${texNum(value)}+131.5}=${texNum(out)}`);
+        const D=box('Result', `\\boxed{${texNum(out)}\\,\\unit{SG}}`);
+        html=A+B+C+D;
+      } else {
+        out=value; html=box('No conversion required', `\\boxed{${texNum(value)}}`);
+      }
+      return {out, steps: html};
     }
 
     function qGasStdSteps(value, from, to, Pa, Ta, Ps, Ts){
       const f = CONVS.q_gas_std.factors;
       const toBase = (v,u)=> v * f[u];
       const fromBase = (v,u)=> v / f[u];
-      let out=value, html='';
-      if(from.endsWith('_a') && to.endsWith('_s')){
-        let Qa=toBase(value,from); let Qs = Qa * (Pa/Ps) * (Ts/Ta); out = fromBase(Qs, to);
-        html=box('Actual to standard',`Q_s = Q_a \\frac{P_a}{P_s}\\frac{T_s}{T_a} = ${texNum(Qa)} \\cdot \\frac{${texNum(Pa)}}{${texNum(Ps)}} \\cdot \\frac{${texNum(Ts)}}{${texNum(Ta)}} = ${texNum(Qs)}`);
-      } else if(from.endsWith('_s') && to.endsWith('_a')){
-        let Qs=toBase(value,from); let Qa = Qs * (Ps/Pa) * (Ta/Ts); out = fromBase(Qa, to);
-        html=box('Standard to actual',`Q_a = Q_s \\frac{P_s}{P_a}\\frac{T_a}{T_s} = ${texNum(Qs)} \\cdot \\frac{${texNum(Ps)}}{${texNum(Pa)}} \\cdot \\frac{${texNum(Ta)}}{${texNum(Ts)}} = ${texNum(Qa)}`);
+      const isA = from.endsWith('_a');
+      const isS = from.endsWith('_s');
+      let out, html='';
+      const A=box('Assumptions', `\\kw{Ideal gas};\\; Q\\propto \\dfrac{T}{P}.\\; P\\,\\unit{kPa},\\; T\\,\\unit{K}.`);
+      const B=box('Given', `P_a=${texNum(Pa)}\\,\\unit{kPa},\\; T_a=${texNum(Ta)}\\,\\unit{K},\\; P_s=${texNum(Ps)}\\,\\unit{kPa},\\; T_s=${texNum(Ts)}\\,\\unit{K}.`);
+      const Qin_base = toBase(value, from);
+
+      if(isA){
+        const Qs_base = Qin_base * (Pa/Ps) * (Ts/Ta);
+        out = fromBase(Qs_base, to);
+        const C=box('Formula', `Q_s=Q_a\\,\\dfrac{P_a}{P_s}\\,\\dfrac{T_s}{T_a}`);
+        const D=box('Substitute', `${texNum(Qin_base)}\\,\\dfrac{${texNum(Pa)}}{${texNum(Ps)}}\\,\\dfrac{${texNum(Ts)}}{${texNum(Ta)}}`);
+        const E=box('Result', `\\boxed{${texNum(out)}\\,${texUnit(to)}}`);
+        html=A+B+C+D+E;
+      } else if(isS){
+        const Qa_base = Qin_base * (Ps/Pa) * (Ta/Ts);
+        out = fromBase(Qa_base, to);
+        const C=box('Formula', `Q_a=Q_s\\,\\dfrac{P_s}{P_a}\\,\\dfrac{T_a}{T_s}`);
+        const D=box('Substitute', `${texNum(Qin_base)}\\,\\dfrac{${texNum(Ps)}}{${texNum(Pa)}}\\,\\dfrac{${texNum(Ta)}}{${texNum(Ts)}}`);
+        const E=box('Result', `\\boxed{${texNum(out)}\\,${texUnit(to)}}`);
+        html=A+B+C+D+E;
+      } else {
+        const tmp = linearStepsTex(value, from, to, {factors:f});
+        out = tmp.out; html=A+B+tmp.html;
       }
-      return {out, steps:html};
+      return {out, steps: html};
     }
 
-    // ---------- DOM elements ----------
-    const categoryMain = document.getElementById('categoryMain');
-    const convSelect = document.getElementById('convSelect');
-    const fromSel = document.getElementById('from');
-    const toSel = document.getElementById('to');
-    const swapBtn = document.getElementById('swapBtn');
-    const infoFrom = document.getElementById('info-from');
-    const infoTo = document.getElementById('info-to');
-    const example = document.getElementById('example');
-    const extra = document.getElementById('extra');
-    const outEl = document.getElementById('out');
-    const stepsEl = document.getElementById('steps');
-    const sysSel = document.getElementById('sys');
-    const dual = document.getElementById('dual');
-    const valInput = document.getElementById('val');
-    const btn = document.getElementById('btn');
+    window.addEventListener('DOMContentLoaded', () => {
+      const convSel=document.getElementById('convSelect');
+      const fromSel=document.getElementById('from');
+      const toSel=document.getElementById('to');
+      const extra=document.getElementById('extra');
+      const outEl=document.getElementById('out');
+      const stepsEl=document.getElementById('steps');
+      const infoFrom=document.getElementById('info-from');
+      const infoTo=document.getElementById('info-to');
+      const exampleEl=document.getElementById('example');
+      const sysSel=document.getElementById('sys');
 
-    // populate main category
-    categoryMain.innerHTML = Object.entries(CATEGORIES).map(([key,cat])=>`<option value="${key}">${cat.name}</option>`).join('');
+      convSel.innerHTML = Object.entries(CONVS).map(([k,d])=>`<option value="${k}">${d.name}</option>`).join('');
 
-    function rebuildConvSelect(categoryKey){
-      let children = CATEGORIES[categoryKey].children;
-      convSelect.innerHTML = children.map(k => `<option value="${k}">${CONVS[k]?.name || k}</option>`).join('');
-      if(children.length) populateUnits(children[0]);
-    }
-
-    function populateUnits(convKey){
-      let def = CONVS[convKey]; if(!def) return;
-      fromSel.innerHTML = Object.keys(def.units).map(u=>`<option value="${u}">${label(u)}</option>`).join('');
-      toSel.innerHTML = Object.keys(def.units).map(u=>`<option value="${u}">${label(u)}</option>`).join('');
-      if(Object.keys(def.units).length>1) toSel.selectedIndex = Math.min(1, Object.keys(def.units).length-1);
-      updateUnitInfo();
-      buildExtraUI(convKey);
-      example.innerText = '💡 Example: 1 ' + symOf(Object.keys(def.units)[0]) + ' → ...';
-    }
-
-    function updateUnitInfo(){
-      let uf=fromSel.value, ut=toSel.value;
-      if(uf) infoFrom.querySelector('div').innerText = label(uf);
-      if(ut) infoTo.querySelector('div').innerText = label(ut);
-    }
-
-    function buildExtraUI(key){
-      extra.style.display='none'; extra.innerHTML='';
-      if(key==='p_head'){
-        extra.style.display='grid';
-        extra.innerHTML = `<div><label>ρ (kg/m³)</label><input id="rho_head" value="1000" type="number" step="any"></div>
-                           <div><label>g (m/s²)</label><input id="g_head" value="${gDEFAULT}" type="number" step="any"></div>`;
-      } else if(key==='mu_nu'){
-        extra.style.display='grid';
-        extra.innerHTML = `<div><label>ρ (kg/m³)</label><input id="rho_munu" value="1000" type="number" step="any"></div>`;
-      } else if(key==='ppm_mgl'){
-        extra.style.display='grid';
-        extra.innerHTML = `<div><label>ρ solution (kg/L)</label><input id="rho_ppm" value="1.0" step="any" type="number"></div>`;
-      } else if(key==='q_gas_std'){
-        extra.style.display='grid';
-        extra.innerHTML = `<div><label>P act (kPa)</label><input id="Pa" value="101.325"></div>
-                           <div><label>T act (K)</label><input id="Ta" value="298.15"></div>
-                           <div><label>P std (kPa)</label><input id="Ps" value="101.325"></div>
-                           <div><label>T std (K)</label><input id="Ts" value="273.15"></div>`;
+      function renderUnitOptions(def){
+        const entries=Object.keys(def.units);
+        fromSel.innerHTML=entries.map(u=>`<option value="${u}" title="${label(u)}">${label(u)}</option>`).join('');
+        toSel.innerHTML=entries.map(u=>`<option value="${u}" title="${label(u)}">${label(u)}</option>`).join('');
+        if(entries.length>1) toSel.selectedIndex=1;
+        updateUnitInfo();
       }
-    }
+      function updateUnitInfo(){
+        const uf=fromSel.value, ut=toSel.value;
+        infoFrom.innerHTML=`<b>From unit</b><div>${label(uf)}</div>`;
+        infoTo.innerHTML=`<b>To unit</b><div>${label(ut)}</div>`;
+      }
+      function showExample(key){
+        const hints={
+          temperature:'Example: 0 °C → 273.15 K',
+          api_sg:'Example: SG = 0.85 → °API ≈ 141.5/0.85 − 131.5',
+          ppm_mgl:'Example: 10 ppm at ρ = 1.0 kg/L → 10 mg/L',
+          p_head:'Example: ρ = 1000 kg/m³, g = 9.80665: 100 kPa → ~10.2 m',
+          mu_nu:'Example: μ = 1 mPa·s & ρ = 1000 kg/m³ → ν = 1 cSt'
+        };
+        if(hints[key]){ exampleEl.textContent=hints[key]; return; }
+        const def=CONVS[key];
+        if(def?.type==='linear'){
+          const a=Object.keys(def.units)[0], b=Object.keys(def.units)[1];
+          if(a&&b){ const k=def.factors[a]/def.factors[b];
+            exampleEl.textContent=`Example: 1 ${label(a)} → ${fmt(k)} ${label(b)}`; return;
+          }
+        }
+        exampleEl.textContent='';
+      }
+      function populateUnits(key){
+        const def=CONVS[key];
+        renderUnitOptions(def);
+        buildExtraUI(key);
+        showExample(key);
+        outEl.textContent='...'; stepsEl.innerHTML='';
+        typesetNow();
+      }
 
-    categoryMain.addEventListener('change', ()=> rebuildConvSelect(categoryMain.value));
-    convSelect.addEventListener('change', ()=> populateUnits(convSelect.value));
+      convSel.value='Ucoef';
+      populateUnits('Ucoef');
 
-    swapBtn.addEventListener('click', ()=>{
-      let a=fromSel.value, b=toSel.value; if(a&&b){ fromSel.value=b; toSel.value=a; updateUnitInfo(); }
+      convSel.addEventListener('change', ()=>populateUnits(convSel.value));
+      fromSel.addEventListener('change', ()=>{updateUnitInfo(); showExample(convSel.value);});
+      toSel.addEventListener('change', updateUnitInfo);
+
+      const presets={
+        pressure:{ SI:['kPa','psi'], US:['psi','kPa'], UK:['psi','kPa'] },
+        volume:{ SI:['L','galUS'], US:['galUS','L'], UK:['galImp','L'] },
+        q_vol:{ SI:['m3h','gpm'], US:['gpm','m3h'], UK:['igpm','m3h'] },
+        mass:{ SI:['kg','lb'], US:['lb','kg'], UK:['long_ton','tonne'] },
+        energy:{ SI:['kJ','BTU'], US:['BTU','kJ'], UK:['BTU','kJ'] },
+        power:{ SI:['kW','hp(US)'], US:['hp(US)','kW'], UK:['hp_metric','kW'] },
+        length:{ SI:['m','ft'], US:['ft','m'], UK:['ft','m'] },
+        temperature:{ SI:['C','F'], US:['F','C'], UK:['F','C'] },
+        area:{ SI:['m2','ft2'], US:['ft2','m2'], UK:['ft2','m2'] },
+        volume_default:{ SI:['m3','ft3'], US:['ft3','m3'], UK:['ft3','m3'] }
+      };
+      sysSel?.addEventListener('change', ()=>{
+        const sys=sysSel.value, key=convSel.value;
+        const p=presets[key]?.[sys] || presets.volume_default?.[sys];
+        if(p && CONVS[key]?.units[p[0]] && CONVS[key]?.units[p[1]]){
+          fromSel.value=p[0]; toSel.value=p[1];
+          updateUnitInfo(); showExample(key);
+        }
+      });
+
+      function buildExtraUI(key){
+        extra.innerHTML=''; extra.style.display='none';
+        if(key==='p_head'){
+          extra.style.display='grid';
+          extra.innerHTML=`
+            <div>
+              <label class="note" for="rho_head">Density ρ (kg/m³) <span class="badge">assumption</span></label>
+              <input id="rho_head" type="number" step="any" value="1000" />
+            </div>
+            <div>
+              <label class="note" for="g_head">g (m/s²) <span class="badge">assumption</span></label>
+              <input id="g_head" type="number" step="any" value="${gDEFAULT}" />
+            </div>`;
+        } else if(key==='mu_nu'){
+          extra.style.display='grid';
+          extra.innerHTML=`
+            <div>
+              <label class="note" for="rho_munu">Density ρ (kg/m³) <span class="badge">assumption</span></label>
+              <input id="rho_munu" type="number" step="any" value="1000" />
+            </div>`;
+        } else if(key==='ppm_mgl'){
+          extra.style.display='grid';
+          extra.innerHTML=`
+            <div>
+              <label class="note" for="rho_ppm">Solution density ρ (kg/L) <span class="badge">assumption</span></label>
+              <input id="rho_ppm" type="number" step="any" value="1.0" />
+            </div>`;
+        } else if(key==='q_gas_std'){
+          extra.style.display='grid';
+          extra.innerHTML=`
+            <div>
+              <label class="note" for="Pa">Actual pressure Pₐ (kPa)</label>
+              <input id="Pa" type="number" step="any" value="101.325" />
+            </div>
+            <div>
+              <label class="note" for="Ta">Actual temperature Tₐ (K)</label>
+              <input id="Ta" type="number" step="any" value="298.15" />
+            </div>
+            <div>
+              <label class="note" for="Ps">Standard pressure Pₛ (kPa)</label>
+              <input id="Ps" type="number" step="any" value="101.325" />
+            </div>
+            <div>
+              <label class="note" for="Ts">Standard temperature Tₛ (K)</label>
+              <input id="Ts" type="number" step="any" value="273.15" />
+            </div>`;
+        }
+      }
+
+      document.getElementById('btn').addEventListener('click', ()=>{
+        const def=CONVS[convSel.value];
+        const value=parseFloat(document.getElementById('val').value);
+        if(!Number.isFinite(value)){ outEl.textContent='Enter a numeric value'; stepsEl.innerHTML=''; typesetNow(); return; }
+        const from=fromSel.value, to=toSel.value;
+
+        let res, textOut, stepsHTML;
+
+        if(def.type==='linear'){
+          res = linearStepsTex(value, from, to, def);
+          textOut = `${fmt(value)} ${label(from)} = ${fmt(res.out)} ${label(to)}`;
+          stepsHTML = res.html;
+        } else if(def.type==='temperature'){
+          const r=tempSteps(value, from, to);
+          textOut = `${fmt(value)} ${label(from)} = ${fmt(r.out)} ${label(to)}`;
+          stepsHTML = r.steps;
+        } else if(def.type==='p_head'){
+          const rho = parseFloat(document.getElementById('rho_head').value);
+          const g   = parseFloat(document.getElementById('g_head').value);
+          const r=pHeadSteps(value, from, to, rho, g);
+          textOut = `${fmt(value)} ${label(from)} = ${fmt(r.out)} ${label(to)}`;
+          stepsHTML = r.steps;
+        } else if(def.type==='mu_nu'){
+          const rho = parseFloat(document.getElementById('rho_munu').value);
+          const r=muNuSteps(value, from, to, rho);
+          textOut = `${fmt(value)} ${label(from)} = ${fmt(r.out)} ${label(to)}`;
+          stepsHTML = r.steps;
+        } else if(def.type==='ppm_mgl'){
+          const rhoSol = parseFloat(document.getElementById('rho_ppm').value);
+          const r=ppmMgLSteps(value, from, to, rhoSol);
+          textOut = `${fmt(value)} ${label(from)} = ${fmt(r.out)} ${label(to)}`;
+          stepsHTML = r.steps;
+        } else if(def.type==='api_sg'){
+          const r=apiSgSteps(value, from, to);
+          textOut = `${fmt(value)} ${label(from)} = ${fmt(r.out)} ${label(to)}`;
+          stepsHTML = r.steps;
+        } else if(def.type==='q_gas_std'){
+          const Pa = parseFloat(document.getElementById('Pa').value);
+          const Ta = parseFloat(document.getElementById('Ta').value);
+          const Ps = parseFloat(document.getElementById('Ps').value);
+          const Ts = parseFloat(document.getElementById('Ts').value);
+          const r=qGasStdSteps(value, from, to, Pa, Ta, Ps, Ts);
+          textOut = `${fmt(value)} ${label(from)} = ${fmt(r.out)} ${label(to)}`;
+          stepsHTML = r.steps;
+        } else {
+          stepsHTML = box('Not implemented','\\text{This converter is not implemented.}');
+          textOut = '...';
+        }
+
+        outEl.textContent = textOut;
+        stepsEl.innerHTML = stepsHTML;
+
+        const dual=document.getElementById('dual')?.checked;
+        if(dual && def.type==='linear'){
+          const counterpart = COUNTERPART[to] || COUNTERPART[from];
+          if(counterpart && def.factors?.[to] && def.factors?.[counterpart]){
+            const k2 = def.factors[to]/def.factors[counterpart];
+            const out2=(res?.out??0)*k2;
+            outEl.textContent += `  |  (counterpart) ≈ ${fmt(out2)} ${label(counterpart)}`;
+          }
+        }
+        typesetNow();
+      });
+
+      typesetNow();
     });
-    fromSel.addEventListener('change', updateUnitInfo);
-    toSel.addEventListener('change', updateUnitInfo);
+  </script>
+</head>
+<body>
+  <header>
+    <div class="u1">Northern Technical University</div>
+    <div class="u2">Technical Engineering College - Mosul</div>
+    <div class="u3">Chemical and Petroleum Industries Technologies Engineering</div>
+    <div class="des">Designed by: Azam Isam</div>
+    <h1>Chemical Engineering Unit Converters </h1>
+  </header>
 
-    btn.addEventListener('click', ()=>{
-      let key = convSelect.value;
-      let def = CONVS[key]; if(!def) return;
-      let val = parseFloat(valInput.value) || 0;
-      let from = fromSel.value, to = toSel.value;
-      let result;
-      if(def.type==='linear') result = linearStepsTex(val, from, to, def);
-      else if(def.type==='temperature') result = tempSteps(val, from, to);
-      else if(def.type==='p_head'){
-        let rho = parseFloat(document.getElementById('rho_head')?.value) || 1000;
-        let g = parseFloat(document.getElementById('g_head')?.value) || gDEFAULT;
-        result = pHeadSteps(val, from, to, rho, g);
-      } else if(def.type==='mu_nu'){
-        let rho = parseFloat(document.getElementById('rho_munu')?.value) || 1000;
-        result = muNuSteps(val, from, to, rho);
-      } else if(def.type==='ppm_mgl'){
-        let rho = parseFloat(document.getElementById('rho_ppm')?.value) || 1.0;
-        result = ppmMgLSteps(val, from, to, rho);
-      } else if(def.type==='api_sg') result = apiSgSteps(val, from, to);
-      else if(def.type==='q_gas_std'){
-        let Pa = parseFloat(document.getElementById('Pa')?.value) || 101.325;
-        let Ta = parseFloat(document.getElementById('Ta')?.value) || 298.15;
-        let Ps = parseFloat(document.getElementById('Ps')?.value) || 101.325;
-        let Ts = parseFloat(document.getElementById('Ts')?.value) || 273.15;
-        result = qGasStdSteps(val, from, to, Pa, Ta, Ps, Ts);
-      } else result = { out: val, steps: '' };
+  <main class="wrap">
+    <section class="card">
+      <div class="pad">
+        <p class="note"><strong>Choose a conversion, enter a value, and click Convert</strong></p>
 
-      outEl.innerText = `${fmt(val)} ${symOf(from)} = ${fmt(result.out)} ${symOf(to)}`;
-      if(dual?.checked && COUNTERPART[to] && def.factors && def.factors[COUNTERPART[to]]){
-        let k2 = def.factors[to]/def.factors[COUNTERPART[to]];
-        let out2 = result.out * k2;
-        outEl.innerText += `  |  (${symOf(COUNTERPART[to])}) ≈ ${fmt(out2)}`;
-      }
-      stepsEl.innerHTML = result.steps || '<span>Full derivation will appear here.</span>';
-      window.MathJax?.typesetPromise?.();
-    });
+        <div class="row" style="margin-top:10px">
+          <div>
+            <label class="note" for="convSelect">Conversion type</label>
+            <select id="convSelect" aria-label="Conversion type"></select>
+          </div>
+          <div></div>
+        </div>
 
-    rebuildConvSelect('fundamentals');
-  })();
-</script>
+        <div class="row" style="margin-top:10px">
+          <div>
+            <label class="note" for="sys">Unit system</label>
+            <select id="sys">
+              <option value="auto">Auto / Mixed</option>
+              <option value="SI">SI (metric)</option>
+              <option value="US">US (FPS)</option>
+              <option value="UK">Imperial (UK)</option>
+            </select>
+          </div>
+          <div style="display:flex;align-items:end;gap:8px">
+            <input id="dual" type="checkbox" />
+            <label class="note" for="dual">Show counterpart output</label>
+          </div>
+        </div>
+
+        <div class="row3" style="margin-top:10px">
+          <div>
+            <label class="note" for="val">Value</label>
+            <input id="val" type="number" step="any" placeholder="Enter value" inputmode="decimal" />
+          </div>
+          <div>
+            <label class="note" for="from">From</label>
+            <select id="from"></select>
+          </div>
+          <div>
+            <label class="note" for="to">To</label>
+            <select id="to"></select>
+          </div>
+        </div>
+
+        <div class="unitbox">
+          <div id="info-from" class="ibox" aria-live="polite"><b>From unit</b><div>...</div></div>
+          <div id="info-to"   class="ibox" aria-live="polite"><b>To unit</b><div>...</div></div>
+        </div>
+        <p id="example" class="note" style="margin-top:6px"></p>
+
+        <div id="extra" class="row" style="display:none;margin-top:8px"></div>
+
+        <div class="row" style="margin-top:10px;align-items:center">
+          <button id="btn">Convert</button>
+          <span id="out" class="out" aria-live="polite">...</span>
+        </div>
+
+        <div id="steps" class="steps" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <p class="note" style="margin-top:10px">
+      Chemical and Petroleum Industries Technologies Engineering
+    </p>
+  </main>
 </body>
 </html>
-```
+
