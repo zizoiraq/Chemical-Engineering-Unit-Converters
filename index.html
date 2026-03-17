@@ -2,133 +2,175 @@
 <html lang="ar" dir="ltr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>محولات الوحدات الهندسة الكيمياوية · categories + 3 decimals</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=yes" />
+  <title>Chemical Engineering Unit Converters | فئات متقدمة + خطوات كاملة</title>
   <style>
+    /* تحسين الألوان وثبات المظهر مع الحفاظ على الهوية */
     :root{
-      --bg:#f4f7fc; --card:#ffffff; --ink:#0b1a2e; --muted:#2c3e50; --border:#dde3ed;
-      --brand:#0f6e4a; --brand2:#0a5236;
-      --accent:#1f5e9e;   /* units color */
-      --accent2:#1b8c5e;  /* keyword color */
-      --warn:#b85b1a;
+      --bg:#f0f5fa; --card:#ffffff; --ink:#0b2a3e; --muted:#1e4a6b;
+      --border:#c0d6e8; --brand:#0f6e4a; --brand2:#0a5236;
+      --accent:#1f6da9; --accent2:#1b8c5e; --warn:#c96f0d;
       --mono:ui-monospace,Consolas,Menlo,monospace;
-      --radius:24px;
+      --radius:28px;
     }
-    *{box-sizing:border-box; margin:0}
+    *{box-sizing:border-box; margin:0; padding:0;}
     body{
-      background: linear-gradient(145deg, #eef2f6 0%, #ffffff 100%);
+      background: linear-gradient(165deg, #e2ecf5 0%, #f9fcff 100%);
       color: var(--ink);
       font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
       line-height: 1.5;
-      padding: 20px 12px;
+      padding: 12px 8px;
+      min-height: 100vh;
     }
-    .wrap{max-width: 1280px; margin: 0 auto;}
+    .wrap{max-width: 1100px; margin: 0 auto; width:100%;}
 
-    /* header */
+    /* الهيدر ثابت كما كان */
     header{
-      background: rgba(255,255,255,0.75);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border: 1px solid rgba(255,255,255,0.6);
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.7);
       border-radius: 48px;
-      padding: 24px 32px;
-      margin-bottom: 32px;
-      box-shadow: 0 20px 40px -20px rgba(0,40,20,0.2);
+      padding: 22px 20px;
+      margin-bottom: 22px;
+      box-shadow: 0 15px 30px -15px rgba(0,60,30,0.25);
+      width:100%;
     }
     .uni-badge{
-      display: flex; flex-wrap: wrap; gap: 8px 28px;
-      color: #1f4f3d; font-weight: 500;
-      border-bottom: 2px dashed var(--brand); padding-bottom: 12px; margin-bottom: 12px;
+      display: flex; flex-wrap: wrap; gap: 8px 20px;
+      color: #0d4a3a; font-weight: 600; font-size: 0.95rem;
+      border-bottom: 2px solid var(--brand); padding-bottom: 12px; margin-bottom: 12px;
     }
-    .uni-badge span{ font-size: 1.05rem; letter-spacing: 0.3px; }
     h1{
-      font-size: 2.2rem; font-weight: 700;
-      background: linear-gradient(140deg, #0b4d2e, #103d5c);
+      font-size: clamp(1.6rem, 5vw, 2.2rem);
+      font-weight: 800;
+      background: linear-gradient(130deg, #0f5a3a, #1b4f7a);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       margin: 8px 0 0;
+      line-height: 1.3;
+    }
+    .des{
+      color: #176b47;
+      font-weight: 600;
+      margin-top: 6px;
+      font-size: 1rem;
     }
 
-    /* cards */
+    /* البطاقات */
     .card{
       background: var(--card);
-      border: 1px solid rgba(255,255,255,0.7);
+      border: 1px solid rgba(255,255,255,0.6);
       border-radius: var(--radius);
-      box-shadow: 0 20px 40px -18px rgba(0,30,20,0.2), 0 6px 12px rgba(0,0,0,0.02);
-      padding: 28px;
-      backdrop-filter: blur(4px);
+      box-shadow: 0 20px 35px -20px rgba(0,50,30,0.2);
+      padding: 22px 20px;
+      backdrop-filter: blur(2px);
+      width:100%;
+      margin-bottom: 16px;
     }
-    .grid-2{ display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
-    .grid-3{ display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 16px; }
-    .grid-4{ display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; }
 
-    /* inputs & selects */
-    label{ font-weight: 600; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.3px; color: #1f4b3a; display: block; margin-bottom: 5px; }
+    /* شبكات متجاوبة تماماً */
+    .grid-2, .grid-3, .grid-4{
+      display: grid;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    .grid-2{ grid-template-columns: repeat(2,1fr); }
+    .grid-3{ grid-template-columns: 2fr 1fr 1fr; }
+    .grid-4{ grid-template-columns: repeat(4,1fr); }
+
+    /* عناصر التحكم */
+    label{
+      font-weight: 600; font-size: 0.8rem; text-transform: uppercase;
+      letter-spacing: 0.3px; color: #1a5b45; display: block; margin-bottom: 4px;
+    }
     select, input{
-      width: 100%; padding: 14px 16px;
-      border: 1.5px solid var(--border); border-radius: 18px;
+      width: 100%; padding: 14px 14px;
+      border: 1.5px solid var(--border); border-radius: 28px;
       background: white; font-size: 0.95rem;
       transition: 0.15s;
+      -webkit-appearance: none; appearance: none;
     }
-    select:focus, input:focus{ border-color: var(--accent2); box-shadow: 0 0 0 5px rgba(27,140,94,0.15); outline: none; }
+    select:focus, input:focus{ border-color: var(--accent2); box-shadow: 0 0 0 4px rgba(27,140,94,0.15); outline: none; }
 
     button, .swap-btn{
       background: linear-gradient(145deg, var(--brand), var(--brand2));
-      border: none; color: white; font-weight: 700; padding: 14px 28px;
-      border-radius: 38px; cursor: pointer; font-size: 1.1rem;
+      border: none; color: white; font-weight: 700; padding: 14px 20px;
+      border-radius: 60px; cursor: pointer; font-size: 1.1rem;
       box-shadow: 0 10px 18px -8px #0f6e4a80;
       transition: all 0.1s;
       display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+      width:100%;
     }
     button:hover, .swap-btn:hover{ transform: translateY(-2px); filter: brightness(1.05); }
-    .swap-btn{ background: #305f6e; padding: 10px 20px; font-size: 1rem; box-shadow: none; }
+    .swap-btn{ background: #2c5f73; box-shadow: none; }
 
     .unitbox{
-      display: grid; grid-template-columns: 1fr 1fr; gap: 18px;
-      margin: 20px 0;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
+      margin: 18px 0;
     }
     .ibox{
-      background: #f2f8ff; border-radius: 22px; padding: 16px 20px;
-      border: 1px solid #cdddee;
+      background: #ecf5fe; border-radius: 28px; padding: 16px 18px;
+      border: 1px solid #b7d0e9;
+      word-break: break-word;
     }
-    .ibox b{ font-size: 0.9rem; color: var(--accent); margin-bottom: 8px; display: block; }
+    .ibox b{ font-size: 0.9rem; color: var(--accent); margin-bottom: 6px; display: block; }
     .out{
-      background: #eaf0f8; border-radius: 38px; padding: 18px 28px;
-      font-family: var(--mono); font-size: 1.3rem; border: 2px dashed #afc7db;
+      background: #e5f0fa; border-radius: 60px; padding: 18px 22px;
+      font-family: var(--mono); font-size: 1.2rem; border: 2px dashed #9dbedb;
       min-height: 80px; word-break: break-word;
+      width:100%;
     }
     .steps{
-      background: #f1f7fc; border-radius: 32px; padding: 24px; margin-top: 28px;
-      border: 1px solid #cbdbe9;
+      background: #f0f7ff; border-radius: 34px; padding: 22px; margin-top: 24px;
+      border: 1px solid #b8d1e7; overflow-x: auto;
+      width:100%;
     }
     .mathbox{
-      background: white; border-radius: 22px; padding: 16px 20px; margin: 14px 0;
-      border: 1px solid #d1e0ee; box-shadow: 0 3px 8px #00000008;
+      background: white; border-radius: 26px; padding: 16px 18px; margin: 14px 0;
+      border: 1px solid #cbddec; box-shadow: 0 3px 10px #0000000c;
+      overflow-x: auto;
     }
     .mathbox .title{
-      font-weight: 800; font-size: 1rem; color: #1d3b4f; margin-bottom: 12px;
-      border-bottom: 2px dotted var(--accent2); padding-bottom: 5px;
+      font-weight: 800; font-size: 1rem; color: #143e55; margin-bottom: 12px;
+      border-bottom: 2px dotted var(--accent2); padding-bottom: 6px;
     }
     .badge{
-      background: #eadbc1; color: #7b5200; padding: 4px 12px; border-radius: 60px;
+      background: #f4e2c3; color: #7a5100; padding: 4px 12px; border-radius: 60px;
       font-size: 0.8rem; font-weight: 700; margin-left: 8px;
+      white-space: nowrap;
     }
-    .note{ color: #385b6e; font-size: 0.9rem; background: #eef7fa; padding: 8px 14px; border-radius: 50px; }
-    hr{ border: 1px solid #deecf5; margin: 20px 0; }
+    .note{
+      background: #e5f1f7; padding: 8px 16px; border-radius: 50px;
+      font-size: 0.9rem; color: #135d7a;
+    }
 
-    @media (max-width: 800px){
+    /* تحسينات الهاتف */
+    @media (max-width: 700px){
       .grid-2, .grid-3, .grid-4{ grid-template-columns: 1fr; }
+      .card{ padding: 18px 14px; }
+      .unitbox{ grid-template-columns: 1fr; }
       header{ padding: 16px; }
-      h1{ font-size: 1.8rem; }
+      .uni-badge{ flex-direction: column; gap: 5px; }
+      button{ padding: 16px; }
     }
+    @media (max-width: 380px){
+      .out{ font-size: 1rem; }
+    }
+
+    /* MathJax */
+    .tex-block{ overflow-x: auto; white-space: normal; }
+    mjx-container{ white-space: normal !important; }
   </style>
-  <!-- MathJax -->
+  <!-- MathJax بكامل الحزمة -->
   <script>
     window.MathJax = {
-      loader: { load: ['[tex]/cancel','[tex]/color'] },
-      tex: { packages: {'[+]': ['cancel','color']}, inlineMath: [['\\(','\\)']],
-        macros: { unit: ["{\\color[rgb]{0.2,0.45,0.75}{\\mathrm{#1}}}",1],
-                  kw:   ["{\\color[rgb]{0.0,0.5,0.3}{\\text{#1}}}",1] } },
+      loader: { load: ['[tex]/cancel','[tex]/color','[tex]/ams'] },
+      tex: { packages: {'[+]': ['cancel','color','ams']}, inlineMath: [['\\(','\\)']],
+        macros: {
+          unit: ["{\\color[rgb]{0.2,0.45,0.75}{\\mathrm{#1}}}",1],
+          kw:   ["{\\color[rgb]{0.0,0.5,0.25}{\\text{#1}}}",1]
+        } },
       chtml: { linebreaks: { automatic: true, width: 'container' } }
     };
   </script>
@@ -136,251 +178,248 @@
 </head>
 <body>
 <div class="wrap">
+  <!-- رأس ثابت تماماً -->
   <header>
     <div class="uni-badge">
       <span>⚗️ Northern Technical University</span>
       <span>🧪 Technical Engineering College - Mosul</span>
-      <span>🛢️ Chemical and Petroleum Industries Technologies</span>
+      <span>🛢️ Chemical and Petroleum Industries Technologies Engineering</span>
     </div>
-    <h1>محولات الوحدات الهندسة الكيمياوية <span style="font-size:1rem; background:#d4e6f0; padding:4px 16px; border-radius:60px; margin-right:15px;">3 منازل عشرية · ضمن فئات</span></h1>
-    <div style="margin-top:10px; color:#206050;">تصميم: Azam Isam |  تحسين علمي + فئات</div>
+    <h1>Chemical Engineering Unit Converters</h1>
+    <div class="des">Designed by: Azam Isam</div>
+    <div style="margin-top: 10px; display: flex; flex-wrap: wrap; gap: 6px 12px; align-items: center;">
+      <span class="badge">3 منازل عشرية</span>
+      <span class="badge">ضمن فئات</span>
+      <span class="badge">خطوات LaTeX كاملة</span>
+    </div>
   </header>
 
   <main class="card">
-    <!-- الفئة الرئيسية -->
-    <div style="display: flex; gap: 18px; flex-wrap: wrap; align-items: center; border-bottom: 2px solid var(--border); padding-bottom: 20px;">
-      <div style="min-width: 280px; flex:2">
-        <label>📋 اختر الفئة الرئيسية</label>
-        <select id="categoryMain" style="background:#ffffff;"></select>
-      </div>
-      <div style="flex:1; background: #e7f2fa; border-radius: 60px; padding: 12px 22px;">
-        <span style="font-weight:700;">النتيجة ← 3 أرقام عشرية</span>
-      </div>
+    <!-- فئة رئيسية -->
+    <div style="margin-bottom: 20px;">
+      <label>📂 الفئة الرئيسية</label>
+      <select id="categoryMain" style="background:#ffffff;"></select>
     </div>
 
-    <!-- اختيار المحول من الفئة المختارة -->
-    <div class="grid-2" style="margin-top: 24px;">
+    <!-- صف المحول والنظام -->
+    <div class="grid-2">
       <div>
-        <label>🔧 المحول المحدد</label>
-        <select id="convSelect" style="background:#f9feff;"></select>
+        <label>🔧 المحول</label>
+        <select id="convSelect" style="background:#ffffff;"></select>
       </div>
-      <div style="display: flex; align-items: center; gap: 12px;">
-        <label for="sys" style="margin:0;">🌍 النظام</label>
-        <select id="sys" style="width:auto; flex:1;">
-          <option value="auto">تلقائي / مختلط</option>
-          <option value="SI">SI (متري)</option>
-          <option value="US">US (FPS)</option>
-          <option value="UK">إمبريالي (UK)</option>
-        </select>
-        <div style="display: flex; align-items: center; gap: 4px;">
-          <input id="dual" type="checkbox" style="width:20px; height:20px;"> 
-          <span style="font-size:0.9rem;">إخراج مزدوج</span>
+      <div style="display: flex; gap: 10px; align-items: center;">
+        <div style="flex:1">
+          <label>🌍 النظام</label>
+          <select id="sys">
+            <option value="auto">Auto / Mixed</option>
+            <option value="SI">SI (metric)</option>
+            <option value="US">US (FPS)</option>
+            <option value="UK">Imperial (UK)</option>
+          </select>
+        </div>
+        <div style="display: flex; align-items: center; gap: 4px; margin-top: 18px;">
+          <input id="dual" type="checkbox" style="width:22px; height:22px;"> 
+          <span style="font-size:0.85rem;">dual</span>
         </div>
       </div>
     </div>
 
-    <!-- حقل القيمة و الوحدات -->
-    <div class="grid-3" style="margin: 24px 0 12px;">
+    <!-- القيمة والوحدات مع زر عكس -->
+    <div class="grid-3">
       <div>
-        <label>🔢 القيمة</label>
+        <label>🔢 Value</label>
         <input id="val" type="number" step="any" value="1.0" style="font-size:1.2rem;" />
       </div>
       <div>
-        <label>⬅️ من</label>
+        <label>⬅️ From</label>
         <select id="from"></select>
       </div>
-      <div style="display: flex; gap: 8px; align-items: end;">
+      <div style="display: flex; gap: 6px;">
         <div style="flex:1">
-          <label>➡️ إلى</label>
+          <label>➡️ To</label>
           <select id="to"></select>
         </div>
-        <button class="swap-btn" id="swapBtn" title="عكس الوحدات">⇄</button>
+        <button class="swap-btn" id="swapBtn" style="width:60px; padding:12px 0;">⇄</button>
       </div>
     </div>
 
     <!-- مربعات معلومات الوحدة + مثال -->
     <div class="unitbox">
-      <div id="info-from" class="ibox"><b>من الوحدة</b><div style="font-size:1.2rem;">...</div></div>
-      <div id="info-to"   class="ibox"><b>إلى الوحدة</b><div style="font-size:1.2rem;">...</div></div>
+      <div id="info-from" class="ibox"><b>From unit</b><div style="font-size:1.2rem;">...</div></div>
+      <div id="info-to"   class="ibox"><b>To unit</b><div style="font-size:1.2rem;">...</div></div>
     </div>
-    <div id="example" class="note" style="margin-bottom: 22px;">💡 مثال سريع يظهر هنا</div>
+    <div id="example" class="note" style="margin-bottom: 20px;">💡 example hint</div>
 
-    <!-- مدخلات إضافية (إن وجدت) -->
-    <div id="extra" class="grid-4" style="display: none; background:#eef3f7; border-radius: 40px; padding: 20px; margin-bottom: 20px;"></div>
+    <!-- حقول إضافية -->
+    <div id="extra" class="grid-4" style="display: none; background:#eaf2fa; border-radius: 40px; padding: 18px; margin-bottom: 20px;"></div>
 
-    <!-- زر التحويل و النتيجة -->
+    <!-- زر التحويل والنتيجة -->
     <div style="display: flex; gap: 16px; flex-wrap: wrap; align-items: center;">
-      <button id="btn" style="padding:18px 42px; font-size:1.3rem;">🔄 تحويل</button>
-      <span id="out" class="out" style="flex:1;">0.000</span>
+      <button id="btn" style="flex:1; padding:18px 10px;">🔄 Convert</button>
+      <span id="out" class="out" style="flex:2;">0.000</span>
     </div>
 
-    <!-- خطوات الحل مع 3 منازل عشرية -->
-    <div id="steps" class="steps"><span style="opacity:0.5;">سيظهر التحليل الكامل بثلاث منازل عشرية...</span></div>
+    <!-- الخطوات الكاملة مع LaTeX (بدون حذف) -->
+    <div id="steps" class="steps">
+      <span style="opacity:0.7;">ستظهر هنا خطوات الحل الكاملة مع الشرح بصيغة LaTeX...</span>
+    </div>
   </main>
-  <p style="text-align:center; margin-top:24px; color:#436573;">© 2026 – جميع النتائج مقرّبة إلى 3 مراتب عشرية • chemical engineering unit categories</p>
+  <p style="text-align:center; margin-top:16px; color:#376b87; font-size:0.9rem;">Chemical and Petroleum Industries Technologies Engineering · 3 decimal places</p>
 </div>
 
 <script>
   (function(){
-    // ---------- دوال التنسيق 3 منازل عشرية ----------
+    // ---------- دقة 3 منازل عشرية ----------
     const fmt = (n) => {
       if(!Number.isFinite(n)) return '...';
-      // تقريب إلى 3 منازل عشرية
-      let rounded = Math.round(n * 1000) / 1000;
-      // تثبيت 3 خانات عشرية
-      return rounded.toFixed(3);
+      return (Math.round(n * 1000) / 1000).toFixed(3);
     };
-
     const texNum = (n) => {
       if(!Number.isFinite(n)) return '...';
-      return Math.round(n * 1000) / 1000 + ''; // بدون فواصل
+      return (Math.round(n * 1000) / 1000).toString();
     };
-
     const gDEFAULT = 9.80665;
 
-    // بيانات الوحدات (كما هي مع بعض الإضافات)
+    // موسوعة الوحدات (كاملة)
     const UNIT_META = {
-      C:{sym:'°C', name:'Celsius'}, K:{sym:'K', name:'Kelvin'}, F:{sym:'°F', name:'Fahrenheit'}, R:{sym:'°R', name:'Rankine'},
-      Pa:{sym:'Pa', name:'Pascal'}, kPa:{sym:'kPa', name:'kilopascal'}, bar:{sym:'bar', name:'bar'}, atm:{sym:'atm', name:'standard atmosphere'},
-      psi:{sym:'psi', name:'pound-force per square inch'}, torr:{sym:'torr', name:'torr (mmHg)'},
-      mH2O:{sym:'m', name:'meters of fluid (head)'}, ftH2O:{sym:'ft', name:'feet of fluid (head)'},
-      psf:{sym:'psf', name:'pound-force per square foot'}, inH2O:{sym:'inH2O', name:'inch of water (4°C)'},
-      kg:{sym:'kg', name:'kilogram'}, g:{sym:'g', name:'gram'}, lb:{sym:'lb', name:'pound'}, tonne:{sym:'t', name:'tonne'},
-      short_ton:{sym:'ton (US)', name:'short ton (US, 2000 lb)'}, long_ton:{sym:'ton (UK)', name:'long ton (2240 lb)'},
-      m:{sym:'m', name:'meter'}, cm:{sym:'cm', name:'centimeter'}, mm:{sym:'mm', name:'millimeter'}, km:{sym:'km', name:'kilometer'},
-      in:{sym:'in', name:'inch'}, ft:{sym:'ft', name:'foot'},
-      m2:{sym:'m²', name:'square meter'}, cm2:{sym:'cm²', name:'square centimeter'}, ft2:{sym:'ft²', name:'square foot'}, in2:{sym:'in²', name:'square inch'},
-      m3:{sym:'m³', name:'cubic meter'}, L:{sym:'L', name:'liter'}, mL:{sym:'mL', name:'milliliter'}, ft3:{sym:'ft³', name:'cubic foot'},
-      bbl:{sym:'bbl', name:'barrel (oil)'}, galUS:{sym:'gal (US)', name:'US gallon'}, galImp:{sym:'gal (Imp)', name:'Imperial gallon (UK)'},
-      J:{sym:'J', name:'joule'}, kJ:{sym:'kJ', name:'kilojoule'}, MJ:{sym:'MJ', name:'megajoule'}, cal:{sym:'cal', name:'calorie (thermochemical)'},
-      kcal:{sym:'kcal', name:'kilocalorie'}, BTU:{sym:'BTU', name:'British thermal unit'},
-      W:{sym:'W', name:'watt'}, kW:{sym:'kW', name:'kilowatt'}, MW:{sym:'MW', name:'megawatt'}, 'hp(US)':{sym:'hp', name:'horsepower (US)'},
-      hp_metric:{sym:'hp(m)', name:'horsepower (metric)'},
-      kgm3:{sym:'kg/m³', name:'kilogram per cubic meter'}, gcm3:{sym:'g/cm³', name:'gram per cubic centimeter'}, lbft3:{sym:'lb/ft³', name:'pound per cubic foot'},
-      Pa_s:{sym:'Pa·s', name:'pascal-second'}, mPa_s:{sym:'mPa·s (cP)', name:'milli-pascal-second'}, P:{sym:'P', name:'poise'},
-      lbft_s:{sym:'lb/ft·s', name:'pound per foot-second'},
-      m2_s:{sym:'m²/s', name:'square meter per second'}, cSt:{sym:'cSt', name:'centistokes'}, ft2_s:{sym:'ft²/s', name:'square foot per second'}, cm2_s:{sym:'cm²/s', name:'square cm per second'},
-      m3s:{sym:'m³/s', name:'cubic meter per second'}, m3h:{sym:'m³/h', name:'cubic meter per hour'}, Ls:{sym:'L/s', name:'liter per second'},
-      Lmin:{sym:'L/min', name:'liter per minute'}, cfm:{sym:'ft³/min', name:'cubic foot per minute'}, bbld:{sym:'bbl/d', name:'barrels per day'},
-      gpm:{sym:'gpm', name:'gallons per minute (US)'}, igpm:{sym:'igpm', name:'Imperial gallons per minute'},
-      kgs:{sym:'kg/s', name:'kilogram per second'}, kgh:{sym:'kg/h', name:'kilogram per hour'},
-      lbs:{sym:'lb/s', name:'pound per second'}, lbh:{sym:'lb/h', name:'pound per hour'},
-      ppm:{sym:'ppm', name:'parts per million'}, mgL:{sym:'mg/L', name:'milligram per liter'},
-      API:{sym:'°API', name:'API gravity'}, SG:{sym:'SG', name:'specific gravity (60°F)'},
-      Wm2K:{sym:'W/m²·K', name:'watt per square meter per kelvin'}, BTUhrft2F:{sym:'BTU/hr·ft²·°F', name:'BTU per hour per square foot per °F'},
-      JmolK:{sym:'J/mol·K', name:'joule per mole per kelvin'}, kJkgK:{sym:'kJ/kg·K', name:'kilojoule per kilogram per kelvin'},
-      BTUlbF:{sym:'BTU/lb·°F', name:'BTU per pound per °F'},
-      WmK:{sym:'W/m·K', name:'watt per meter per kelvin'}, BTUhrftF:{sym:'BTU/hr·ft·°F', name:'BTU per hour per foot per °F'},
-      Nm:{sym:'N/m', name:'newton per meter'}, dyncm:{sym:'dyn/cm', name:'dyne per centimeter'},
-      Wm2:{sym:'W/m²', name:'watt per square meter'}, BTUhrft2:{sym:'BTU/hr·ft²', name:'BTU per hour per square foot'},
-      s:{sym:'s', name:'second'}, min:{sym:'min', name:'minute'}, h:{sym:'h', name:'hour'}, day:{sym:'d', name:'day'},
-      gmol:{sym:'g/mol', name:'gram per mole'}, kgkmol:{sym:'kg/kmol', name:'kilogram per kilomole'},
-      frac:{sym:'fraction', name:'fraction (1 = 100%)'}, pct:{sym:'%', name:'percent'}, ppb:{sym:'ppb', name:'parts per billion'},
-      Jkg:{sym:'J/kg', name:'joule per kilogram'}, kJkg:{sym:'kJ/kg', name:'kilojoule per kilogram'}, MJkg:{sym:'MJ/kg', name:'megajoule per kilogram'},
-      BTUlb:{sym:'BTU/lb', name:'BTU per pound'},
-      Jmol:{sym:'J/mol', name:'joule per mole'}, kJmol:{sym:'kJ/mol', name:'kilojoule per mole'}, MJkmol:{sym:'MJ/kmol', name:'megajoule per kilomole'},
-      BTUlbmol:{sym:'BTU/lbmol', name:'BTU per pound-mole'},
-      m3kg:{sym:'m³/kg', name:'cubic meter per kilogram'}, Lkg:{sym:'L/kg', name:'liter per kilogram'}, ft3lb:{sym:'ft³/lb', name:'cubic foot per pound'},
-      ms:{sym:'m/s', name:'meter per second'}, fts:{sym:'ft/s', name:'foot per second'}, kmh:{sym:'km/h', name:'kilometer per hour'}, mph:{sym:'mph', name:'mile per hour'},
-      m2K_W:{sym:'m²·K/W', name:'square meter kelvin per watt'}, hrft2F_BTU:{sym:'hr·ft²·°F/BTU', name:'hour square foot degree F per BTU'},
-      LkPamolK:{sym:'L·kPa/mol·K', name:'liter kilopascal per mole kelvin'}, atmlmolK:{sym:'atm·L/mol·K', name:'atmosphere liter per mole kelvin'},
-      BTUlbmolR:{sym:'BTU/lbmol·R', name:'BTU per pound-mole per Rankine'},
-      cms:{sym:'cm/s', name:'centimeter per second'},
-      m3s_a:{sym:'m³/s (actual)', name:'actual volumetric flow'}, m3h_a:{sym:'m³/h (actual)', name:'actual volumetric flow'},
-      cfm_a:{sym:'ft³/min (actual)', name:'actual volumetric flow'},
-      m3s_s:{sym:'m³/s (standard)', name:'standard volumetric flow (STP/NTP)'}, m3h_s:{sym:'m³/h (standard)', name:'standard volumetric flow (STP/NTP)'},
-      scfm_s:{sym:'scfm', name:'standard cubic feet per minute'}
+      C:{sym:'°C',name:'Celsius'}, K:{sym:'K',name:'Kelvin'}, F:{sym:'°F',name:'Fahrenheit'}, R:{sym:'°R',name:'Rankine'},
+      Pa:{sym:'Pa',name:'Pascal'}, kPa:{sym:'kPa',name:'kilopascal'}, bar:{sym:'bar',name:'bar'}, atm:{sym:'atm',name:'standard atmosphere'},
+      psi:{sym:'psi',name:'pound-force per square inch'}, torr:{sym:'torr',name:'torr (mmHg)'},
+      mH2O:{sym:'m',name:'meters of fluid (head)'}, ftH2O:{sym:'ft',name:'feet of fluid (head)'},
+      psf:{sym:'psf',name:'pound-force per square foot'}, inH2O:{sym:'inH2O',name:'inch of water (4°C)'},
+      kg:{sym:'kg',name:'kilogram'}, g:{sym:'g',name:'gram'}, lb:{sym:'lb',name:'pound'}, tonne:{sym:'t',name:'tonne'},
+      short_ton:{sym:'ton (US)',name:'short ton (US,2000 lb)'}, long_ton:{sym:'ton (UK)',name:'long ton (2240 lb)'},
+      m:{sym:'m',name:'meter'}, cm:{sym:'cm',name:'centimeter'}, mm:{sym:'mm',name:'millimeter'}, km:{sym:'km',name:'kilometer'},
+      in:{sym:'in',name:'inch'}, ft:{sym:'ft',name:'foot'},
+      m2:{sym:'m²',name:'square meter'}, cm2:{sym:'cm²',name:'square centimeter'}, ft2:{sym:'ft²',name:'square foot'}, in2:{sym:'in²',name:'square inch'},
+      m3:{sym:'m³',name:'cubic meter'}, L:{sym:'L',name:'liter'}, mL:{sym:'mL',name:'milliliter'}, ft3:{sym:'ft³',name:'cubic foot'},
+      bbl:{sym:'bbl',name:'barrel (oil)'}, galUS:{sym:'gal (US)',name:'US gallon'}, galImp:{sym:'gal (Imp)',name:'Imperial gallon (UK)'},
+      J:{sym:'J',name:'joule'}, kJ:{sym:'kJ',name:'kilojoule'}, MJ:{sym:'MJ',name:'megajoule'}, cal:{sym:'cal',name:'calorie (thermochemical)'},
+      kcal:{sym:'kcal',name:'kilocalorie'}, BTU:{sym:'BTU',name:'British thermal unit'},
+      W:{sym:'W',name:'watt'}, kW:{sym:'kW',name:'kilowatt'}, MW:{sym:'MW',name:'megawatt'}, 'hp(US)':{sym:'hp',name:'horsepower (US)'},
+      hp_metric:{sym:'hp(m)',name:'horsepower (metric)'},
+      kgm3:{sym:'kg/m³',name:'kilogram per cubic meter'}, gcm3:{sym:'g/cm³',name:'gram per cubic centimeter'}, lbft3:{sym:'lb/ft³',name:'pound per cubic foot'},
+      Pa_s:{sym:'Pa·s',name:'pascal-second'}, mPa_s:{sym:'mPa·s (cP)',name:'milli-pascal-second'}, P:{sym:'P',name:'poise'},
+      lbft_s:{sym:'lb/ft·s',name:'pound per foot-second'},
+      m2_s:{sym:'m²/s',name:'square meter per second'}, cSt:{sym:'cSt',name:'centistokes'}, ft2_s:{sym:'ft²/s',name:'square foot per second'}, cm2_s:{sym:'cm²/s',name:'square cm per second'},
+      m3s:{sym:'m³/s',name:'cubic meter per second'}, m3h:{sym:'m³/h',name:'cubic meter per hour'}, Ls:{sym:'L/s',name:'liter per second'},
+      Lmin:{sym:'L/min',name:'liter per minute'}, cfm:{sym:'ft³/min',name:'cubic foot per minute'}, bbld:{sym:'bbl/d',name:'barrels per day'},
+      gpm:{sym:'gpm',name:'gallons per minute (US)'}, igpm:{sym:'igpm',name:'Imperial gallons per minute'},
+      kgs:{sym:'kg/s',name:'kilogram per second'}, kgh:{sym:'kg/h',name:'kilogram per hour'},
+      lbs:{sym:'lb/s',name:'pound per second'}, lbh:{sym:'lb/h',name:'pound per hour'},
+      ppm:{sym:'ppm',name:'parts per million'}, mgL:{sym:'mg/L',name:'milligram per liter'},
+      API:{sym:'°API',name:'API gravity'}, SG:{sym:'SG',name:'specific gravity (60°F)'},
+      Wm2K:{sym:'W/m²·K',name:'watt per square meter per kelvin'}, BTUhrft2F:{sym:'BTU/hr·ft²·°F',name:'BTU per hour per square foot per °F'},
+      JmolK:{sym:'J/mol·K',name:'joule per mole per kelvin'}, kJkgK:{sym:'kJ/kg·K',name:'kilojoule per kilogram per kelvin'},
+      BTUlbF:{sym:'BTU/lb·°F',name:'BTU per pound per °F'},
+      WmK:{sym:'W/m·K',name:'watt per meter per kelvin'}, BTUhrftF:{sym:'BTU/hr·ft·°F',name:'BTU per hour per foot per °F'},
+      Nm:{sym:'N/m',name:'newton per meter'}, dyncm:{sym:'dyn/cm',name:'dyne per centimeter'},
+      Wm2:{sym:'W/m²',name:'watt per square meter'}, BTUhrft2:{sym:'BTU/hr·ft²',name:'BTU per hour per square foot'},
+      s:{sym:'s',name:'second'}, min:{sym:'min',name:'minute'}, h:{sym:'h',name:'hour'}, day:{sym:'d',name:'day'},
+      gmol:{sym:'g/mol',name:'gram per mole'}, kgkmol:{sym:'kg/kmol',name:'kilogram per kilomole'},
+      frac:{sym:'fraction',name:'fraction (1 = 100%)'}, pct:{sym:'%',name:'percent'}, ppb:{sym:'ppb',name:'parts per billion'},
+      Jkg:{sym:'J/kg',name:'joule per kilogram'}, kJkg:{sym:'kJ/kg',name:'kilojoule per kilogram'}, MJkg:{sym:'MJ/kg',name:'megajoule per kilogram'},
+      BTUlb:{sym:'BTU/lb',name:'BTU per pound'},
+      Jmol:{sym:'J/mol',name:'joule per mole'}, kJmol:{sym:'kJ/mol',name:'kilojoule per mole'}, MJkmol:{sym:'MJ/kmol',name:'megajoule per kilomole'},
+      BTUlbmol:{sym:'BTU/lbmol',name:'BTU per pound-mole'},
+      m3kg:{sym:'m³/kg',name:'cubic meter per kilogram'}, Lkg:{sym:'L/kg',name:'liter per kilogram'}, ft3lb:{sym:'ft³/lb',name:'cubic foot per pound'},
+      ms:{sym:'m/s',name:'meter per second'}, fts:{sym:'ft/s',name:'foot per second'}, kmh:{sym:'km/h',name:'kilometer per hour'}, mph:{sym:'mph',name:'mile per hour'},
+      m2K_W:{sym:'m²·K/W',name:'square meter kelvin per watt'}, hrft2F_BTU:{sym:'hr·ft²·°F/BTU',name:'hour square foot degree F per BTU'},
+      LkPamolK:{sym:'L·kPa/mol·K',name:'liter kilopascal per mole kelvin'}, atmlmolK:{sym:'atm·L/mol·K',name:'atmosphere liter per mole kelvin'},
+      BTUlbmolR:{sym:'BTU/lbmol·R',name:'BTU per pound-mole per Rankine'},
+      cms:{sym:'cm/s',name:'centimeter per second'},
+      m3s_a:{sym:'m³/s (actual)',name:'actual volumetric flow'}, m3h_a:{sym:'m³/h (actual)',name:'actual volumetric flow'},
+      cfm_a:{sym:'ft³/min (actual)',name:'actual volumetric flow'},
+      m3s_s:{sym:'m³/s (standard)',name:'standard volumetric flow (STP/NTP)'}, m3h_s:{sym:'m³/h (standard)',name:'standard volumetric flow (STP/NTP)'},
+      scfm_s:{sym:'scfm',name:'standard cubic feet per minute'}
     };
-
     const symOf = u => UNIT_META[u]?.sym || u;
     const label = u => `${UNIT_META[u]?.name || u} (${UNIT_META[u]?.sym || u})`;
     const texUnit = u => `\\unit{${(UNIT_META[u]?.sym||u).replace(/·/g,'\\cdot ')}}`;
 
-    // ----------  فئات رئيسية  ----------
+    // الفئات
     const CATEGORIES = {
-      'fundamentals': { name: '📏 أساسيات (الطول، الكتلة، الزمن)', children: ['length','mass','time','area','volume'] },
-      'fluids': { name: '💧 سوائل وموائع (ضغط، لزوجة، تدفق)', children: ['pressure','mu','mu_nu','q_vol','q_mass','k_mass'] },
-      'heat': { name: '🔥 حرارة وطاقة', children: ['temperature','energy','power','cp','k','Ucoef','qflux'] },
-      'massvol': { name: '⚖️ كتلة وحجم (كثافة، حجم نوعي)', children: ['density','v_spec','M'] },
-      'concentration': { name: '🧪 تركيز وخصائص (ppm، API)', children: ['ppm_mgl','api_sg','fraction'] },
-      'transport': { name: '📤 نقل ومعاملات (انتشار، سرعة)', children: ['diffusivity','sigma','velocity','Rval'] },
-      'gas': { name: '⛽ غاز مثالي (R، تدفق قياسي/فعلي)', children: ['gas_R','q_gas_std'] }
+      'fundamentals': { name:'📏 أساسيات (طول، كتلة، زمن، مساحة، حجم)', children:['length','mass','time','area','volume'] },
+      'fluids': { name:'💧 سوائل (ضغط، لزوجة، تدفق)', children:['pressure','mu','mu_nu','q_vol','q_mass','k_mass','p_head'] },
+      'heat': { name:'🔥 حرارة وطاقة', children:['temperature','energy','power','cp','k','Ucoef','qflux'] },
+      'massvol': { name:'⚖️ كتلة/حجم (كثافة، حجم نوعي، M)', children:['density','v_spec','M'] },
+      'concentration': { name:'🧪 تركيز (ppm، API، كسور)', children:['ppm_mgl','api_sg','fraction'] },
+      'transport': { name:'📤 نقل (انتشار، توتر، سرعة، مقاومة)', children:['diffusivity','sigma','velocity','Rval'] },
+      'gas': { name:'⛽ غاز (R, تدفق قياسي/فعلي)', children:['gas_R','q_gas_std'] }
     };
 
-    // كل المحولات المعرفة
+    // جميع المحولات مع factors كاملة
     const CONVS = {
-      temperature:{ name:'درجة الحرارة', type:'temperature', units:{ C:'°C', K:'K', F:'°F', R:'°R' } },
-      pressure:{ name:'الضغط', type:'linear', units:{ Pa:'Pa', kPa:'kPa', bar:'bar', atm:'atm', psi:'psi', torr:'torr', psf:'psf', inH2O:'inH2O' },
+      temperature:{ name:'Temperature', type:'temperature', units:{ C:'°C', K:'K', F:'°F', R:'°R' } },
+      pressure:{ name:'Pressure', type:'linear', units:{ Pa:'Pa', kPa:'kPa', bar:'bar', atm:'atm', psi:'psi', torr:'torr', psf:'psf', inH2O:'inH2O' },
         factors:{ Pa:1, kPa:1e3, bar:1e5, atm:101325, psi:6894.757293168, torr:133.322368, psf:47.880258, inH2O:249.082 } },
-      p_head:{ name:'الضغط ↔ عمود سائل', type:'p_head', units:{ Pa:'Pa (ضغط)', kPa:'kPa (ضغط)', mH2O:'m (عمود)', ftH2O:'ft (عمود)' } },
-      mass:{ name:'الكتلة', type:'linear', units:{ kg:'kg', g:'g', lb:'lb', tonne:'tonne', short_ton:'short ton', long_ton:'long ton' },
+      p_head:{ name:'Pressure ↔ Head', type:'p_head', units:{ Pa:'Pa (pressure)', kPa:'kPa (pressure)', mH2O:'m (head)', ftH2O:'ft (head)' } },
+      mass:{ name:'Mass', type:'linear', units:{ kg:'kg', g:'g', lb:'lb', tonne:'tonne', short_ton:'short ton', long_ton:'long ton' },
         factors:{ kg:1, g:1e-3, lb:0.45359237, tonne:1000, short_ton:907.18474, long_ton:1016.0469088 } },
-      length:{ name:'الطول', type:'linear', units:{ m:'m', cm:'cm', mm:'mm', km:'km', in:'in', ft:'ft' },
+      length:{ name:'Length', type:'linear', units:{ m:'m', cm:'cm', mm:'mm', km:'km', in:'in', ft:'ft' },
         factors:{ m:1, cm:1e-2, mm:1e-3, km:1e3, in:0.0254, ft:0.3048 } },
-      area:{ name:'المساحة', type:'linear', units:{ m2:'m²', cm2:'cm²', ft2:'ft²', in2:'in²' },
+      area:{ name:'Area', type:'linear', units:{ m2:'m²', cm2:'cm²', ft2:'ft²', in2:'in²' },
         factors:{ m2:1, cm2:1e-4, ft2:0.09290304, in2:0.00064516 } },
-      volume:{ name:'الحجم', type:'linear', units:{ m3:'m³', L:'L', mL:'mL', ft3:'ft³', bbl:'bbl', galUS:'gal (US)', galImp:'gal (Imp)' },
+      volume:{ name:'Volume', type:'linear', units:{ m3:'m³', L:'L', mL:'mL', ft3:'ft³', bbl:'bbl', galUS:'gal (US)', galImp:'gal (Imp)' },
         factors:{ m3:1, L:1e-3, mL:1e-6, ft3:0.028316846592, bbl:0.158987294928, galUS:0.003785411784, galImp:0.00454609 } },
-      energy:{ name:'الطاقة', type:'linear', units:{ J:'J', kJ:'kJ', MJ:'MJ', cal:'cal', kcal:'kcal', BTU:'BTU' },
+      energy:{ name:'Energy', type:'linear', units:{ J:'J', kJ:'kJ', MJ:'MJ', cal:'cal', kcal:'kcal', BTU:'BTU' },
         factors:{ J:1, kJ:1e3, MJ:1e6, cal:4.184, kcal:4184, BTU:1055.056 } },
-      power:{ name:'القدرة', type:'linear', units:{ W:'W', kW:'kW', MW:'MW', 'hp(US)':'hp(US)', 'hp_metric':'hp(m)' },
+      power:{ name:'Power', type:'linear', units:{ W:'W', kW:'kW', MW:'MW', 'hp(US)':'hp(US)', 'hp_metric':'hp(m)' },
         factors:{ W:1, kW:1e3, MW:1e6, 'hp(US)':745.699871582, 'hp_metric':735.49875 } },
-      density:{ name:'الكثافة', type:'linear', units:{ kgm3:'kg/m³', gcm3:'g/cm³', lbft3:'lb/ft³' },
+      density:{ name:'Density', type:'linear', units:{ kgm3:'kg/m³', gcm3:'g/cm³', lbft3:'lb/ft³' },
         factors:{ kgm3:1, gcm3:1000, lbft3:16.01846337396 } },
-      mu:{ name:'اللزوجة الديناميكية', type:'linear', units:{ Pa_s:'Pa·s', mPa_s:'mPa·s', P:'P', lbft_s:'lb/ft·s' },
+      mu:{ name:'Dynamic viscosity', type:'linear', units:{ Pa_s:'Pa·s', mPa_s:'mPa·s', P:'P', lbft_s:'lb/ft·s' },
         factors:{ Pa_s:1, mPa_s:1e-3, P:0.1, lbft_s:1.48816394357 } },
-      mu_nu:{ name:'لزوجة μ ↔ ν', type:'mu_nu', units:{ Pa_s:'μ Pa·s', mPa_s:'μ mPa·s', m2_s:'ν m²/s', cSt:'ν cSt', ft2_s:'ν ft²/s' } },
-      q_vol:{ name:'معدل التدفق الحجمي', type:'linear', units:{ m3s:'m³/s', m3h:'m³/h', Ls:'L/s', Lmin:'L/min', cfm:'ft³/min', bbld:'bbl/d', gpm:'gpm', igpm:'igpm' },
+      mu_nu:{ name:'μ ↔ ν', type:'mu_nu', units:{ Pa_s:'μ Pa·s', mPa_s:'μ mPa·s', m2_s:'ν m²/s', cSt:'ν cSt', ft2_s:'ν ft²/s' } },
+      q_vol:{ name:'Vol. flowrate', type:'linear', units:{ m3s:'m³/s', m3h:'m³/h', Ls:'L/s', Lmin:'L/min', cfm:'ft³/min', bbld:'bbl/d', gpm:'gpm', igpm:'igpm' },
         factors:{ m3s:1, m3h:1/3600, Ls:1/1000, Lmin:1/60000, cfm:0.028316846592/60, bbld:0.158987294928/86400, gpm:0.003785411784/60, igpm:0.00454609/60 } },
-      q_mass:{ name:'معدل التدفق الكتلي', type:'linear', units:{ kgs:'kg/s', kgh:'kg/h', lbs:'lb/s', lbh:'lb/h' },
+      q_mass:{ name:'Mass flowrate', type:'linear', units:{ kgs:'kg/s', kgh:'kg/h', lbs:'lb/s', lbh:'lb/h' },
         factors:{ kgs:1, kgh:1/3600, lbs:0.45359237, lbh:0.45359237/3600 } },
       ppm_mgl:{ name:'ppm ↔ mg/L', type:'ppm_mgl', units:{ ppm:'ppm', mgL:'mg/L' } },
-      api_sg:{ name:'API ↔ كثافة نوعية', type:'api_sg', units:{ API:'°API', SG:'SG' } },
-      Ucoef:{ name:'معامل انتقال الحرارة U', type:'linear', units:{ Wm2K:'W/m²·K', BTUhrft2F:'BTU/hr·ft²·°F' },
+      api_sg:{ name:'API ↔ SG', type:'api_sg', units:{ API:'°API', SG:'SG' } },
+      Ucoef:{ name:'Heat transfer coeff', type:'linear', units:{ Wm2K:'W/m²·K', BTUhrft2F:'BTU/hr·ft²·°F' },
         factors:{ Wm2K:1, BTUhrft2F:1/0.1761101838 } },
-      cp:{ name:'الحرارة النوعية', type:'linear', units:{ JkgK:'J/kg·K', kJkgK:'kJ/kg·K', BTUlbF:'BTU/lb·°F' },
+      cp:{ name:'Specific heat', type:'linear', units:{ JkgK:'J/kg·K', kJkgK:'kJ/kg·K', BTUlbF:'BTU/lb·°F' },
         factors:{ JkgK:1, kJkgK:1e3, BTUlbF:1/0.000238845897 } },
-      k:{ name:'التوصيل الحراري', type:'linear', units:{ WmK:'W/m·K', BTUhrftF:'BTU/hr·ft·°F' },
+      k:{ name:'Thermal cond', type:'linear', units:{ WmK:'W/m·K', BTUhrftF:'BTU/hr·ft·°F' },
         factors:{ WmK:1, BTUhrftF:1/0.577789318 } },
-      sigma:{ name:'التوتر السطحي', type:'linear', units:{ Nm:'N/m', dyncm:'dyn/cm' },
+      sigma:{ name:'Surface tension', type:'linear', units:{ Nm:'N/m', dyncm:'dyn/cm' },
         factors:{ Nm:1, dyncm:1/1000 } },
-      diffusivity:{ name:'الانتشارية', type:'linear', units:{ m2_s:'m²/s', cm2_s:'cm²/s' },
+      diffusivity:{ name:'Diffusivity', type:'linear', units:{ m2_s:'m²/s', cm2_s:'cm²/s' },
         factors:{ m2_s:1, cm2_s:1e-4 } },
-      qflux:{ name:'معدل التدفق الحراري', type:'linear', units:{ Wm2:'W/m²', BTUhrft2:'BTU/hr·ft²' },
+      qflux:{ name:'Heat flux', type:'linear', units:{ Wm2:'W/m²', BTUhrft2:'BTU/hr·ft²' },
         factors:{ Wm2:1, BTUhrft2:1/0.316998331 } },
-      time:{ name:'الزمن', type:'linear', units:{ s:'s', min:'min', h:'h', day:'d' },
+      time:{ name:'Time', type:'linear', units:{ s:'s', min:'min', h:'h', day:'d' },
         factors:{ s:1, min:60, h:3600, day:86400 } },
-      M:{ name:'الكتلة المولية', type:'linear', units:{ gmol:'g/mol', kgkmol:'kg/kmol' }, factors:{ gmol:1, kgkmol:1 } },
-      fraction:{ name:'الكسور', type:'linear', units:{ frac:'fraction', pct:'%', ppm:'ppm', ppb:'ppb' }, factors:{ frac:1, pct:0.01, ppm:1e-6, ppb:1e-9 } },
-      e_mass:{ name:'طاقة نوعية (بالكتلة)', type:'linear', units:{ Jkg:'J/kg', kJkg:'kJ/kg', MJkg:'MJ/kg', BTUlb:'BTU/lb' },
+      M:{ name:'Molar mass', type:'linear', units:{ gmol:'g/mol', kgkmol:'kg/kmol' }, factors:{ gmol:1, kgkmol:1 } },
+      fraction:{ name:'Fraction', type:'linear', units:{ frac:'fraction', pct:'%', ppm:'ppm', ppb:'ppb' }, factors:{ frac:1, pct:0.01, ppm:1e-6, ppb:1e-9 } },
+      e_mass:{ name:'Specific energy (mass)', type:'linear', units:{ Jkg:'J/kg', kJkg:'kJ/kg', MJkg:'MJ/kg', BTUlb:'BTU/lb' },
         factors:{ Jkg:1, kJkg:1e3, MJkg:1e6, BTUlb:1/0.000430210 } },
-      e_molar:{ name:'طاقة مولية', type:'linear', units:{ Jmol:'J/mol', kJmol:'kJ/mol', MJkmol:'MJ/kmol', BTUlbmol:'BTU/lbmol' },
+      e_molar:{ name:'Molar energy', type:'linear', units:{ Jmol:'J/mol', kJmol:'kJ/mol', MJkmol:'MJ/kmol', BTUlbmol:'BTU/lbmol' },
         factors:{ Jmol:1, kJmol:1e3, MJkmol:1e6, BTUlbmol:1/0.430210 } },
-      v_spec:{ name:'حجم نوعي', type:'linear', units:{ m3kg:'m³/kg', Lkg:'L/kg', ft3lb:'ft³/lb' },
+      v_spec:{ name:'Specific volume', type:'linear', units:{ m3kg:'m³/kg', Lkg:'L/kg', ft3lb:'ft³/lb' },
         factors:{ m3kg:1, Lkg:1e-3, ft3lb:0.028316846592/0.45359237 } },
-      velocity:{ name:'السرعة', type:'linear', units:{ ms:'m/s', fts:'ft/s', kmh:'km/h', mph:'mph' },
+      velocity:{ name:'Velocity', type:'linear', units:{ ms:'m/s', fts:'ft/s', kmh:'km/h', mph:'mph' },
         factors:{ ms:1, fts:0.3048, kmh:1000/3600, mph:0.44704 } },
-      Rval:{ name:'المقاومة الحرارية', type:'linear', units:{ m2K_W:'m²·K/W', hrft2F_BTU:'hr·ft²·°F/BTU' },
+      Rval:{ name:'Thermal resistance', type:'linear', units:{ m2K_W:'m²·K/W', hrft2F_BTU:'hr·ft²·°F/BTU' },
         factors:{ m2K_W:1, hrft2F_BTU:1/5.678263 } },
-      gas_R:{ name:'ثابت الغاز R', type:'linear', units:{ JmolK:'J/mol·K', LkPamolK:'L·kPa/mol·K', atmlmolK:'atm·L/mol·K', BTUlbmolR:'BTU/lbmol·R' },
+      gas_R:{ name:'Gas constant R', type:'linear', units:{ JmolK:'J/mol·K', LkPamolK:'L·kPa/mol·K', atmlmolK:'atm·L/mol·K', BTUlbmolR:'BTU/lbmol·R' },
         factors:{ JmolK:1, LkPamolK:1, atmlmolK:101.325, BTUlbmolR:1055.056/453.59237 } },
-      k_mass:{ name:'معامل انتقال الكتلة', type:'linear', units:{ ms:'m/s', cms:'cm/s', fts:'ft/s' },
+      k_mass:{ name:'Mass transfer coeff', type:'linear', units:{ ms:'m/s', cms:'cm/s', fts:'ft/s' },
         factors:{ ms:1, cms:1e-2, fts:0.3048 } },
-      q_gas_std:{ name:'تدفق غاز (فعلي/قياسي)', type:'q_gas_std', units:{ m3s_a:'m³/s act', m3h_a:'m³/h act', cfm_a:'ft³/min act', m3s_s:'m³/s std', m3h_s:'m³/h std', scfm_s:'scfm' },
+      q_gas_std:{ name:'Gas flow (act/std)', type:'q_gas_std', units:{ m3s_a:'m³/s act', m3h_a:'m³/h act', cfm_a:'ft³/min act', m3s_s:'m³/s std', m3h_s:'m³/h std', scfm_s:'scfm' },
         factors:{ m3s_a:1, m3h_a:1/3600, cfm_a:0.028316846592/60, m3s_s:1, m3h_s:1/3600, scfm_s:0.028316846592/60 } }
     };
 
-    // COUNTERPART مختصر
     const COUNTERPART = { kPa:'psi', psi:'kPa', m:'ft', ft:'m', kg:'lb', lb:'kg', L:'galUS', galUS:'L', J:'BTU', BTU:'J', W:'hp(US)', 'hp(US)':'kW' };
 
-    // دالة صنع صندوق خطوات
+    // دوال الصناديق الكاملة
     function box(title, latex){ return `<div class="mathbox"><div class="title">${title}</div><div class="tex-block">\\[${latex}\\]</div></div>`; }
 
-    // نصوص أصل الثوابت (اختصار)
     const ORIGIN_NOTES = {
-      kg:'1\\,\\unit{kg}= \\text{SI base unit}',
-      lb:'1\\,\\unit{lb}=0.45359237\\,\\unit{kg} (exact)',
-      ft:'1\\,\\unit{ft}=0.3048\\,\\unit{m} (exact)',
+      kg:'1\\,\\unit{kg} \\text{ (SI base unit)}',
+      lb:'1\\,\\unit{lb}=0.45359237\\,\\unit{kg}',
+      ft:'1\\,\\unit{ft}=0.3048\\,\\unit{m}',
       in:'1\\,\\unit{in}=0.0254\\,\\unit{m}',
       Pa:'1\\,\\unit{Pa}=1\\,\\unit{N/m^2}',
       atm:'1\\,\\unit{atm}=101325\\,\\unit{Pa}',
@@ -388,90 +427,100 @@
     };
     function originNotesLatex(units){ let lines=[]; units.forEach(u=>{ if(ORIGIN_NOTES[u]) lines.push(`\\bullet\\;${ORIGIN_NOTES[u]}`); }); return lines.join('\\\\'); }
 
-    // whyTrueBox مختصر
     function whyTrueBox(from,to,def){
-      if(def.type!=='linear') return box('','\\text{}');
+      if(def.type!=='linear' || !def.factors) return box('','\\text{}');
       let fFrom=def.factors[from], fTo=def.factors[to];
       let k = fFrom/fTo;
       let base = Object.keys(def.factors).find(u=>def.factors[u]===1)||Object.keys(def.factors)[0];
       let notes = originNotesLatex([from,to,base]);
-      return box('لماذا هذا الرقم؟ (مرجع)',`\\begin{aligned}1\\,${texUnit(from)} &= ${texNum(fFrom)}\\,${texUnit(base)}\\\\1\\,${texUnit(to)} &= ${texNum(fTo)}\\,${texUnit(base)}\\\\ \\Rightarrow k &= ${texNum(k)}\\end{aligned} ${notes? '\\\\small '+notes:''}`);
+      return box('Why this number? (reference)',`
+        \\begin{aligned}
+        1\\,${texUnit(from)} &= ${texNum(fFrom)}\\,${texUnit(base)}\\\\
+        1\\,${texUnit(to)}   &= ${texNum(fTo)}\\,${texUnit(base)}\\\\
+        \\frac{1\\,${texUnit(from)}}{1\\,${texUnit(to)}} &= \\frac{${texNum(fFrom)}}{${texNum(fTo)}} = ${texNum(k)}
+        \\end{aligned}
+        ${notes? '\\\\small '+notes:''}
+      `);
     }
 
-    // linearStepsTex مع 3 منازل
+    // خطوات كاملة للتحويل الخطي
     function linearStepsTex(value, from, to, def){
-      if(from===to) return { out: value, html: box('','\\text{نفس الوحدة}') };
+      if(from===to) return { out:value, html:box('Same unit','\\text{No conversion needed.}') };
       let k = def.factors[from] / def.factors[to];
       let out = value * k;
-      let html = box('التحويل',`
-        ${texNum(value)}\\,${texUnit(from)} \\times \\dfrac{${texNum(k)}\\,${texUnit(to)}}{1\\,${texUnit(from)}} = ${texNum(out)}\\,${texUnit(to)}
+      let html = box('Conversion setup',`
+        ${texNum(value)}\\,${texUnit(from)} \\times
+        \\frac{${texNum(k)}\\,${texUnit(to)}}{1\\,${texUnit(from)}}
+        = ${texNum(out)}\\,${texUnit(to)}
       `) + whyTrueBox(from,to,def);
       return { out, html };
     }
 
-    // باقي الدوال (tempSteps, pHeadSteps, muNuSteps, ppmMgLSteps, apiSgSteps, qGasStdSteps) مختصرة مع fmt
     function tempSteps(value, from, to){
-      if(from===to) return {out:value, steps:box('','لا تغيير')};
+      if(from===to) return {out:value, steps:box('','\\text{Same scale}')};
       const toK={C:x=>x+273.15, K:x=>x, F:x=>(x-32)*5/9+273.15, R:x=>x*5/9};
       const fromK={C:k=>k-273.15, K:k=>k, F:k=>(k-273.15)*9/5+32, R:k=>k*9/5};
       let K = toK[from](value);
       let out = fromK[to](K);
-      let html = box('تحويل درجة الحرارة',`T_\\text{K}=${texNum(K)}\\;\\Rightarrow\\; ${texNum(out)}\\,${texUnit(to)}`);
+      let html = box('Temperature conversion (affine)',`
+        T_\\text{K} = ${texNum(K)}\\\\
+        \\Rightarrow ${texNum(out)}\\,${texUnit(to)}
+      `);
       return {out, steps:html};
     }
     function pHeadSteps(value, from, to, rho, g){
-      let m_per_ft=0.3048;
+      const m_per_ft=0.3048;
       const toPa = (v,u)=> u==='Pa'?v: u==='kPa'?v*1000: v;
       const toM = (v,u)=> u==='mH2O'?v: u==='ftH2O'?v*m_per_ft: v;
-      let out;
+      let out, html='';
       if((from==='Pa'||from==='kPa') && (to==='mH2O'||to==='ftH2O')){
         let dP=toPa(value,from); let Hm = dP/(rho*g); out = to==='mH2O'? Hm: Hm/m_per_ft;
+        html=box('Pressure to head',`H = \\frac{\\Delta P}{\\rho g} = \\frac{${texNum(dP)}}{${texNum(rho)}\\cdot${texNum(g)}} = ${texNum(Hm)}\\,\\unit{m}`) + box('Final',`${texNum(out)}\\,${texUnit(to)}`);
       } else if((from==='mH2O'||from==='ftH2O') && (to==='Pa'||to==='kPa')){
         let Hm=toM(value,from); let dP = rho*g*Hm; out = to==='Pa'? dP: dP/1000;
-      } else { out=value; }
-      return {out, steps:box('علاقة الضغط-عمود',`\\Delta P=\\rho g H`)+box('',`\\rho=${rho}\\, g=${g}`)};
+        html=box('Head to pressure',`\\Delta P = \\rho g H = ${texNum(rho)}\\cdot${texNum(g)}\\cdot${texNum(Hm)} = ${texNum(dP)}\\,\\unit{Pa}`)+box('Final',`${texNum(out)}\\,${texUnit(to)}`);
+      } else { out=value; html=''; }
+      return {out, steps:html};
     }
     function muNuSteps(value, from, to, rho){
       const muF={Pa_s:1, mPa_s:1e-3, P:0.1, lbft_s:1.48816394357};
       const nuF={m2_s:1, cSt:1e-6, ft2_s:0.09290304};
-      let out;
-      if(from in muF && to in nuF) out = value * muF[from] / rho / nuF[to];
-      else if(from in nuF && to in muF) out = value * nuF[from] * rho / muF[to];
+      let out, html='';
+      if(from in muF && to in nuF){ let mu = value*muF[from]; let nu = mu/rho; out = nu/nuF[to]; html=box('μ to ν',`\\nu = \\mu/\\rho = ${texNum(mu)}/${texNum(rho)} = ${texNum(nu)}\\,\\unit{m^2/s}`); }
+      else if(from in nuF && to in muF){ let nu = value*nuF[from]; let mu = nu*rho; out = mu/muF[to]; html=box('ν to μ',`\\mu = \\nu\\rho = ${texNum(nu)}\\cdot${texNum(rho)} = ${texNum(mu)}\\,\\unit{Pa·s}`); }
       else out=value;
-      return {out, steps:box('اللزوجة',`\\nu=\\mu/\\rho`)};
+      return {out, steps:html};
     }
     function ppmMgLSteps(value, from, to, rhoSol){
-      let out = (from==='ppm' && to==='mgL') ? value * rhoSol : (from==='mgL' && to==='ppm') ? value / rhoSol : value;
-      return {out, steps:box('ppm ↔ mg/L',`\\text{mg/L}= \\text{ppm}\\times\\rho_{sol}\\;(\\text{kg/L})`)};
+      let out, html='';
+      if(from==='ppm' && to==='mgL'){ out = value * rhoSol; html=box('ppm → mg/L',`\\text{mg/L} = \\text{ppm} \\times \\rho = ${texNum(value)} \\times ${texNum(rhoSol)} = ${texNum(out)}`); }
+      else if(from==='mgL' && to==='ppm'){ out = value / rhoSol; html=box('mg/L → ppm',`\\text{ppm} = \\text{mg/L} / \\rho = ${texNum(value)} / ${texNum(rhoSol)} = ${texNum(out)}`); }
+      else out=value;
+      return {out, steps:html};
     }
     function apiSgSteps(value, from, to){
-      let out;
-      if(from==='SG' && to==='API') out = 141.5/value - 131.5;
-      else if(from==='API' && to==='SG') out = 141.5/(value+131.5);
+      let out, html='';
+      if(from==='SG' && to==='API'){ out = 141.5/value - 131.5; html=box('SG → °API',`^\\circ API = \\frac{141.5}{SG} - 131.5 = ${texNum(out)}`); }
+      else if(from==='API' && to==='SG'){ out = 141.5/(value+131.5); html=box('°API → SG',`SG = \\frac{141.5}{^\\circ API + 131.5} = ${texNum(out)}`); }
       else out=value;
-      return {out, steps:box('API ↔ SG',`^\\circ API = 141.5/SG-131.5`)};
+      return {out, steps:html};
     }
     function qGasStdSteps(value, from, to, Pa, Ta, Ps, Ts){
       const f = CONVS.q_gas_std.factors;
       const toBase = (v,u)=> v * f[u];
       const fromBase = (v,u)=> v / f[u];
-      let out=value;
-      let html='';
+      let out=value, html='';
       if(from.endsWith('_a') && to.endsWith('_s')){
-        let Qa=toBase(value,from);
-        let Qs = Qa * (Pa/Ps) * (Ts/Ta);
-        out = fromBase(Qs, to);
-        html=box('تدفق غاز',`Q_s = Q_a \\frac{P_a}{P_s}\\frac{T_s}{T_a}`);
+        let Qa=toBase(value,from); let Qs = Qa * (Pa/Ps) * (Ts/Ta); out = fromBase(Qs, to);
+        html=box('Actual to standard',`Q_s = Q_a \\frac{P_a}{P_s}\\frac{T_s}{T_a} = ${texNum(Qa)} \\cdot \\frac{${texNum(Pa)}}{${texNum(Ps)}} \\cdot \\frac{${texNum(Ts)}}{${texNum(Ta)}} = ${texNum(Qs)}`);
       } else if(from.endsWith('_s') && to.endsWith('_a')){
-        let Qs=toBase(value,from);
-        let Qa = Qs * (Ps/Pa) * (Ta/Ts);
-        out = fromBase(Qa, to);
-        html=box('تدفق غاز',`Q_a = Q_s \\frac{P_s}{P_a}\\frac{T_a}{T_s}`);
-      } else html='';
+        let Qs=toBase(value,from); let Qa = Qs * (Ps/Pa) * (Ta/Ts); out = fromBase(Qa, to);
+        html=box('Standard to actual',`Q_a = Q_s \\frac{P_s}{P_a}\\frac{T_a}{T_s} = ${texNum(Qs)} \\cdot \\frac{${texNum(Ps)}}{${texNum(Pa)}} \\cdot \\frac{${texNum(Ta)}}{${texNum(Ts)}} = ${texNum(Qa)}`);
+      }
       return {out, steps:html};
     }
 
-    // ---------- عناصر الصفحة ----------
+    // تهيئة العناصر
     const categoryMain = document.getElementById('categoryMain');
     const convSelect = document.getElementById('convSelect');
     const fromSel = document.getElementById('from');
@@ -488,45 +537,28 @@
     const valInput = document.getElementById('val');
     const btn = document.getElementById('btn');
 
-    // بناء قائمة الفئات
     categoryMain.innerHTML = Object.entries(CATEGORIES).map(([key,cat])=>`<option value="${key}">${cat.name}</option>`).join('');
 
     function rebuildConvSelect(categoryKey){
       let children = CATEGORIES[categoryKey].children;
-      let options = children.map(k => {
-        let def = CONVS[k];
-        return def ? `<option value="${k}">${def.name}</option>` : '';
-      }).join('');
-      convSelect.innerHTML = options;
+      convSelect.innerHTML = children.map(k => `<option value="${k}">${CONVS[k]?.name || k}</option>`).join('');
       if(children.length) populateUnits(children[0]);
     }
 
     function populateUnits(convKey){
-      let def = CONVS[convKey];
-      if(!def) return;
+      let def = CONVS[convKey]; if(!def) return;
       fromSel.innerHTML = Object.keys(def.units).map(u=>`<option value="${u}">${label(u)}</option>`).join('');
       toSel.innerHTML = Object.keys(def.units).map(u=>`<option value="${u}">${label(u)}</option>`).join('');
       if(Object.keys(def.units).length>1) toSel.selectedIndex = Math.min(1, Object.keys(def.units).length-1);
       updateUnitInfo();
       buildExtraUI(convKey);
-      showExample(convKey);
+      example.innerText = '💡 Example: 1 ' + symOf(Object.keys(def.units)[0]) + ' → ...';
     }
 
     function updateUnitInfo(){
       let uf=fromSel.value, ut=toSel.value;
       if(uf) infoFrom.querySelector('div').innerText = label(uf);
       if(ut) infoTo.querySelector('div').innerText = label(ut);
-    }
-
-    function showExample(convKey){
-      let txt = 'مثال توضيحي';
-      if(convKey==='temperature') txt='مثال: 0 °C → 273.150 K';
-      else if(convKey==='pressure') txt='مثال: 1 atm → 101.325 kPa';
-      else if(convKey==='mass') txt='مثال: 1 lb → 0.454 kg';
-      else if(convKey==='length') txt='مثال: 1 ft → 0.305 m';
-      else if(convKey==='api_sg') txt='مثال: SG=0.85 → °API = 35.0';
-      else txt='أدخل قيمة وانقر تحويل';
-      example.innerText = '💡 ' + txt;
     }
 
     function buildExtraUI(key){
@@ -540,7 +572,7 @@
         extra.innerHTML = `<div><label>ρ (kg/m³)</label><input id="rho_munu" value="1000" type="number" step="any"></div>`;
       } else if(key==='ppm_mgl'){
         extra.style.display='grid';
-        extra.innerHTML = `<div><label>ρ محلول (kg/L)</label><input id="rho_ppm" value="1.0" step="any" type="number"></div>`;
+        extra.innerHTML = `<div><label>ρ solution (kg/L)</label><input id="rho_ppm" value="1.0" step="any" type="number"></div>`;
       } else if(key==='q_gas_std'){
         extra.style.display='grid';
         extra.innerHTML = `<div><label>P act (kPa)</label><input id="Pa" value="101.325"></div>
@@ -554,38 +586,30 @@
     convSelect.addEventListener('change', ()=> populateUnits(convSelect.value));
 
     swapBtn.addEventListener('click', ()=>{
-      let a = fromSel.value, b = toSel.value;
-      if(a && b){ fromSel.value = b; toSel.value = a; updateUnitInfo(); }
+      let a=fromSel.value, b=toSel.value; if(a&&b){ fromSel.value=b; toSel.value=a; updateUnitInfo(); }
     });
-
     fromSel.addEventListener('change', updateUnitInfo);
     toSel.addEventListener('change', updateUnitInfo);
 
-    // زر التحويل
     btn.addEventListener('click', ()=>{
       let key = convSelect.value;
-      let def = CONVS[key];
-      if(!def) return;
+      let def = CONVS[key]; if(!def) return;
       let val = parseFloat(valInput.value) || 0;
       let from = fromSel.value, to = toSel.value;
-
-      let result, stepsHtml;
+      let result;
       if(def.type==='linear') result = linearStepsTex(val, from, to, def);
       else if(def.type==='temperature') result = tempSteps(val, from, to);
       else if(def.type==='p_head'){
         let rho = parseFloat(document.getElementById('rho_head')?.value) || 1000;
         let g = parseFloat(document.getElementById('g_head')?.value) || gDEFAULT;
         result = pHeadSteps(val, from, to, rho, g);
-      }
-      else if(def.type==='mu_nu'){
+      } else if(def.type==='mu_nu'){
         let rho = parseFloat(document.getElementById('rho_munu')?.value) || 1000;
         result = muNuSteps(val, from, to, rho);
-      }
-      else if(def.type==='ppm_mgl'){
+      } else if(def.type==='ppm_mgl'){
         let rho = parseFloat(document.getElementById('rho_ppm')?.value) || 1.0;
         result = ppmMgLSteps(val, from, to, rho);
-      }
-      else if(def.type==='api_sg') result = apiSgSteps(val, from, to);
+      } else if(def.type==='api_sg') result = apiSgSteps(val, from, to);
       else if(def.type==='q_gas_std'){
         let Pa = parseFloat(document.getElementById('Pa')?.value) || 101.325;
         let Ta = parseFloat(document.getElementById('Ta')?.value) || 298.15;
@@ -595,19 +619,15 @@
       } else result = { out: val, steps: '' };
 
       outEl.innerText = `${fmt(val)} ${symOf(from)} = ${fmt(result.out)} ${symOf(to)}`;
-      if(dual?.checked && COUNTERPART[to]){
-        let cpart = COUNTERPART[to];
-        if(def.factors && def.factors[cpart]){
-          let k2 = def.factors[to]/def.factors[cpart];
-          let out2 = result.out * k2;
-          outEl.innerText += `  |  (${symOf(cpart)}) ≈ ${fmt(out2)}`;
-        }
+      if(dual?.checked && COUNTERPART[to] && def.factors && def.factors[COUNTERPART[to]]){
+        let k2 = def.factors[to]/def.factors[COUNTERPART[to]];
+        let out2 = result.out * k2;
+        outEl.innerText += `  |  (${symOf(COUNTERPART[to])}) ≈ ${fmt(out2)}`;
       }
-      stepsEl.innerHTML = result.steps || '<span>خطوات الحل ستعرض هنا بثلاث منازل عشرية</span>';
+      stepsEl.innerHTML = result.steps || '<span>خطوات الحل الكاملة مع LaTeX</span>';
       window.MathJax?.typesetPromise?.();
     });
 
-    // تهيئة أولية
     rebuildConvSelect('fundamentals');
   })();
 </script>
