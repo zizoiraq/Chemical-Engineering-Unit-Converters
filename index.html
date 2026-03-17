@@ -1,19 +1,19 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
-  <meta charset="UTF-88" />
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=yes" />
-  <title>محولات الوحدات - الهندسة الكيميائية</title>
-  <!-- Google Fonts: خط عربي حديث وخط إنجليزي أنيق -->
+  <title>Chemical Engineering Unit Converters</title>
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <!-- Font Awesome 6 للأيقونات -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Font Awesome 6 -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
-    /* متغيرات الألوان - الوضع الفاتح والداكن */
+    /* Theme variables - Light/Dark mode */
     :root {
-      /* الوضع الفاتح (افتراضي) */
+      /* Light mode (default) */
       --bg-primary: #f8fafc;
       --bg-secondary: #f1f5f9;
       --card-bg: #ffffff;
@@ -27,11 +27,11 @@
       --math-bg: #f8fafc;
       --header-gradient: linear-gradient(145deg, #ffffff, #f1f5f9);
       --shadow-color: rgba(0, 0, 0, 0.1);
-      --font-primary: 'Cairo', 'Inter', sans-serif;
+      --font-primary: 'Inter', sans-serif;
       --font-mono: 'JetBrains Mono', 'Consolas', monospace;
     }
 
-    /* الوضع الداكن */
+    /* Dark mode */
     [data-theme="dark"] {
       --bg-primary: #0b1120;
       --bg-secondary: #1a2639;
@@ -73,11 +73,11 @@
       width: 100%;
     }
 
-    /* زر تبديل الوضع */
+    /* Theme toggle button */
     .theme-toggle {
       position: fixed;
       top: 20px;
-      left: 20px;
+      right: 20px;
       z-index: 1000;
       background: var(--card-bg);
       border: 1px solid var(--border-color);
@@ -106,13 +106,13 @@
     @media (max-width: 480px) {
       .theme-toggle {
         top: 10px;
-        left: 10px;
+        right: 10px;
         padding: 6px 12px;
         font-size: 14px;
       }
     }
 
-    /* رأس الصفحة */
+    /* Header */
     header {
       text-align: center;
       margin-bottom: 20px;
@@ -163,6 +163,12 @@
       }
     }
 
+    .uni-dept {
+      font-size: 16px;
+      color: var(--text-secondary);
+      margin: 5px 0;
+    }
+
     .designer {
       font-weight: 600;
       margin-top: 8px;
@@ -180,7 +186,7 @@
       font-weight: 700;
     }
 
-    /* البطاقة الرئيسية */
+    /* Main card */
     .card {
       background: var(--card-bg);
       border: 1px solid var(--border-color);
@@ -200,7 +206,7 @@
       }
     }
 
-    /* الشبكات */
+    /* Grids */
     .grid-2, .grid-3 {
       display: grid;
       gap: 16px;
@@ -214,7 +220,7 @@
       .grid-2, .grid-3 { grid-template-columns: 1fr; }
     }
 
-    /* عناصر النموذج */
+    /* Form elements */
     label {
       display: block;
       font-weight: 600;
@@ -223,7 +229,7 @@
       margin-bottom: 6px;
     }
 
-    label i { margin-left: 6px; color: var(--accent); }
+    label i { margin-right: 6px; color: var(--accent); }
 
     select, input {
       width: 100%;
@@ -244,8 +250,8 @@
     select {
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2306b6d4' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
       background-repeat: no-repeat;
-      background-position: left 16px center;
-      padding-left: 44px;
+      background-position: right 16px center;
+      padding-right: 44px;
     }
 
     select:focus, input:focus {
@@ -254,7 +260,7 @@
       box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.2);
     }
 
-    /* عرض الوحدات */
+    /* Unit info boxes */
     .unit-info-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -276,9 +282,9 @@
       font-size: 14px;
     }
 
-    .unit-box b i { margin-left: 5px; }
+    .unit-box b i { margin-right: 5px; }
 
-    /* زر التحويل */
+    /* Convert button and result */
     .convert-row {
       display: flex;
       gap: 16px;
@@ -325,13 +331,11 @@
       padding: 16px 20px;
       font-family: var(--font-mono);
       font-size: 18px;
-      direction: ltr;
-      text-align: left;
       overflow-x: auto;
       white-space: nowrap;
     }
 
-    /* منطقة الخطوات */
+    /* Steps area */
     .steps-area {
       background: var(--bg-secondary);
       border: 1px solid var(--border-color);
@@ -341,7 +345,7 @@
       overflow-x: auto;
     }
 
-    /* بطاقات المعادلات */
+    /* Math cards */
     .math-card {
       background: var(--math-bg);
       border: 1px solid var(--border-color);
@@ -349,8 +353,6 @@
       padding: 16px;
       margin: 12px 0;
       box-shadow: 0 4px 8px var(--shadow-color);
-      direction: ltr;
-      text-align: left;
     }
 
     .math-title {
@@ -366,13 +368,11 @@
     .tex-block {
       overflow-x: auto;
       white-space: normal;
-      direction: ltr;
-      text-align: left;
       padding: 5px 0;
       font-size: 16px;
     }
 
-    /* باقي العناصر */
+    /* Example note */
     .example-note {
       color: var(--text-muted);
       font-size: 14px;
@@ -380,7 +380,7 @@
       padding: 8px 12px;
       background: rgba(6, 182, 212, 0.05);
       border-radius: 12px;
-      border-right: 3px solid var(--accent);
+      border-left: 3px solid var(--accent);
     }
 
     .footer-note {
@@ -390,7 +390,7 @@
       margin-top: 20px;
     }
 
-    /* تحسين MathJax */
+    /* MathJax improvements */
     .MathJax, .mjx-chtml {
       font-size: 18px !important;
       color: var(--text-primary);
@@ -403,7 +403,7 @@
     }
   </style>
 
-  <!-- MathJax -->
+  <!-- MathJax with proper macro definitions -->
   <script>
     window.MathJax = {
       loader: { load: ['[tex]/cancel','[tex]/color'] },
@@ -413,8 +413,9 @@
         displayMath: [['\\[','\\]']],
         processEscapes: true,
         macros: {
-          unit: ["{\\color{#06b6d4}{\\mathrm{#1}}}", 1],
-          kw:   ["{\\color{#10b981}{\\text{#1}}}", 1]
+          // Define the \kw macro properly - it takes one argument
+          kw: ["\\text{\\textbf{#1}}", 1],
+          unit: ["{\\color{#06b6d4}{\\mathrm{#1}}}", 1]
         }
       },
       chtml: { linebreaks: { automatic: true, width: 'container' } }
@@ -423,8 +424,8 @@
   <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 
   <script>
-    // ========== دوال التنسيق ==========
-    // تعديل: عرض 3 مراتب عشرية فقط بعد الفاصلة
+    // ========== Formatting functions ==========
+    // Show 3 decimal places maximum
     const fmt = n => Number.isFinite(n) 
       ? n.toLocaleString(undefined, { maximumFractionDigits: 3, minimumFractionDigits: 0 })
       : '...';
@@ -435,44 +436,44 @@
       
     const gDEFAULT = 9.80665;
 
-    // ========== بيانات الوحدات (كاملة) ==========
+    // ========== Unit metadata (English) ==========
     const UNIT_META = {
-      C:{sym:'°C', name:'سلسيوس'}, K:{sym:'K', name:'كلفن'}, F:{sym:'°F', name:'فهرنهايت'}, R:{sym:'°R', name:'رانكين'},
-      Pa:{sym:'Pa', name:'باسكال'}, kPa:{sym:'kPa', name:'كيلوباسكال'}, bar:{sym:'bar', name:'بار'}, atm:{sym:'atm', name:'ضغط جوي'},
-      psi:{sym:'psi', name:'رطل لكل بوصة مربعة'}, torr:{sym:'torr', name:'تور (mmHg)'},
-      mH2O:{sym:'m', name:'متر ماء'}, ftH2O:{sym:'ft', name:'قدم ماء'},
-      psf:{sym:'psf', name:'رطل لكل قدم مربع'}, inH2O:{sym:'inH2O', name:'بوصة ماء'},
-      kg:{sym:'kg', name:'كيلوجرام'}, g:{sym:'g', name:'جرام'}, lb:{sym:'lb', name:'رطل'}, tonne:{sym:'t', name:'طن'},
-      short_ton:{sym:'ton (US)', name:'طن أمريكي'}, long_ton:{sym:'ton (UK)', name:'طن إنجليزي'},
-      m:{sym:'m', name:'متر'}, cm:{sym:'cm', name:'سنتيمتر'}, mm:{sym:'mm', name:'مليمتر'}, km:{sym:'km', name:'كيلومتر'},
-      in:{sym:'in', name:'بوصة'}, ft:{sym:'ft', name:'قدم'},
-      m2:{sym:'m²', name:'متر مربع'}, cm2:{sym:'cm²', name:'سنتيمتر مربع'}, ft2:{sym:'ft²', name:'قدم مربع'}, in2:{sym:'in²', name:'بوصة مربعة'},
-      m3:{sym:'m³', name:'متر مكعب'}, L:{sym:'L', name:'لتر'}, mL:{sym:'mL', name:'مليلتر'}, ft3:{sym:'ft³', name:'قدم مكعب'},
-      bbl:{sym:'bbl', name:'برميل'}, galUS:{sym:'gal (US)', name:'جالون أمريكي'}, galImp:{sym:'gal (Imp)', name:'جالون إمبراطوري'},
-      J:{sym:'J', name:'جول'}, kJ:{sym:'kJ', name:'كيلوجول'}, MJ:{sym:'MJ', name:'ميجاجول'}, cal:{sym:'cal', name:'سعر حراري'},
-      kcal:{sym:'kcal', name:'كيلو سعر'}, BTU:{sym:'BTU', name:'وحدة حرارية بريطانية'},
-      W:{sym:'W', name:'واط'}, kW:{sym:'kW', name:'كيلوواط'}, MW:{sym:'MW', name:'ميجاواط'}, 'hp(US)':{sym:'hp', name:'حصان أمريكي'},
-      hp_metric:{sym:'hp(m)', name:'حصان متري'},
-      kgm3:{sym:'kg/m³', name:'كيلوجرام/م³'}, gcm3:{sym:'g/cm³', name:'جرام/سم³'}, lbft3:{sym:'lb/ft³', name:'رطل/قدم³'},
-      Pa_s:{sym:'Pa·s', name:'باسكال-ثانية'}, mPa_s:{sym:'mPa·s (cP)', name:'ملي باسكال-ثانية'}, P:{sym:'P', name:'بواز'},
-      lbft_s:{sym:'lb/ft·s', name:'رطل/قدم-ثانية'},
-      m2_s:{sym:'m²/s', name:'م²/ث'}, cSt:{sym:'cSt', name:'سنتيستوك'}, ft2_s:{sym:'ft²/s', name:'قدم²/ث'},
-      cm2_s:{sym:'cm²/s', name:'سم²/ث'},
-      m3s:{sym:'m³/s', name:'م³/ث'}, m3h:{sym:'m³/h', name:'م³/ساعة'}, Ls:{sym:'L/s', name:'لتر/ث'},
-      Lmin:{sym:'L/min', name:'لتر/دقيقة'}, cfm:{sym:'ft³/min', name:'قدم³/دقيقة'}, bbld:{sym:'bbl/d', name:'برميل/يوم'},
-      gpm:{sym:'gpm', name:'جالون/دقيقة'}, igpm:{sym:'igpm', name:'جالون إمبراطوري/دقيقة'},
-      kgs:{sym:'kg/s', name:'كجم/ث'}, kgh:{sym:'kg/h', name:'كجم/ساعة'},
-      lbs:{sym:'lb/s', name:'رطل/ث'}, lbh:{sym:'lb/h', name:'رطل/ساعة'},
-      ppm:{sym:'ppm', name:'جزء في المليون'}, mgL:{sym:'mg/L', name:'مجم/لتر'},
-      API:{sym:'°API', name:'درجة API'}, SG:{sym:'SG', name:'الكثافة النوعية'},
-      s:{sym:'s', name:'ثانية'}, min:{sym:'min', name:'دقيقة'}, h:{sym:'h', name:'ساعة'}, day:{sym:'d', name:'يوم'}
+      C:{sym:'°C', name:'Celsius'}, K:{sym:'K', name:'Kelvin'}, F:{sym:'°F', name:'Fahrenheit'}, R:{sym:'°R', name:'Rankine'},
+      Pa:{sym:'Pa', name:'Pascal'}, kPa:{sym:'kPa', name:'Kilopascal'}, bar:{sym:'bar', name:'Bar'}, atm:{sym:'atm', name:'Atmosphere'},
+      psi:{sym:'psi', name:'Pound per sq inch'}, torr:{sym:'torr', name:'Torr (mmHg)'},
+      mH2O:{sym:'m', name:'Meter of water'}, ftH2O:{sym:'ft', name:'Foot of water'},
+      psf:{sym:'psf', name:'Pound per sq ft'}, inH2O:{sym:'inH2O', name:'Inch of water'},
+      kg:{sym:'kg', name:'Kilogram'}, g:{sym:'g', name:'Gram'}, lb:{sym:'lb', name:'Pound'}, tonne:{sym:'t', name:'Tonne'},
+      short_ton:{sym:'ton (US)', name:'US short ton'}, long_ton:{sym:'ton (UK)', name:'UK long ton'},
+      m:{sym:'m', name:'Meter'}, cm:{sym:'cm', name:'Centimeter'}, mm:{sym:'mm', name:'Millimeter'}, km:{sym:'km', name:'Kilometer'},
+      in:{sym:'in', name:'Inch'}, ft:{sym:'ft', name:'Foot'},
+      m2:{sym:'m²', name:'Square meter'}, cm2:{sym:'cm²', name:'Square cm'}, ft2:{sym:'ft²', name:'Square ft'}, in2:{sym:'in²', name:'Square in'},
+      m3:{sym:'m³', name:'Cubic meter'}, L:{sym:'L', name:'Liter'}, mL:{sym:'mL', name:'Milliliter'}, ft3:{sym:'ft³', name:'Cubic ft'},
+      bbl:{sym:'bbl', name:'Barrel'}, galUS:{sym:'gal (US)', name:'US gallon'}, galImp:{sym:'gal (Imp)', name:'Imperial gallon'},
+      J:{sym:'J', name:'Joule'}, kJ:{sym:'kJ', name:'Kilojoule'}, MJ:{sym:'MJ', name:'Megajoule'}, cal:{sym:'cal', name:'Calorie'},
+      kcal:{sym:'kcal', name:'Kilocalorie'}, BTU:{sym:'BTU', name:'BTU'},
+      W:{sym:'W', name:'Watt'}, kW:{sym:'kW', name:'Kilowatt'}, MW:{sym:'MW', name:'Megawatt'}, 'hp(US)':{sym:'hp', name:'US horsepower'},
+      hp_metric:{sym:'hp(m)', name:'Metric horsepower'},
+      kgm3:{sym:'kg/m³', name:'kg/m³'}, gcm3:{sym:'g/cm³', name:'g/cm³'}, lbft3:{sym:'lb/ft³', name:'lb/ft³'},
+      Pa_s:{sym:'Pa·s', name:'Pascal-second'}, mPa_s:{sym:'mPa·s (cP)', name:'Millipascal-second'}, P:{sym:'P', name:'Poise'},
+      lbft_s:{sym:'lb/ft·s', name:'lb/ft·s'},
+      m2_s:{sym:'m²/s', name:'m²/s'}, cSt:{sym:'cSt', name:'Centistokes'}, ft2_s:{sym:'ft²/s', name:'ft²/s'},
+      cm2_s:{sym:'cm²/s', name:'cm²/s'},
+      m3s:{sym:'m³/s', name:'m³/s'}, m3h:{sym:'m³/h', name:'m³/h'}, Ls:{sym:'L/s', name:'L/s'},
+      Lmin:{sym:'L/min', name:'L/min'}, cfm:{sym:'ft³/min', name:'ft³/min'}, bbld:{sym:'bbl/d', name:'bbl/day'},
+      gpm:{sym:'gpm', name:'gpm'}, igpm:{sym:'igpm', name:'Imperial gpm'},
+      kgs:{sym:'kg/s', name:'kg/s'}, kgh:{sym:'kg/h', name:'kg/h'},
+      lbs:{sym:'lb/s', name:'lb/s'}, lbh:{sym:'lb/h', name:'lb/h'},
+      ppm:{sym:'ppm', name:'ppm'}, mgL:{sym:'mg/L', name:'mg/L'},
+      API:{sym:'°API', name:'API gravity'}, SG:{sym:'SG', name:'Specific gravity'},
+      s:{sym:'s', name:'Second'}, min:{sym:'min', name:'Minute'}, h:{sym:'h', name:'Hour'}, day:{sym:'d', name:'Day'}
     };
 
     const symOf = u => (UNIT_META[u]?.sym)||u;
     const label = u => `${UNIT_META[u]?.name||u} (${UNIT_META[u]?.sym||u})`;
     const texUnit = u => `\\unit{${(UNIT_META[u]?.sym||u).replace(/·/g,'\\cdot ')}}`;
 
-    // دوال مساعدة للخطوات
+    // Helper for step boxes
     function box(title, latex) { 
       return `
         <div class="math-card">
@@ -481,11 +482,11 @@
         </div>`;
     }
 
-    // دوال التحويل (كاملة كما كانت)
+    // Origin notes for units
     const ORIGIN_NOTES = {
-      kg:`\\text{الوحدة الأساسية للكتلة في النظام الدولي.}`,
-      m:`\\text{الوحدة الأساسية للطول في النظام الدولي.}`,
-      s:`\\text{الوحدة الأساسية للزمن في النظام الدولي.}`,
+      kg:`\\text{SI base unit of mass.}`,
+      m:`\\text{SI base unit of length.}`,
+      s:`\\text{SI base unit of time.}`,
       Pa:`1\\,\\unit{Pa}=1\\,\\unit{N/m^2}`,
       atm:`1\\,\\unit{atm}=101325\\,\\unit{Pa}`,
       lb:`1\\,\\unit{lb}=0.45359237\\,\\unit{kg}`,
@@ -501,42 +502,43 @@
       return lines.join('\\\\[2pt]');
     }
 
+    // Conversion definitions
     const CONVS = {
-      temperature:{ name:'درجة الحرارة', type:'temperature',
-        units:{ C:'سلسيوس (°C)', K:'كلفن (K)', F:'فهرنهايت (°F)', R:'رانكين (°R)' } },
+      temperature:{ name:'Temperature', type:'temperature',
+        units:{ C:'Celsius (°C)', K:'Kelvin (K)', F:'Fahrenheit (°F)', R:'Rankine (°R)' } },
 
-      pressure:{ name:'الضغط', type:'linear',
-        units:{ Pa:'باسكال (Pa)', kPa:'كيلوباسكال (kPa)', bar:'بار (bar)', atm:'ضغط جوي (atm)',
-          psi:'رطل/بوصة² (psi)', torr:'تور (torr)' },
+      pressure:{ name:'Pressure', type:'linear',
+        units:{ Pa:'Pascal (Pa)', kPa:'Kilopascal (kPa)', bar:'Bar (bar)', atm:'Atmosphere (atm)',
+          psi:'psi (psi)', torr:'Torr (torr)' },
         factors:{ Pa:1, kPa:1e3, bar:1e5, atm:101325, psi:6894.757293168, torr:133.322368 } },
 
-      mass:{ name:'الكتلة', type:'linear',
-        units:{ kg:'كيلوجرام (kg)', g:'جرام (g)', lb:'رطل (lb)', tonne:'طن (t)' },
+      mass:{ name:'Mass', type:'linear',
+        units:{ kg:'Kilogram (kg)', g:'Gram (g)', lb:'Pound (lb)', tonne:'Tonne (t)' },
         factors:{ kg:1, g:1e-3, lb:0.45359237, tonne:1000 } },
 
-      length:{ name:'الطول', type:'linear',
-        units:{ m:'متر (m)', cm:'سنتيمتر (cm)', mm:'مليمتر (mm)', km:'كيلومتر (km)', in:'بوصة (in)', ft:'قدم (ft)' },
+      length:{ name:'Length', type:'linear',
+        units:{ m:'Meter (m)', cm:'Centimeter (cm)', mm:'Millimeter (mm)', km:'Kilometer (km)', in:'Inch (in)', ft:'Foot (ft)' },
         factors:{ m:1, cm:1e-2, mm:1e-3, km:1e3, in:0.0254, ft:0.3048 } },
 
-      volume:{ name:'الحجم', type:'linear',
-        units:{ m3:'متر مكعب (m³)', L:'لتر (L)', mL:'مليلتر (mL)', ft3:'قدم مكعب (ft³)',
-        galUS:'جالون أمريكي (gal)', galImp:'جالون إمبراطوري (gal)' },
+      volume:{ name:'Volume', type:'linear',
+        units:{ m3:'Cubic meter (m³)', L:'Liter (L)', mL:'Milliliter (mL)', ft3:'Cubic foot (ft³)',
+        galUS:'US gallon (gal)', galImp:'Imperial gallon (gal)' },
         factors:{ m3:1, L:1e-3, mL:1e-6, ft3:0.028316846592, galUS:0.003785411784, galImp:0.00454609 } },
 
-      energy:{ name:'الطاقة', type:'linear',
-        units:{ J:'جول (J)', kJ:'كيلوجول (kJ)', MJ:'ميجاجول (MJ)', cal:'سعر (cal)', kcal:'كيلو سعر (kcal)', BTU:'وحدة حرارية (BTU)' },
+      energy:{ name:'Energy', type:'linear',
+        units:{ J:'Joule (J)', kJ:'Kilojoule (kJ)', MJ:'Megajoule (MJ)', cal:'Calorie (cal)', kcal:'Kilocalorie (kcal)', BTU:'BTU' },
         factors:{ J:1, kJ:1e3, MJ:1e6, cal:4.184, kcal:4184, BTU:1055.056 } },
 
-      power:{ name:'القدرة', type:'linear',
-        units:{ W:'واط (W)', kW:'كيلوواط (kW)', MW:'ميجاواط (MW)', 'hp(US)':'حصان أمريكي (hp)', 'hp_metric':'حصان متري (hp)' },
+      power:{ name:'Power', type:'linear',
+        units:{ W:'Watt (W)', kW:'Kilowatt (kW)', MW:'Megawatt (MW)', 'hp(US)':'US horsepower (hp)', 'hp_metric':'Metric horsepower (hp)' },
         factors:{ W:1, kW:1e3, MW:1e6, 'hp(US)':745.699871582, 'hp_metric':735.49875 } },
 
-      time:{ name:'الزمن', type:'linear',
-        units:{ s:'ثانية (s)', min:'دقيقة (min)', h:'ساعة (h)', day:'يوم (day)' },
+      time:{ name:'Time', type:'linear',
+        units:{ s:'Second (s)', min:'Minute (min)', h:'Hour (h)', day:'Day (day)' },
         factors:{ s:1, min:60, h:3600, day:86400 } }
     };
 
-    // دالة whyTrueBox (كما كانت)
+    // WHY TRUE BOX - Derivation of conversion factor
     function whyTrueBox(from, to, def){
       const symF = symOf(from), symT = symOf(to);
       const fFrom = def.factors[from], fTo = def.factors[to];
@@ -545,44 +547,46 @@
       const notes = originNotesLatex([from,to,base]);
       const notesBlock = notes ? (`\\\\[6pt]\\small\\begin{aligned}${notes}\\end{aligned}`) : '';
       
-      return box('اشتقاق معامل التحويل', `
+      return box('Derivation of conversion factor', `
         \\begin{gathered}
-        \\kw{1. من التعريفات الأساسية}\\\\
+        \\kw{1. Start from definitions}\\\\
         1\\,${texUnit(from)} = ${texNum(fFrom)}\\,${texUnit(base)}\\\\
         1\\,${texUnit(to)} = ${texNum(fTo)}\\,${texUnit(base)}\\\\[6pt]
-        \\kw{2. تكوين النسبة (حذف الوحدة الأساسية)}\\\\
+        \\kw{2. Form a ratio (cancel base unit)}\\\\
         \\dfrac{1\\,${texUnit(from)}}{1\\,${texUnit(to)}} = \\dfrac{${texNum(fFrom)}}{${texNum(fTo)}}\\\\[6pt]
-        \\kw{3. حساب الناتج}\\\\
+        \\kw{3. Calculate the ratio}\\\\
         \\dfrac{${texNum(fFrom)}}{${texNum(fTo)}} = ${texNum(k)}\\\\[6pt]
-        \\kw{4. معامل التحويل النهائي}\\\\
+        \\kw{4. Final conversion factor}\\\\
         \\boxed{1\\,${texUnit(from)} = ${texNum(k)}\\,${texUnit(to)}}
         \\end{gathered}
         ${notesBlock}
       `);
     }
 
+    // Linear conversion steps
     function linearStepsTex(value, from, to, def){
       if (from === to) {
-        return { out: value, html: box('لا يوجد تحويل', `\\boxed{${texNum(value)}\\,${texUnit(to)}}`) };
+        return { out: value, html: box('No conversion needed', `\\boxed{${texNum(value)}\\,${texUnit(to)}}`) };
       }
       const k = def.factors[from] / def.factors[to];
       const out = value * k;
       
-      const goal = box('الهدف', `\\kw{تحويل}\\; ${texNum(value)}\\,${texUnit(from)} \\to ${texUnit(to)}`);
-      const method = box('الطريقة', `\\kw{الضرب في معامل تحويل قيمته 1}`);
-      const fact = box('معامل التحويل', `1\\,${texUnit(from)} = ${texNum(k)}\\,${texUnit(to)}`);
+      const goal = box('Goal', `\\kw{Convert}\\; ${texNum(value)}\\,${texUnit(from)} \\to ${texUnit(to)}`);
+      const method = box('Method', `\\kw{Multiply by a conversion factor of 1}`);
+      const fact = box('Conversion factor', `1\\,${texUnit(from)} = ${texNum(k)}\\,${texUnit(to)}`);
       const why = whyTrueBox(from, to, def);
-      const apply = box('التطبيق والحذف',
+      const apply = box('Apply & cancel',
         `${texNum(value)}\\,\\cancel{${texUnit(from)}} \\times \\dfrac{${texNum(k)}\\,${texUnit(to)}}{1\\,\\cancel{${texUnit(from)}}}`
       );
-      const calc = box('الحساب', `${texNum(value)} \\times ${texNum(k)} = ${texNum(out)}`);
-      const finalB = box('النتيجة النهائية', `\\boxed{${texNum(out)}\\,${texUnit(to)}}`);
+      const calc = box('Calculate', `${texNum(value)} \\times ${texNum(k)} = ${texNum(out)}`);
+      const finalB = box('Final result', `\\boxed{${texNum(out)}\\,${texUnit(to)}}`);
       
       return { out, html: goal + method + fact + why + apply + calc + finalB };
     }
 
+    // Temperature conversion steps
     function tempSteps(value, from, to){
-      if (from===to) return {out:value, steps: box('لا يوجد تحويل', `\\boxed{${texNum(value)}\\,${texUnit(to)}}`)};
+      if (from===to) return {out:value, steps: box('No conversion needed', `\\boxed{${texNum(value)}\\,${texUnit(to)}}`)};
       let out;
       const cases = {
         'C->K': { f: x=>x+273.15, t:'T_K = T_{°C} + 273.15' },
@@ -598,38 +602,37 @@
       
       if(cases[key]){
         out = cases[key].f(value);
-        const steps = box('تحويل درجة الحرارة', `
+        const steps = box('Temperature conversion', `
           \\begin{gathered}
-          \\kw{القانون: } ${cases[key].t}\\\\
+          \\kw{Formula: } ${cases[key].t}\\\\
           ${texNum(value)}\\,${texUnit(from)} = ${texNum(out)}\\,${texUnit(to)}
           \\end{gathered}
         `);
         return { out, steps };
       }
       
-      // الحالات الأخرى عبر الكلفن
+      // Other cases via Kelvin
       const toK = { C: x=>x+273.15, K: x=>x, F: x=>(x-32)*5/9+273.15, R: x=>x*5/9 };
       const fromK = { K: x=>x, C: x=>x-273.15, F: x=>(x-273.15)*9/5+32, R: x=>x*9/5 };
       const inK = toK[from](value);
       out = fromK[to](inK);
       
-      const steps = box('تحويل درجة الحرارة via الكلفن', `
+      const steps = box('Temperature conversion via Kelvin', `
         \\begin{gathered}
-        \\text{التحويل إلى كلفن: } ${texNum(value)}\\,${texUnit(from)} = ${texNum(inK)}\\,\\unit{K}\\\\
-        \\text{التحويل من كلفن: } ${texNum(inK)}\\,\\unit{K} = ${texNum(out)}\\,${texUnit(to)}
+        \\text{Convert to Kelvin: } ${texNum(value)}\\,${texUnit(from)} = ${texNum(inK)}\\,\\unit{K}\\\\
+        \\text{Convert from Kelvin: } ${texNum(inK)}\\,\\unit{K} = ${texNum(out)}\\,${texUnit(to)}
         \\end{gathered}
       `);
       return { out, steps };
     }
 
-    // ========== تهيئة الصفحة ==========
+    // ========== Page initialization ==========
     window.addEventListener('DOMContentLoaded', () => {
-      // تبديل الوضع
+      // Theme toggle
       const themeToggle = document.getElementById('themeToggle');
       const themeIcon = document.getElementById('themeIcon');
       const themeText = document.getElementById('themeText');
       
-      // التحقق من الوضع المحفوظ
       const savedTheme = localStorage.getItem('theme') || 'light';
       document.documentElement.setAttribute('data-theme', savedTheme);
       updateThemeButton(savedTheme);
@@ -645,14 +648,14 @@
       function updateThemeButton(theme) {
         if (theme === 'dark') {
           themeIcon.className = 'fas fa-sun';
-          themeText.textContent = 'الوضع النهاري';
+          themeText.textContent = 'Light mode';
         } else {
           themeIcon.className = 'fas fa-moon';
-          themeText.textContent = 'الوضع الليلي';
+          themeText.textContent = 'Dark mode';
         }
       }
 
-      // تهيئة المحولات
+      // Initialize converters
       const convSel = document.getElementById('convSelect');
       const fromSel = document.getElementById('from');
       const toSel = document.getElementById('to');
@@ -664,7 +667,7 @@
       const extra = document.getElementById('extra');
       const valInput = document.getElementById('val');
 
-      // تعبئة قائمة المحولات
+      // Populate conversion types
       convSel.innerHTML = Object.entries(CONVS).map(([k,d]) => 
         `<option value="${k}">${d.name}</option>`
       ).join('');
@@ -679,22 +682,22 @@
 
       function updateUnitInfo(){
         const uf = fromSel.value, ut = toSel.value;
-        infoFrom.innerHTML = `<b><i class="fas fa-arrow-right-from-bracket"></i> من الوحدة</b><div>${label(uf)}</div>`;
-        infoTo.innerHTML = `<b><i class="fas fa-arrow-right-to-bracket"></i> إلى الوحدة</b><div>${label(ut)}</div>`;
+        infoFrom.innerHTML = `<b><i class="fas fa-arrow-right-from-bracket"></i> From unit</b><div>${label(uf)}</div>`;
+        infoTo.innerHTML = `<b><i class="fas fa-arrow-right-to-bracket"></i> To unit</b><div>${label(ut)}</div>`;
       }
 
       function showExample(key){
         const examples = {
-          temperature: 'مثال: 0 °C ← 273.15 K',
-          pressure: 'مثال: 1 atm ← 101.325 kPa',
-          mass: 'مثال: 1 kg ← 2.205 lb',
-          length: 'مثال: 1 m ← 3.281 ft',
-          volume: 'مثال: 1 L ← 0.264 gal',
-          energy: 'مثال: 1 kJ ← 0.948 BTU',
-          power: 'مثال: 1 kW ← 1.341 hp',
-          time: 'مثال: 1 h ← 3600 s'
+          temperature: 'Example: 0 °C → 273.15 K',
+          pressure: 'Example: 1 atm → 101.325 kPa',
+          mass: 'Example: 1 kg → 2.205 lb',
+          length: 'Example: 1 m → 3.281 ft',
+          volume: 'Example: 1 L → 0.264 gal',
+          energy: 'Example: 1 kJ → 0.948 BTU',
+          power: 'Example: 1 kW → 1.341 hp',
+          time: 'Example: 1 h → 3600 s'
         };
-        exampleEl.innerHTML = `<i class="fas fa-lightbulb"></i> ${examples[key] || 'أدخل قيمة واضغط تحويل'}`;
+        exampleEl.innerHTML = `<i class="fas fa-lightbulb"></i> ${examples[key] || 'Enter a value and click Convert'}`;
       }
 
       function populateUnits(key){
@@ -719,7 +722,7 @@
         const value = parseFloat(valInput.value);
         
         if(!Number.isFinite(value)) {
-          outEl.textContent = '❌ أدخل رقماً صحيحاً';
+          outEl.textContent = '❌ Please enter a valid number';
           stepsEl.innerHTML = '';
           return;
         }
@@ -733,10 +736,10 @@
         } else if(def.type === 'temperature') {
           res = tempSteps(value, from, to);
         } else {
-          res = { out: value, steps: box('تحويل', `\\text{هذا النوع غير مدعوم بعد}`) };
+          res = { out: value, steps: box('Conversion', `\\text{This conversion type is not fully implemented yet}`) };
         }
         
-        outEl.textContent = `${fmt(value)} ${symOf(from)} ← ${fmt(res.out)} ${symOf(to)}`;
+        outEl.textContent = `${fmt(value)} ${symOf(from)} → ${fmt(res.out)} ${symOf(to)}`;
         stepsEl.innerHTML = res.html || res.steps || '';
         
         if(window.MathJax?.typesetPromise) MathJax.typesetPromise();
@@ -749,72 +752,72 @@
   </script>
 </head>
 <body>
-  <!-- زر تبديل الوضع -->
+  <!-- Theme toggle button -->
   <div class="theme-toggle" id="themeToggle">
     <i id="themeIcon" class="fas fa-moon"></i>
-    <span id="themeText">الوضع الليلي</span>
+    <span id="themeText">Dark mode</span>
   </div>
 
   <div class="wrapper">
     <header>
-      <div class="uni-name">الجامعة التقنية الشمالية</div>
-      <div class="uni-dept">الكلية التقنية الهندسية - الموصل</div>
-      <div class="uni-dept">هندسة تقنيات الصناعات الكيميائية والنفطية</div>
-      <div class="designer"><i class="fas fa-pencil-alt"></i> تصميم: أزهم عصام</div>
-      <h1><i class="fas fa-arrow-right-arrow-left"></i> محولات الوحدات الهندسية</h1>
+      <div class="uni-name">Northern Technical University</div>
+      <div class="uni-dept">Technical Engineering College - Mosul</div>
+      <div class="uni-dept">Chemical and Petroleum Industries Technologies Engineering</div>
+      <div class="designer"><i class="fas fa-pencil-alt"></i> Designed by: Azam Isam</div>
+      <h1><i class="fas fa-arrow-right-arrow-left"></i> Chemical Engineering Unit Converters</h1>
     </header>
 
     <main>
       <div class="card">
         <div class="card-pad">
           <div class="example-note" id="example">
-            <i class="fas fa-lightbulb"></i> مثال: 1 atm ← 101.325 kPa
+            <i class="fas fa-lightbulb"></i> Example: 1 atm → 101.325 kPa
           </div>
 
-          <!-- نوع التحويل -->
+          <!-- Conversion type -->
           <div style="margin-bottom:16px;">
-            <label><i class="fas fa-cog"></i> نوع التحويل</label>
+            <label><i class="fas fa-cog"></i> Conversion type</label>
             <select id="convSelect"></select>
           </div>
 
-          <!-- القيمة والوحدات -->
+          <!-- Value and units -->
           <div class="grid-3">
             <div>
-              <label><i class="fas fa-calculator"></i> القيمة</label>
-              <input id="val" type="number" step="any" placeholder="أدخل القيمة" value="1" />
+              <label><i class="fas fa-calculator"></i> Value</label>
+              <input id="val" type="number" step="any" placeholder="Enter value" value="1" />
             </div>
             <div>
-              <label><i class="fas fa-arrow-left"></i> من</label>
+              <label><i class="fas fa-arrow-left"></i> From</label>
               <select id="from"></select>
             </div>
             <div>
-              <label><i class="fas fa-arrow-right"></i> إلى</label>
+              <label><i class="fas fa-arrow-right"></i> To</label>
               <select id="to"></select>
             </div>
           </div>
 
-          <!-- عرض الوحدات -->
+          <!-- Unit info boxes -->
           <div class="unit-info-grid">
-            <div id="info-from" class="unit-box"><b><i class="fas fa-arrow-right-from-bracket"></i> من الوحدة</b><div>...</div></div>
-            <div id="info-to" class="unit-box"><b><i class="fas fa-arrow-right-to-bracket"></i> إلى الوحدة</b><div>...</div></div>
+            <div id="info-from" class="unit-box"><b><i class="fas fa-arrow-right-from-bracket"></i> From unit</b><div>...</div></div>
+            <div id="info-to" class="unit-box"><b><i class="fas fa-arrow-right-to-bracket"></i> To unit</b><div>...</div></div>
           </div>
 
-          <!-- حقول إضافية (للتحويلات المعقدة) -->
+          <!-- Extra fields (for complex conversions) -->
           <div id="extra" class="extra-fields" style="display:none;"></div>
 
-          <!-- زر التحويل والنتيجة -->
+          <!-- Convert button and result -->
           <div class="convert-row">
-            <button id="btn"><i class="fas fa-sync-alt"></i> تحويل</button>
+            <button id="btn"><i class="fas fa-sync-alt"></i> Convert</button>
             <span id="out" class="result-box" aria-live="polite">...</span>
           </div>
 
-          <!-- منطقة عرض الخطوات -->
+          <!-- Steps area -->
           <div id="steps" class="steps-area" aria-live="polite"></div>
         </div>
       </div>
 
       <div class="footer-note">
-        <i class="fas fa-flask"></i> قسم هندسة تقنيات الصناعات الكيميائية والنفطية
+        <i class="fas fa-flask"></i> Chemical and Petroleum Industries Technologies Engineering
       </div>
     </main>
   </div>
