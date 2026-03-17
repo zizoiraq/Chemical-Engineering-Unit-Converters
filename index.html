@@ -403,7 +403,7 @@
     }
   </style>
 
-  <!-- MathJax with proper macro definitions -->
+  <!-- MathJax with NO custom macros to avoid errors -->
   <script>
     window.MathJax = {
       loader: { load: ['[tex]/cancel','[tex]/color'] },
@@ -411,12 +411,8 @@
         packages: {'[+]': ['cancel','color']},
         inlineMath: [['\\(','\\)']],
         displayMath: [['\\[','\\]']],
-        processEscapes: true,
-        macros: {
-          // Define the \kw macro properly - it takes one argument
-          kw: ["\\text{\\textbf{#1}}", 1],
-          unit: ["{\\color{#06b6d4}{\\mathrm{#1}}}", 1]
-        }
+        processEscapes: true
+        // NO custom macros to avoid errors
       },
       chtml: { linebreaks: { automatic: true, width: 'container' } }
     };
@@ -471,7 +467,7 @@
 
     const symOf = u => (UNIT_META[u]?.sym)||u;
     const label = u => `${UNIT_META[u]?.name||u} (${UNIT_META[u]?.sym||u})`;
-    const texUnit = u => `\\unit{${(UNIT_META[u]?.sym||u).replace(/·/g,'\\cdot ')}}`;
+    const texUnit = u => `\\mathrm{${(UNIT_META[u]?.sym||u).replace(/·/g,'\\cdot ')}}`;
 
     // Helper for step boxes
     function box(title, latex) { 
@@ -487,13 +483,13 @@
       kg:`\\text{SI base unit of mass.}`,
       m:`\\text{SI base unit of length.}`,
       s:`\\text{SI base unit of time.}`,
-      Pa:`1\\,\\unit{Pa}=1\\,\\unit{N/m^2}`,
-      atm:`1\\,\\unit{atm}=101325\\,\\unit{Pa}`,
-      lb:`1\\,\\unit{lb}=0.45359237\\,\\unit{kg}`,
-      ft:`1\\,\\unit{ft}=0.3048\\,\\unit{m}`,
-      in:`1\\,\\unit{in}=0.0254\\,\\unit{m}`,
-      galUS:`1\\,\\unit{gal(US)}=3.78541\\,\\unit{L}`,
-      BTU:`1\\,\\unit{BTU}=1055.056\\,\\unit{J}`
+      Pa:`1\\,\\mathrm{Pa}=1\\,\\mathrm{N/m^2}`,
+      atm:`1\\,\\mathrm{atm}=101325\\,\\mathrm{Pa}`,
+      lb:`1\\,\\mathrm{lb}=0.45359237\\,\\mathrm{kg}`,
+      ft:`1\\,\\mathrm{ft}=0.3048\\,\\mathrm{m}`,
+      in:`1\\,\\mathrm{in}=0.0254\\,\\mathrm{m}`,
+      galUS:`1\\,\\mathrm{gal(US)}=3.78541\\,\\mathrm{L}`,
+      BTU:`1\\,\\mathrm{BTU}=1055.056\\,\\mathrm{J}`
     };
 
     function originNotesLatex(units){
@@ -549,14 +545,14 @@
       
       return box('Derivation of conversion factor', `
         \\begin{gathered}
-        \\kw{1. Start from definitions}\\\\
+        \\text{Step 1: Start from definitions}\\\\
         1\\,${texUnit(from)} = ${texNum(fFrom)}\\,${texUnit(base)}\\\\
         1\\,${texUnit(to)} = ${texNum(fTo)}\\,${texUnit(base)}\\\\[6pt]
-        \\kw{2. Form a ratio (cancel base unit)}\\\\
+        \\text{Step 2: Form a ratio (cancel base unit)}\\\\
         \\dfrac{1\\,${texUnit(from)}}{1\\,${texUnit(to)}} = \\dfrac{${texNum(fFrom)}}{${texNum(fTo)}}\\\\[6pt]
-        \\kw{3. Calculate the ratio}\\\\
+        \\text{Step 3: Calculate the ratio}\\\\
         \\dfrac{${texNum(fFrom)}}{${texNum(fTo)}} = ${texNum(k)}\\\\[6pt]
-        \\kw{4. Final conversion factor}\\\\
+        \\text{Step 4: Final conversion factor}\\\\
         \\boxed{1\\,${texUnit(from)} = ${texNum(k)}\\,${texUnit(to)}}
         \\end{gathered}
         ${notesBlock}
@@ -571,8 +567,8 @@
       const k = def.factors[from] / def.factors[to];
       const out = value * k;
       
-      const goal = box('Goal', `\\kw{Convert}\\; ${texNum(value)}\\,${texUnit(from)} \\to ${texUnit(to)}`);
-      const method = box('Method', `\\kw{Multiply by a conversion factor of 1}`);
+      const goal = box('Goal', `\\text{Convert}\\; ${texNum(value)}\\,${texUnit(from)} \\to ${texUnit(to)}`);
+      const method = box('Method', `\\text{Multiply by a conversion factor of 1}`);
       const fact = box('Conversion factor', `1\\,${texUnit(from)} = ${texNum(k)}\\,${texUnit(to)}`);
       const why = whyTrueBox(from, to, def);
       const apply = box('Apply & cancel',
@@ -604,7 +600,7 @@
         out = cases[key].f(value);
         const steps = box('Temperature conversion', `
           \\begin{gathered}
-          \\kw{Formula: } ${cases[key].t}\\\\
+          \\text{Formula: } ${cases[key].t}\\\\
           ${texNum(value)}\\,${texUnit(from)} = ${texNum(out)}\\,${texUnit(to)}
           \\end{gathered}
         `);
@@ -619,8 +615,8 @@
       
       const steps = box('Temperature conversion via Kelvin', `
         \\begin{gathered}
-        \\text{Convert to Kelvin: } ${texNum(value)}\\,${texUnit(from)} = ${texNum(inK)}\\,\\unit{K}\\\\
-        \\text{Convert from Kelvin: } ${texNum(inK)}\\,\\unit{K} = ${texNum(out)}\\,${texUnit(to)}
+        \\text{Convert to Kelvin: } ${texNum(value)}\\,${texUnit(from)} = ${texNum(inK)}\\,\\mathrm{K}\\\\
+        \\text{Convert from Kelvin: } ${texNum(inK)}\\,\\mathrm{K} = ${texNum(out)}\\,${texUnit(to)}
         \\end{gathered}
       `);
       return { out, steps };
